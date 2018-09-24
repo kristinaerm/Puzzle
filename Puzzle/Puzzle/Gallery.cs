@@ -16,5 +16,16 @@ namespace Puzzle
         {
             InitializeComponent();
         }
+
+        private void Gallery_Load(object sender, EventArgs e)
+        {
+            
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
     }
 }

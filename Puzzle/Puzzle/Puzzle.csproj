@@ -51,11 +51,11 @@
     <Compile Include="CreateGame.Designer.cs">
       <DependentUpon>CreateGame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Gallery.cs">
       <SubType>Form</SubType>
@@ -80,8 +80,8 @@
     <EmbeddedResource Include="CreateGame.resx">
       <DependentUpon>CreateGame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gallery.resx">
       <DependentUpon>Gallery.cs</DependentUpon>
