@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radio_square = new System.Windows.Forms.RadioButton();
             this.radio_triangle = new System.Windows.Forms.RadioButton();
+            this.radio_square = new System.Windows.Forms.RadioButton();
             this.numeric_height = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.numeric_width = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.picture_pazzle = new System.Windows.Forms.PictureBox();
-            this.button_find_picture = new System.Windows.Forms.Button();
             this.text_picture_name = new System.Windows.Forms.TextBox();
+            this.button_find_picture = new System.Windows.Forms.Button();
+            this.picture_pazzle = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.radio_level1 = new System.Windows.Forms.RadioButton();
-            this.radio_level2 = new System.Windows.Forms.RadioButton();
             this.radio_level3 = new System.Windows.Forms.RadioButton();
+            this.radio_level2 = new System.Windows.Forms.RadioButton();
+            this.radio_level1 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_height)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -64,17 +64,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Форма пазлов";
             // 
-            // radio_square
-            // 
-            this.radio_square.AutoSize = true;
-            this.radio_square.Location = new System.Drawing.Point(19, 27);
-            this.radio_square.Name = "radio_square";
-            this.radio_square.Size = new System.Drawing.Size(105, 17);
-            this.radio_square.TabIndex = 0;
-            this.radio_square.TabStop = true;
-            this.radio_square.Text = "Прямоугольная";
-            this.radio_square.UseVisualStyleBackColor = true;
-            // 
             // radio_triangle
             // 
             this.radio_triangle.AutoSize = true;
@@ -85,6 +74,17 @@
             this.radio_triangle.TabStop = true;
             this.radio_triangle.Text = "Треугольная";
             this.radio_triangle.UseVisualStyleBackColor = true;
+            // 
+            // radio_square
+            // 
+            this.radio_square.AutoSize = true;
+            this.radio_square.Location = new System.Drawing.Point(19, 27);
+            this.radio_square.Name = "radio_square";
+            this.radio_square.Size = new System.Drawing.Size(105, 17);
+            this.radio_square.TabIndex = 0;
+            this.radio_square.TabStop = true;
+            this.radio_square.Text = "Прямоугольная";
+            this.radio_square.UseVisualStyleBackColor = true;
             // 
             // numeric_height
             // 
@@ -111,15 +111,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Размеры пазла";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Высота";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -141,6 +132,15 @@
             0,
             0});
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Высота";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.text_picture_name);
@@ -153,13 +153,13 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Выбор картинки";
             // 
-            // picture_pazzle
+            // text_picture_name
             // 
-            this.picture_pazzle.Location = new System.Drawing.Point(6, 46);
-            this.picture_pazzle.Name = "picture_pazzle";
-            this.picture_pazzle.Size = new System.Drawing.Size(264, 132);
-            this.picture_pazzle.TabIndex = 0;
-            this.picture_pazzle.TabStop = false;
+            this.text_picture_name.Location = new System.Drawing.Point(99, 19);
+            this.text_picture_name.Name = "text_picture_name";
+            this.text_picture_name.ReadOnly = true;
+            this.text_picture_name.Size = new System.Drawing.Size(170, 20);
+            this.text_picture_name.TabIndex = 2;
             // 
             // button_find_picture
             // 
@@ -170,13 +170,13 @@
             this.button_find_picture.Text = "Выбрать";
             this.button_find_picture.UseVisualStyleBackColor = true;
             // 
-            // text_picture_name
+            // picture_pazzle
             // 
-            this.text_picture_name.Location = new System.Drawing.Point(99, 19);
-            this.text_picture_name.Name = "text_picture_name";
-            this.text_picture_name.ReadOnly = true;
-            this.text_picture_name.Size = new System.Drawing.Size(170, 20);
-            this.text_picture_name.TabIndex = 2;
+            this.picture_pazzle.Location = new System.Drawing.Point(6, 46);
+            this.picture_pazzle.Name = "picture_pazzle";
+            this.picture_pazzle.Size = new System.Drawing.Size(264, 132);
+            this.picture_pazzle.TabIndex = 0;
+            this.picture_pazzle.TabStop = false;
             // 
             // groupBox4
             // 
@@ -190,16 +190,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Уровень сложности";
             // 
-            // radio_level1
+            // radio_level3
             // 
-            this.radio_level1.AutoSize = true;
-            this.radio_level1.Location = new System.Drawing.Point(19, 24);
-            this.radio_level1.Name = "radio_level1";
-            this.radio_level1.Size = new System.Drawing.Size(31, 17);
-            this.radio_level1.TabIndex = 0;
-            this.radio_level1.TabStop = true;
-            this.radio_level1.Text = "1";
-            this.radio_level1.UseVisualStyleBackColor = true;
+            this.radio_level3.AutoSize = true;
+            this.radio_level3.Location = new System.Drawing.Point(151, 24);
+            this.radio_level3.Name = "radio_level3";
+            this.radio_level3.Size = new System.Drawing.Size(31, 17);
+            this.radio_level3.TabIndex = 2;
+            this.radio_level3.TabStop = true;
+            this.radio_level3.Text = "3";
+            this.radio_level3.UseVisualStyleBackColor = true;
             // 
             // radio_level2
             // 
@@ -212,22 +212,22 @@
             this.radio_level2.Text = "2";
             this.radio_level2.UseVisualStyleBackColor = true;
             // 
-            // radio_level3
+            // radio_level1
             // 
-            this.radio_level3.AutoSize = true;
-            this.radio_level3.Location = new System.Drawing.Point(151, 24);
-            this.radio_level3.Name = "radio_level3";
-            this.radio_level3.Size = new System.Drawing.Size(31, 17);
-            this.radio_level3.TabIndex = 2;
-            this.radio_level3.TabStop = true;
-            this.radio_level3.Text = "3";
-            this.radio_level3.UseVisualStyleBackColor = true;
+            this.radio_level1.AutoSize = true;
+            this.radio_level1.Location = new System.Drawing.Point(19, 24);
+            this.radio_level1.Name = "radio_level1";
+            this.radio_level1.Size = new System.Drawing.Size(31, 17);
+            this.radio_level1.TabIndex = 0;
+            this.radio_level1.TabStop = true;
+            this.radio_level1.Text = "1";
+            this.radio_level1.UseVisualStyleBackColor = true;
             // 
             // CreateGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 408);
+            this.ClientSize = new System.Drawing.Size(360, 408);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
