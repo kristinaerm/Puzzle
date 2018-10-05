@@ -10,24 +10,14 @@ using System.Windows.Forms;
 
 namespace Puzzle
 {
-    public partial class UserFindGame : Form
+    public partial class Recorde : Form
     {
-        public UserFindGame()
+        public Recorde()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
