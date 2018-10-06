@@ -46,6 +46,8 @@
             this.radio_level1 = new System.Windows.Forms.RadioButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.справкаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_height)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -149,9 +151,9 @@
             this.groupBox3.Controls.Add(this.text_picture_name);
             this.groupBox3.Controls.Add(this.button_find_picture);
             this.groupBox3.Controls.Add(this.picture_pazzle);
-            this.groupBox3.Location = new System.Drawing.Point(21, 149);
+            this.groupBox3.Location = new System.Drawing.Point(29, 149);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(276, 184);
+            this.groupBox3.Size = new System.Drawing.Size(398, 184);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Выбор картинки";
@@ -177,7 +179,7 @@
             // 
             this.picture_pazzle.Location = new System.Drawing.Point(6, 46);
             this.picture_pazzle.Name = "picture_pazzle";
-            this.picture_pazzle.Size = new System.Drawing.Size(264, 132);
+            this.picture_pazzle.Size = new System.Drawing.Size(263, 132);
             this.picture_pazzle.TabIndex = 0;
             this.picture_pazzle.TabStop = false;
             // 
@@ -186,9 +188,9 @@
             this.groupBox4.Controls.Add(this.radio_level3);
             this.groupBox4.Controls.Add(this.radio_level2);
             this.groupBox4.Controls.Add(this.radio_level1);
-            this.groupBox4.Location = new System.Drawing.Point(21, 339);
+            this.groupBox4.Location = new System.Drawing.Point(303, 19);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(275, 57);
+            this.groupBox4.Size = new System.Drawing.Size(124, 97);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Уровень сложности";
@@ -196,7 +198,7 @@
             // radio_level3
             // 
             this.radio_level3.AutoSize = true;
-            this.radio_level3.Location = new System.Drawing.Point(151, 24);
+            this.radio_level3.Location = new System.Drawing.Point(19, 70);
             this.radio_level3.Name = "radio_level3";
             this.radio_level3.Size = new System.Drawing.Size(31, 17);
             this.radio_level3.TabIndex = 2;
@@ -207,7 +209,7 @@
             // radio_level2
             // 
             this.radio_level2.AutoSize = true;
-            this.radio_level2.Location = new System.Drawing.Point(84, 24);
+            this.radio_level2.Location = new System.Drawing.Point(19, 47);
             this.radio_level2.Name = "radio_level2";
             this.radio_level2.Size = new System.Drawing.Size(31, 17);
             this.radio_level2.TabIndex = 1;
@@ -229,24 +231,41 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.справкаToolStripMenuItem});
+            this.справкаToolStripMenuItem,
+            this.справкаToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(360, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(444, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
-            this.справкаToolStripMenuItem.Text = "Справка";
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(102, 20);
+            this.справкаToolStripMenuItem.Text = "Готовые пазлы";
+            // 
+            // справкаToolStripMenuItem1
+            // 
+            this.справкаToolStripMenuItem1.Name = "справкаToolStripMenuItem1";
+            this.справкаToolStripMenuItem1.Size = new System.Drawing.Size(65, 20);
+            this.справкаToolStripMenuItem1.Text = "Справка";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(308, 122);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(119, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Создать пазлы";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // CreateGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 408);
+            this.ClientSize = new System.Drawing.Size(444, 344);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -293,5 +312,7 @@
         private System.Windows.Forms.RadioButton radio_level1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem1;
+        private System.Windows.Forms.Button button1;
     }
 }
