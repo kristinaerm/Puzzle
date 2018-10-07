@@ -33,7 +33,7 @@ namespace Puzzle
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
-            string createTableGames = "create table Games (" +
+            string createTableGames = "create table games (" +
            "id_game character," +
            "level_slognos character NOT NULL," +
            "form_pazzla charaster NOT NULL," +
@@ -70,6 +70,7 @@ namespace Puzzle
            "id_picture character," +
            "path_to_file character NOT NULL," +
            "level_slognosty_gallery charaster NOT NULL," +
+           "name_pictures charaster NOT NULL," +
            "PRIMARY KEY(id_picture));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
@@ -87,15 +88,17 @@ namespace Puzzle
  
             string[] path = new string[reader.FieldCount];
             string[] level = new string[reader.FieldCount];
+            string[] name = new string[reader.FieldCount];
             while (reader.Read())
             {
                 for (int i = 0; i < path.Length; i++)
                 {
                     path[i] = reader.GetString(1);
                     level[i] = reader.GetString(2);
+                    name[i] = reader.GetString(3);
                 }
             }
-            //надо вернуть 2 массива(пока не знаю как)
+            //надо вернуть 3 массива(пока не знаю как)
             return path;
         }
         public void InsertInUsers(string login,string pass,string sum_ballov)
@@ -124,10 +127,12 @@ namespace Puzzle
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
+            string id_game = id_picture + Guid.NewGuid().ToString();//уникальный идентификатор игры
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO users (id_game,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_user, @login, @pass,@sum_ballov)", conn))
+            
+            "INSERT INTO games (id_game,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_game,@id_user, @login, @pass,@sum_ballov)", conn))
             {
-                string id_game= id_picture + Guid.NewGuid().ToString();//уникальный идентификатор игры
+                
                 try
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
@@ -142,6 +147,50 @@ namespace Puzzle
                 catch
                 {
                     MessageBox.Show("Ошибка! Проверьте введеные данные");
+                }
+            }
+        }
+        public void InsertInGallery(string path_to_file, string level_slognosty_gallery,string name_picture)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            conn.Open(); //Открываем соединение.
+            string id_picture = Guid.NewGuid().ToString();//уникальный идентификатор картинки;
+            using (NpgsqlCommand command = new NpgsqlCommand(
+            "INSERT INTO gallery (id_pictures,path_to_file,level_slognosty_gallery,name_picture) VALUES(@id_picture, @path_to_file, @level_slognosty_gallery,@name_picture)", conn))
+            {
+                try
+                {
+                    command.Parameters.Add(new NpgsqlParameter("id_game", id_picture));
+                    command.Parameters.Add(new NpgsqlParameter("path_to_file", path_to_file));
+                    command.Parameters.Add(new NpgsqlParameter("level_slognosty_gallery", level_slognosty_gallery));
+                    command.Parameters.Add(new NpgsqlParameter("name_picture", name_picture));
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("Картинка добавлена в галерею!");
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка!");
+                }
+            }
+        }
+        public void InsertInSave(string id_game,string login,string coordinate_x, string coordinate_y)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            conn.Open(); //Открываем соединение.
+            using (NpgsqlCommand command = new NpgsqlCommand(
+            "INSERT INTO preservation (id_game,login,coordinate_x,coordinate_y) VALUES(@id_game, @login, @coordinate_x,@coordinate_y)", conn))
+            {
+                try
+                {
+                    command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
+                    command.Parameters.Add(new NpgsqlParameter("login", login));
+                    command.Parameters.Add(new NpgsqlParameter("coordinate_x", coordinate_x));
+                    command.Parameters.Add(new NpgsqlParameter("coordinate_y", coordinate_y));
+                    command.ExecuteNonQuery();
+                     }
+                catch
+                {
+                    MessageBox.Show("Ошибка!");
                 }
             }
         }
