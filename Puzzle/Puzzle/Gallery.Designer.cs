@@ -63,16 +63,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(174, 355);
+            this.button1.Location = new System.Drawing.Point(174, 385);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "Выбрать";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(174, 384);
+            this.button2.Location = new System.Drawing.Point(174, 357);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -94,6 +95,10 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Сложный",
+            "Средний",
+            "Легкий "});
             this.comboBox1.Location = new System.Drawing.Point(534, 357);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);

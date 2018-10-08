@@ -194,7 +194,31 @@ namespace Puzzle
                 }
             }
         }
-
-
+        public string SelectIdPicture(string path_to_file, string level_slognosty_gallery, string name_pictures)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select id_pictures" +
+           "from gallery"+
+           "where path_to_file="+ path_to_file + "and level_slognosty_gallery="+ level_slognosty_gallery+ "and name_pictures=" + name_pictures;
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            string id_pictures = reader.GetString(0);
+          
+            return id_pictures;
+        
+        }
+        public string SelectIdGame(string id_pictures)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select id_game" +
+           "from games" +
+           "where id_pictures=" + id_pictures; 
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            string id_game = reader.GetString(0);
+            return id_game;
+        }
     }
 }
