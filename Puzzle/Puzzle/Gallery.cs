@@ -16,12 +16,18 @@ namespace Puzzle
         public Gallery()
         {
             InitializeComponent();
+            ConnDatabase bd = new ConnDatabase();
+        //    bd.createTablesUsers();
+       //     bd.createTablesGames();
+       //  bd.createTablesGallery();
+        //    bd.createTablesSave();
+            updateListView();
         }
 
         private void Gallery_Load(object sender, EventArgs e)
         {
-            
-            
+           
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -30,7 +36,7 @@ namespace Puzzle
             string path = openFileDialog1.FileName;//путь к файлу
             string[] expansion = path.Split('.');
 
-            if (!expansion[2].Equals("png")) {
+            if (!expansion[1].Equals("png")) {
 
                 MessageBox.Show("Неверный формат файла!");
                 
@@ -38,17 +44,52 @@ namespace Puzzle
             else
             {
                 textBox1.Text = openFileDialog1.FileName;
-                string selectedState = comboBox1.SelectedItem.ToString();//выбор из combobox
-                string name_picture= Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
-                ConnDatabase bd = new ConnDatabase();
-                bd.InsertInGallery(path, selectedState, name_picture);//добавление в таблицу галереи
+                listView1.Clear();
+                updateListView();
             }
         }
         
 
         private void button1_Click(object sender, EventArgs e)
         {
+           
+            string path = openFileDialog1.FileName;//путь к файлу
+            string selectedState = comboBox1.SelectedItem.ToString();//выбор из combobox
+            string name_picture = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
+            ConnDatabase bd = new ConnDatabase();
+            bd.InsertInGallery(path, selectedState, name_picture);//добавление в таблицу галереи
+            listView1.Clear();
+            updateListView();
 
+        }
+        public void updateListView()
+        {
+            ConnDatabase bd = new ConnDatabase();
+            List<string> path = bd.SelectPathPicture();
+            string s = "";
+            // заполняем список изображениями
+            foreach (string file in path)
+            {
+                // установка названия файла
+                s = file.Remove(0, file.LastIndexOf('\\') + 1);
+               listView1.Items.Add(s);
+            }
+       
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+         
+            ConnDatabase bd = new ConnDatabase();
+            List<string> path = bd.SelectPathPicture();
+            
+            if (listView1.SelectedIndices.Count != 0)
+            {
+                int t = listView1.SelectedIndices[0];
+                pictureBox1.Image = new Bitmap(path[t]);
+            }
+        
+            
         }
     }
 }

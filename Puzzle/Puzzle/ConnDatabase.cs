@@ -12,7 +12,7 @@ namespace Puzzle
 {
     class ConnDatabase
     {
-        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=mybase;"; 
+        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;"; 
         NpgsqlConnection conn;
         NpgsqlCommand comm;
          public void createTablesUsers()
@@ -20,9 +20,9 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableUser = "create table users (" +
-           "login character NOT NULL," +
-           "pass character NOT NULL," +
-           "summ_ballov," +
+           "login character(100) NOT NULL," +
+           "pass character(100) NOT NULL," +
+           "summ_ballov character(100)," +
            "PRIMARY KEY(login));";
             var command = conn.CreateCommand();
             command.CommandText = createTableUser;
@@ -34,12 +34,12 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableGames = "create table games (" +
-           "id_game character," +
-           "level_slognos character NOT NULL," +
-           "form_pazzla charaster NOT NULL," +
-           "id_picture charaster NOT NULL," +
-           "height charaster NOT NULL," +
-           "width charaster NOT NULL," +
+           "id_game character(100)," +
+           "level_slognos character(100) NOT NULL," +
+           "form_pazzla character(100) NOT NULL," +
+           "id_picture character(100) NOT NULL," +
+           "height character(100) NOT NULL," +
+           "width character(100) NOT NULL," +
            "PRIMARY KEY(id_game));";
             var command = conn.CreateCommand();
             command.CommandText = createTableGames;
@@ -51,12 +51,11 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table preservation (" +
-           "id_game character," +
-           "login character NOT NULL," +
-           "coordinate_x charaster NOT NULL," +
-           "coordinate_y charaster NOT NULL;" +
-            "PRIMARY KEY(id_game));" +
-            "PRIMARY KEY(login));";
+           "id_game character(100)," +
+           "login character(100) NOT NULL," +
+           "coordinate_x character(100) NOT NULL," +
+           "coordinate_y character(100) NOT NULL," +
+           "constraint pk primary key (id_game, login));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
             command.ExecuteNonQuery();
@@ -67,10 +66,10 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table gallery (" +
-           "id_picture character," +
-           "path_to_file character NOT NULL," +
-           "level_slognosty_gallery charaster NOT NULL," +
-           "name_pictures charaster NOT NULL," +
+           "id_picture character(100)," +
+           "path_to_file character(100) NOT NULL," +
+           "level_slognosty_gallery character(100) NOT NULL," +
+           "name_pictures character(100) NOT NULL," +
            "PRIMARY KEY(id_picture));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
@@ -156,22 +155,21 @@ namespace Puzzle
             conn.Open(); //Открываем соединение.
             string id_picture = Guid.NewGuid().ToString();//уникальный идентификатор картинки;
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO gallery (id_pictures,path_to_file,level_slognosty_gallery,name_picture) VALUES(@id_picture, @path_to_file, @level_slognosty_gallery,@name_picture)", conn))
+         //   "INSERT INTO gallery (id_pictures,path_to_file,level_slognosty_gallery,name_picture) VALUES(@id_picture, @path_to_file, @level_slognosty_gallery,@name_picture)", conn))
+                "INSERT INTO gallery (id_picture,path_to_file,level_slognosty_gallery,name_pictures) VALUES ('" + id_picture + "','" + path_to_file + "','" + level_slognosty_gallery + "','" + name_picture + "');", conn))
             {
                 try
                 {
-                    command.Parameters.Add(new NpgsqlParameter("id_game", id_picture));
-                    command.Parameters.Add(new NpgsqlParameter("path_to_file", path_to_file));
-                    command.Parameters.Add(new NpgsqlParameter("level_slognosty_gallery", level_slognosty_gallery));
-                    command.Parameters.Add(new NpgsqlParameter("name_picture", name_picture));
+
                     command.ExecuteNonQuery();
                     MessageBox.Show("Картинка добавлена в галерею!");
+
                 }
                 catch
-                {
-                    MessageBox.Show("Ошибка!");
-                }
+            {
+                MessageBox.Show("Ошибка!");
             }
+        }
         }
         public void InsertInSave(string id_game,string login,string coordinate_x, string coordinate_y)
         {
@@ -211,7 +209,7 @@ namespace Puzzle
         public string SelectIdGame(string id_pictures)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "select id_game" +
+            string selectpathpoctures = "select id_game " +
            "from games" +
            "where id_pictures=" + id_pictures; 
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
@@ -219,6 +217,24 @@ namespace Puzzle
             NpgsqlDataReader reader = command.ExecuteReader();
             string id_game = reader.GetString(0);
             return id_game;
+        }
+        public List<string> SelectPathPicture()
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select path_to_file from gallery";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            int n = reader.FieldCount;
+            List<string> path_to_file =new List<string>();
+            while (reader.Read())
+            {
+               
+                    path_to_file.Add(reader.GetString(0));
+                    
+                
+            }
+            return path_to_file;
         }
     }
 }
