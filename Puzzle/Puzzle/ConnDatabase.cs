@@ -40,6 +40,7 @@ namespace Puzzle
            "id_picture character(100) NOT NULL," +
            "height character(100) NOT NULL," +
            "width character(100) NOT NULL," +
+           "build_mode character(100) NOT NULL," +
            "PRIMARY KEY(id_game));";
             var command = conn.CreateCommand();
             command.CommandText = createTableGames;
@@ -52,10 +53,11 @@ namespace Puzzle
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table preservation (" +
            "id_game character(100)," +
+           "id_piece character(100)," +
            "login character(100) NOT NULL," +
            "coordinate_x character(100) NOT NULL," +
            "coordinate_y character(100) NOT NULL," +
-           "constraint pk primary key (id_game, login));";
+           "constraint pk primary key (id_game, login,id_piece));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
             command.ExecuteNonQuery();
@@ -71,6 +73,20 @@ namespace Puzzle
            "level_slognosty_gallery character(100) NOT NULL," +
            "name_pictures character(100) NOT NULL," +
            "PRIMARY KEY(id_picture));";
+            var command = conn.CreateCommand();
+            command.CommandText = createTableSave;
+            command.ExecuteNonQuery();
+            conn.Close(); //Закрываем соединение.
+        }
+        public void createTablesPuzzlePiece()
+        {
+            conn = new NpgsqlConnection(conn_param);
+            conn.Open(); //Открываем соединение.
+            string createTableSave = "create table puzzle_piece (" +
+           "id_piece character(100)," +
+           "path_to_piece character(100)," +
+           "id_game character(100)," +
+           "PRIMARY KEY(id_piece));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
             command.ExecuteNonQuery();
@@ -92,37 +108,37 @@ namespace Puzzle
             {
                 for (int i = 0; i < path.Length; i++)
                 {
-                    path[i] = reader.GetString(1);
-                    level[i] = reader.GetString(2);
-                    name[i] = reader.GetString(3);
+                    path[i] = reader.GetString(0);
+                    level[i] = reader.GetString(1);
+                    name[i] = reader.GetString(2);
                 }
             }
             //надо вернуть 3 массива(пока не знаю как)
             return path;
         }
-        public void InsertInUsers(string login,string pass,string sum_ballov)
+        public void InsertInUsers(string login,string pass,string summ_ballov)
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO users (login,pass,summ_ballov) VALUES(@id_user, @login, @pass,@sum_ballov)", conn)) 
+            "INSERT INTO users (login,pass,summ_ballov) VALUES(@login, @pass,@summ_ballov)", conn)) 
             {
-                try
-                {
+               // try
+               // {
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("pass", pass));
-                    command.Parameters.Add(new NpgsqlParameter("summ_ballov", sum_ballov));
+                    command.Parameters.Add(new NpgsqlParameter("summ_ballov", summ_ballov));
                     command.ExecuteNonQuery();
-                }
-                catch
-                {
-                    MessageBox.Show("Такой логин уже существует");
-                }
+               // }
+              //  catch
+              //  {
+             //       MessageBox.Show("Такой логин уже существует");
+             //   }
             }
         
             
         }
-        public void InsertInGame(string level_slognos, string form_pazzle,string id_picture, string height, string widht)
+        public void InsertInGame(string build_mode, string level_slognos, string form_pazzle,string id_picture, string height, string widht)
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
@@ -171,15 +187,16 @@ namespace Puzzle
             }
         }
         }
-        public void InsertInSave(string id_game,string login,string coordinate_x, string coordinate_y)
+        public void InsertInSave(string id_piece,string id_game,string login,string coordinate_x, string coordinate_y)
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO preservation (id_game,login,coordinate_x,coordinate_y) VALUES(@id_game, @login, @coordinate_x,@coordinate_y)", conn))
+            "INSERT INTO preservation (id_piece,id_game,login,coordinate_x,coordinate_y) VALUES(@id_piece,@id_game, @login, @coordinate_x,@coordinate_y)", conn))
             {
                 try
                 {
+                    command.Parameters.Add(new NpgsqlParameter("id_piece", id_piece));
                     command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("coordinate_x", coordinate_x));
@@ -188,9 +205,62 @@ namespace Puzzle
                      }
                 catch
                 {
-                    MessageBox.Show("Ошибка!");
+                    MessageBox.Show("Ошибка с базой данных!");
                 }
             }
+        }
+        public void InsertInPuzzlePiece(string path_to_piece, string id_game)
+        {
+            string id_piece= id_game+Guid.NewGuid().ToString();//уникальный идентификатор кусочка пазла;
+            conn = new NpgsqlConnection(conn_param);
+            conn.Open(); //Открываем соединение.
+            using (NpgsqlCommand command = new NpgsqlCommand(
+            "INSERT INTO puzzle_piece (id_piece,path_to_piece,id_game) VALUES(@id_piece,@path_to_piece, @id_game)", conn))
+            {
+                try
+                {
+                    command.Parameters.Add(new NpgsqlParameter("id_piece", id_piece));
+                    command.Parameters.Add(new NpgsqlParameter("path_to_piece", path_to_piece));
+                    command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
+                    command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка c базой данных!");
+                }
+            }
+        }
+        public string SelectIdPiece(string id_game)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select id_piece" +
+           "from puzzle_piece" +
+           "where id_game=" + id_game+";";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            string id_piece = reader.GetString(0);
+
+            return id_piece;
+
+        }
+        public List<string> SelectLoginUser(string login, string pass)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            List<string> user = new List<string>();
+            string selectpathpoctures = "select login, pass " +
+           "from users " +
+           "where login='" + login+"'" + "and pass='" + pass +"'"+ ";";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                user.Add(reader.GetString(0));
+                user.Add(reader.GetString(1));
+            }
+            return user;
+
         }
         public string SelectIdPicture(string path_to_file, string level_slognosty_gallery, string name_pictures)
         {

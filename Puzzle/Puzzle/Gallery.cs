@@ -17,11 +17,12 @@ namespace Puzzle
         {
             InitializeComponent();
             ConnDatabase bd = new ConnDatabase();
-        //    bd.createTablesUsers();
-       //     bd.createTablesGames();
-       //  bd.createTablesGallery();
-        //    bd.createTablesSave();
-            updateListView();
+         //  bd.createTablesUsers();
+         //  bd.createTablesGames();
+          // bd.createTablesGallery();
+         //  bd.createTablesSave();
+        //   bd.createTablesPuzzlePiece();
+           updateListView();
         }
 
         private void Gallery_Load(object sender, EventArgs e)
