@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace Puzzle
 {
-    public partial class CreateGame : Form
+    public partial class Profiles : Form
     {
-        public CreateGame()
+        public Profiles()
         {
             InitializeComponent();
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

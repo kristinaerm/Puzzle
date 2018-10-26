@@ -55,5 +55,10 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             bd.InsertInUsers(textBox1.Text, textBox2.Text,"");
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
