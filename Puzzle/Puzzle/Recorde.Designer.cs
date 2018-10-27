@@ -89,6 +89,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Recorde";
             this.Text = "Рейтинг";
+            this.Load += new System.EventHandler(this.Recorde_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

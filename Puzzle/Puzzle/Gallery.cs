@@ -17,11 +17,12 @@ namespace Puzzle
         {
             InitializeComponent();
             ConnDatabase bd = new ConnDatabase();
-         //  bd.createTablesUsers();
-         //  bd.createTablesGames();
-          // bd.createTablesGallery();
-         //  bd.createTablesSave();
-        //   bd.createTablesPuzzlePiece();
+           bd.createTablesUsers();
+           bd.createTablesGame();
+           bd.createTablesPuzzle();
+           bd.createTablesGallery();
+           bd.createTablesSave();
+           bd.createTablesPuzzlePiece();
            updateListView();
         }
 
@@ -86,11 +87,27 @@ namespace Puzzle
             
             if (listView1.SelectedIndices.Count != 0)
             {
+                button1.Visible = true;
+                button3.Visible = true;
                 int t = listView1.SelectedIndices[0];
                 pictureBox1.Image = new Bitmap(path[t]);
             }
         
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ConnDatabase bd = new ConnDatabase();
+            List<string> path = bd.SelectPathPicture();
+            if (listView1.SelectedIndices.Count != 0)
+            {
+               
+                int t = listView1.SelectedIndices[0];
+                bd.DeletePictures(path[t]);
+                updateListView();
+            }
+
         }
     }
 }

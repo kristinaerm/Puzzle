@@ -25,9 +25,9 @@ namespace Puzzle
         private void button1_Click(object sender, EventArgs e)
         {
             ConnDatabase bd = new ConnDatabase();
-            if((textBox1.Text == "admin") && (textBox2.Text == "admin"))
+            if ((textBox1.Text == "admin") && (textBox2.Text == "admin"))
             {
-           
+
                 this.Hide();
                 CreateGame creategame = new CreateGame();
                 creategame.Show();
@@ -37,23 +37,35 @@ namespace Puzzle
                 string login = textBox1.Text;
                 string pass = textBox2.Text;
                 List<string> user = new List<string>();
-                user= bd.SelectLoginUser(login, pass);
+                user = bd.SelectLoginUser(login, pass);
                 user[0] = user[0].Replace(" ", "");
                 user[1] = user[1].Replace(" ", "");
-                if ((login==user[0])&&(pass==user[1]))
+                if ((login == user[0]) && (pass == user[1]))
                 {
                     this.Hide();
                     UserFindGame usergame = new UserFindGame();
                     usergame.Show();
                 }
-            }
+                else
+                {
+                    if (textBox2.Text == textBox3.Text)
+                    {
+                        bd.InsertInUsers(textBox1.Text, textBox2.Text, "", "");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Пароли не совпадают");
+                    }
+                }
 
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ConnDatabase bd = new ConnDatabase();
-            bd.InsertInUsers(textBox1.Text, textBox2.Text,"");
+            label3.Visible = true;
+            textBox3.Visible = true;
+           
         }
 
         private void Login_Load(object sender, EventArgs e)
