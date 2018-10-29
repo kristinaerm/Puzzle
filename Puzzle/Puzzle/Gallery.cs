@@ -13,22 +13,37 @@ namespace Puzzle
 {
     public partial class Gallery : Form
     {
+        private bool fromCreatePuzzle = false;
         public Gallery()
         {
             InitializeComponent();
             ConnDatabase bd = new ConnDatabase();
-           bd.createTablesUsers();
-           bd.createTablesGame();
-           bd.createTablesPuzzle();
-           bd.createTablesGallery();
-           bd.createTablesSave();
-           bd.createTablesPuzzlePiece();
-           updateListView();
+            bd.createTablesUsers();
+            bd.createTablesGame();
+            bd.createTablesPuzzle();
+            bd.createTablesGallery();
+            bd.createTablesSave();
+            bd.createTablesPuzzlePiece();
+            updateListView();
+        }
+
+        public Gallery(bool fromGame)
+        {
+            InitializeComponent();
+            fromCreatePuzzle = fromGame;
+            ConnDatabase bd = new ConnDatabase();
+            bd.createTablesUsers();
+            bd.createTablesGame();
+            bd.createTablesPuzzle();
+            bd.createTablesGallery();
+            bd.createTablesSave();
+            bd.createTablesPuzzlePiece();
+            updateListView();
         }
 
         private void Gallery_Load(object sender, EventArgs e)
         {
-           
+
 
         }
 
@@ -38,10 +53,11 @@ namespace Puzzle
             string path = openFileDialog1.FileName;//путь к файлу
             string[] expansion = path.Split('.');
 
-            if (!expansion[1].Equals("png")) {
+            if (!expansion[1].Equals("png"))
+            {
 
                 MessageBox.Show("Неверный формат файла!");
-                
+
             }
             else
             {
@@ -50,11 +66,11 @@ namespace Puzzle
                 updateListView();
             }
         }
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+
             string path = openFileDialog1.FileName;//путь к файлу
             string selectedState = comboBox1.SelectedItem.ToString();//выбор из combobox
             string name_picture = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
@@ -74,17 +90,17 @@ namespace Puzzle
             {
                 // установка названия файла
                 s = file.Remove(0, file.LastIndexOf('\\') + 1);
-               listView1.Items.Add(s);
+                listView1.Items.Add(s);
             }
-       
+
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-         
+
             ConnDatabase bd = new ConnDatabase();
             List<string> path = bd.SelectPathPicture();
-            
+
             if (listView1.SelectedIndices.Count != 0)
             {
                 button1.Visible = true;
@@ -92,8 +108,8 @@ namespace Puzzle
                 int t = listView1.SelectedIndices[0];
                 pictureBox1.Image = new Bitmap(path[t]);
             }
-        
-            
+
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -102,7 +118,7 @@ namespace Puzzle
             List<string> path = bd.SelectPathPicture();
             if (listView1.SelectedIndices.Count != 0)
             {
-               
+
                 int t = listView1.SelectedIndices[0];
                 bd.DeletePictures(path[t]);
                 updateListView();

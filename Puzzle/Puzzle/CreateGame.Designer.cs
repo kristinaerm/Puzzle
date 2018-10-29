@@ -37,7 +37,7 @@
             this.numeric_width = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.text_picture_name = new System.Windows.Forms.TextBox();
+            this.text_picture_id = new System.Windows.Forms.TextBox();
             this.button_find_picture = new System.Windows.Forms.Button();
             this.picture_pazzle = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -47,9 +47,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.обИгреToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оРазработчикахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
+            this.text_picture_path = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_height)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -96,6 +97,16 @@
             // numeric_height
             // 
             this.numeric_height.Location = new System.Drawing.Point(97, 19);
+            this.numeric_height.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numeric_height.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.numeric_height.Name = "numeric_height";
             this.numeric_height.Size = new System.Drawing.Size(34, 20);
             this.numeric_height.TabIndex = 1;
@@ -130,6 +141,16 @@
             // numeric_width
             // 
             this.numeric_width.Location = new System.Drawing.Point(97, 39);
+            this.numeric_width.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numeric_width.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.numeric_width.Name = "numeric_width";
             this.numeric_width.Size = new System.Drawing.Size(34, 20);
             this.numeric_width.TabIndex = 3;
@@ -150,23 +171,24 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.text_picture_name);
+            this.groupBox3.Controls.Add(this.text_picture_path);
+            this.groupBox3.Controls.Add(this.text_picture_id);
             this.groupBox3.Controls.Add(this.button_find_picture);
             this.groupBox3.Controls.Add(this.picture_pazzle);
             this.groupBox3.Location = new System.Drawing.Point(12, 104);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(277, 184);
+            this.groupBox3.Size = new System.Drawing.Size(277, 217);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Выбор картинки";
             // 
-            // text_picture_name
+            // text_picture_id
             // 
-            this.text_picture_name.Location = new System.Drawing.Point(99, 19);
-            this.text_picture_name.Name = "text_picture_name";
-            this.text_picture_name.ReadOnly = true;
-            this.text_picture_name.Size = new System.Drawing.Size(170, 20);
-            this.text_picture_name.TabIndex = 2;
+            this.text_picture_id.Location = new System.Drawing.Point(99, 19);
+            this.text_picture_id.Name = "text_picture_id";
+            this.text_picture_id.ReadOnly = true;
+            this.text_picture_id.Size = new System.Drawing.Size(170, 20);
+            this.text_picture_id.TabIndex = 2;
             // 
             // button_find_picture
             // 
@@ -176,12 +198,13 @@
             this.button_find_picture.TabIndex = 1;
             this.button_find_picture.Text = "Выбрать";
             this.button_find_picture.UseVisualStyleBackColor = true;
+            this.button_find_picture.Click += new System.EventHandler(this.button_find_picture_Click);
             // 
             // picture_pazzle
             // 
-            this.picture_pazzle.Location = new System.Drawing.Point(6, 46);
+            this.picture_pazzle.Location = new System.Drawing.Point(6, 71);
             this.picture_pazzle.Name = "picture_pazzle";
-            this.picture_pazzle.Size = new System.Drawing.Size(263, 132);
+            this.picture_pazzle.Size = new System.Drawing.Size(263, 140);
             this.picture_pazzle.TabIndex = 0;
             this.picture_pazzle.TabStop = false;
             // 
@@ -192,7 +215,7 @@
             this.groupBox4.Controls.Add(this.radio_level1);
             this.groupBox4.Location = new System.Drawing.Point(295, 104);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(82, 148);
+            this.groupBox4.Size = new System.Drawing.Size(82, 175);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сложность";
@@ -201,7 +224,7 @@
             // radio_level3
             // 
             this.radio_level3.AutoSize = true;
-            this.radio_level3.Location = new System.Drawing.Point(19, 24);
+            this.radio_level3.Location = new System.Drawing.Point(23, 38);
             this.radio_level3.Name = "radio_level3";
             this.radio_level3.Size = new System.Drawing.Size(31, 17);
             this.radio_level3.TabIndex = 2;
@@ -212,7 +235,7 @@
             // radio_level2
             // 
             this.radio_level2.AutoSize = true;
-            this.radio_level2.Location = new System.Drawing.Point(19, 65);
+            this.radio_level2.Location = new System.Drawing.Point(23, 79);
             this.radio_level2.Name = "radio_level2";
             this.radio_level2.Size = new System.Drawing.Size(31, 17);
             this.radio_level2.TabIndex = 1;
@@ -223,7 +246,7 @@
             // radio_level1
             // 
             this.radio_level1.AutoSize = true;
-            this.radio_level1.Location = new System.Drawing.Point(19, 115);
+            this.radio_level1.Location = new System.Drawing.Point(23, 129);
             this.radio_level1.Name = "radio_level1";
             this.radio_level1.Size = new System.Drawing.Size(31, 17);
             this.radio_level1.TabIndex = 0;
@@ -256,16 +279,6 @@
             this.справкаToolStripMenuItem1.Size = new System.Drawing.Size(107, 20);
             this.справкаToolStripMenuItem1.Text = "Учетные записи";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(295, 265);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Создать";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // обИгреToolStripMenuItem
             // 
             this.обИгреToolStripMenuItem.Name = "обИгреToolStripMenuItem";
@@ -278,11 +291,29 @@
             this.оРазработчикахToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
             this.оРазработчикахToolStripMenuItem.Text = "О разработчиках";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(295, 285);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Создать";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // text_picture_path
+            // 
+            this.text_picture_path.Location = new System.Drawing.Point(6, 45);
+            this.text_picture_path.Name = "text_picture_path";
+            this.text_picture_path.ReadOnly = true;
+            this.text_picture_path.Size = new System.Drawing.Size(263, 20);
+            this.text_picture_path.TabIndex = 3;
+            // 
             // CreateGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 299);
+            this.ClientSize = new System.Drawing.Size(392, 333);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -321,7 +352,7 @@
         private System.Windows.Forms.NumericUpDown numeric_width;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox text_picture_name;
+        private System.Windows.Forms.TextBox text_picture_id;
         private System.Windows.Forms.Button button_find_picture;
         private System.Windows.Forms.PictureBox picture_pazzle;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -334,5 +365,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem обИгреToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оРазработчикахToolStripMenuItem;
+        private System.Windows.Forms.TextBox text_picture_path;
     }
 }

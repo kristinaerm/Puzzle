@@ -12,7 +12,10 @@ namespace Puzzle
 {
     class ConnDatabase
     {
-        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        //Кристина
+        //string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        //Полина
+        string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
         NpgsqlConnection conn;
         NpgsqlCommand comm;
         public void createTablesUsers()
