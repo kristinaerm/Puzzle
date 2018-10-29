@@ -13,9 +13,9 @@ namespace Puzzle
     class ConnDatabase
     {
         //Кристина
-        //string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
         //Полина
-        string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+      //  string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
         NpgsqlConnection conn;
         NpgsqlCommand comm;
         public void createTablesUsers()
@@ -55,16 +55,16 @@ namespace Puzzle
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
-            string createTableSave = "create table preservation (" +
-           "id_puzzel character(100)," +
-           "id_piece character(100)," +
+            string createTableSave = "create table save (" +
+           "id_puzzle character(100) NOT NULL," +
+           "id_piece character(100) NOT NULL," +
            "login character(100) NOT NULL," +
            "coordinate_x character(100) NOT NULL," +
            "coordinate_y character(100) NOT NULL," +
-           "FOREIGN KEY (id_puzzel) REFERENCES puzzel(id_puzzel)," +
+           "FOREIGN KEY (id_puzzle) REFERENCES puzzle (id_puzzle)," +
            "FOREIGN KEY (id_piece) REFERENCES puzzle_piece(id_piece)," +
-           "FOREIGN KEY (login) REFERENCES user(login)," +
-           "constraint pkk primary key (id_game, login,id_piece));";
+           "FOREIGN KEY (login) REFERENCES users(login)," +
+           "constraint pkk primary key (id_puzzle, login,id_piece));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
             command.ExecuteNonQuery();
@@ -75,7 +75,7 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table gallery (" +
-           "id_picture character(100)," +
+           "id_picture character(100) NOT NULL," +
            "path_to_file character(100) NOT NULL," +
            "level_slognosty_gallery character(100) NOT NULL," +
            "name_pictures character(100) NOT NULL," +
@@ -90,9 +90,9 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table puzzle_piece (" +
-           "id_piece character(100)," +
-           "path_to_piece character(100)," +
-           "id_puzzle character(100)," +
+           "id_piece character(100) NOT NULL," +
+           "path_to_piece character(100) NOT NULL," +
+           "id_puzzle character(100) NOT NULL," +
            "FOREIGN KEY (id_puzzle) REFERENCES puzzle(id_puzzle)," +
            "PRIMARY KEY(id_piece));";
             var command = conn.CreateCommand();
@@ -105,7 +105,7 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table game (" +
-           "id_puzzle character(100)," +
+           "id_puzzle character(100) NOT NULL," +
            "login character(100) NOT NULL," +
            "build character(100) NOT NULL," +
            "game_mode character(100) NOT NULL," +

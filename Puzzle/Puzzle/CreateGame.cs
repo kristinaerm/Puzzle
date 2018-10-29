@@ -71,13 +71,13 @@ namespace Puzzle
                             {
                                 for (int j = 1; j <= numeric_width.Value; j++)
                                 {
-                                    // Задаем нужную область вырезания (отсчет с верхнего левого угла)
-                                    Rectangle rect = new Rectangle(new Point(0, 0), new Size(pictureBox1.Width / 2, pictureBox1.Height / 2));
-                                    // передаем в нашу функцию   
-                                    Bitmap CuttedImage = CutImage(src, rect);
-                                    // результат изображение передаем на форму 
-                                    pictureBox1.Image = CuttedImage;
-                                    //запись кусочков в базу
+                                    //// Задаем нужную область вырезания (отсчет с верхнего левого угла)
+                                    //Rectangle rect = new Rectangle(new Point(0, 0), new Size(pictureBox1.Width / 2, pictureBox1.Height / 2));
+                                    //// передаем в нашу функцию   
+                                    //Bitmap CuttedImage = CutImage(src, rect);
+                                    //// результат изображение передаем на форму 
+                                    //pictureBox1.Image = CuttedImage;
+                                    ////запись кусочков в базу
 
                                 }
                             }

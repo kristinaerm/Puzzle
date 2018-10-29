@@ -18,12 +18,13 @@ namespace Puzzle
         {
             InitializeComponent();
             ConnDatabase bd = new ConnDatabase();
-            bd.createTablesUsers();
-            bd.createTablesGame();
-            bd.createTablesPuzzle();
-            bd.createTablesGallery();
+            // bd.createTablesUsers();
+            // bd.createTablesGallery();
+            //bd.createTablesPuzzle();
+            //bd.createTablesGame();
+       //     bd.createTablesPuzzlePiece();
             bd.createTablesSave();
-            bd.createTablesPuzzlePiece();
+            
             updateListView();
         }
 
@@ -43,7 +44,7 @@ namespace Puzzle
 
         private void Gallery_Load(object sender, EventArgs e)
         {
-
+             
 
         }
 
@@ -51,9 +52,10 @@ namespace Puzzle
         {
             openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;//путь к файлу
-            string[] expansion = path.Split('.');
-
-            if (!expansion[1].Equals("png"))
+            string FileName = System.IO.Path.GetFileName(path);
+           // string[] expansion = path.Split('.');
+            string ext = System.IO.Path.GetExtension(FileName);
+            if (!ext.Equals("png"))
             {
 
                 MessageBox.Show("Неверный формат файла!");
@@ -103,8 +105,11 @@ namespace Puzzle
 
             if (listView1.SelectedIndices.Count != 0)
             {
-                button1.Visible = true;
-                button3.Visible = true;
+                if (fromCreatePuzzle == true)
+                {
+                    button4.Visible = true;
+                    button3.Visible = true;
+                }
                 int t = listView1.SelectedIndices[0];
                 pictureBox1.Image = new Bitmap(path[t]);
             }
