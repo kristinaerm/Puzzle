@@ -117,6 +117,8 @@ namespace Puzzle
 
         private void button_find_picture_Click(object sender, EventArgs e)
         {
+            Gallery g = new Gallery(true);
+            g.Show();
 
         }
     }
