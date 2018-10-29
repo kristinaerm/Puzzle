@@ -18,13 +18,12 @@ namespace Puzzle
         {
             InitializeComponent();
             ConnDatabase bd = new ConnDatabase();
-            // bd.createTablesUsers();
-            // bd.createTablesGallery();
+            //bd.createTablesUsers();
+            //bd.createTablesGallery();
             //bd.createTablesPuzzle();
             //bd.createTablesGame();
-       //     bd.createTablesPuzzlePiece();
-            bd.createTablesSave();
-            
+            //bd.createTablesPuzzlePiece();
+            //bd.createTablesSave();
             updateListView();
         }
 
@@ -33,12 +32,12 @@ namespace Puzzle
             InitializeComponent();
             fromCreatePuzzle = fromGame;
             ConnDatabase bd = new ConnDatabase();
-            bd.createTablesUsers();
-            bd.createTablesGame();
-            bd.createTablesPuzzle();
-            bd.createTablesGallery();
-            bd.createTablesSave();
-            bd.createTablesPuzzlePiece();
+            //bd.createTablesUsers();
+            //bd.createTablesGallery();
+            //bd.createTablesPuzzle();
+            //bd.createTablesGame();
+            //bd.createTablesPuzzlePiece();
+            //bd.createTablesSave();
             updateListView();
         }
 
@@ -128,6 +127,11 @@ namespace Puzzle
                 bd.DeletePictures(path[t]);
                 updateListView();
             }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
 
         }
     }
