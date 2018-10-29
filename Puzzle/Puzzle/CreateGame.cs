@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,18 @@ namespace Puzzle
         public CreateGame()
         {
             InitializeComponent();
+        }
+
+        public Bitmap CutImage(Bitmap src, Rectangle rect)
+        {
+
+            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            g.DrawImage(src, 0, 0, rect, GraphicsUnit.Pixel); //перерисовываем с источника по координатам
+
+            return bmp;
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -60,26 +74,38 @@ namespace Puzzle
 
                             //запись пазла в базу
                             ConnDatabase bd = new ConnDatabase();
-                            bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
+                            string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
 
-                            //генерация кусочков из картинки
-                            //пока прямоугольные
-                            Image temp = Image.FromFile(picturePath);
-                            Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
-
-                            for (int i = 1; i <= numeric_height.Value; i++)
+                            if (!puzzleID.Equals(""))
                             {
-                                for (int j = 1; j <= numeric_width.Value; j++)
+                                if (formOfPuzzle.Equals("прямоугольник"))
                                 {
-                                    // Задаем нужную область вырезания (отсчет с верхнего левого угла)
-                                    Rectangle rect = new Rectangle(new Point(0, 0), new Size(pictureBox1.Width / 2, pictureBox1.Height / 2));
-                                    // передаем в нашу функцию   
-                                    Bitmap CuttedImage = CutImage(src, rect);
-                                    // результат изображение передаем на форму 
-                                    pictureBox1.Image = CuttedImage;
-                                    //запись кусочков в базу
-
+                                    //генерация кусочков из картинки
+                                    //пока прямоугольные
+                                    Image temp = Image.FromFile(picturePath);
+                                    Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
+                                    int pieceH = temp.Height / (int)numeric_height.Value;
+                                    int pieceW = temp.Width / (int)numeric_width.Value;
+                                    int currX = 0;
+                                    int currY = 0;
+                                    string path1 = @"d:\pic";
+                                    for (int i = 1; i <= numeric_height.Value; i++)
+                                    {
+                                        for (int j = 1; j <= numeric_width.Value; j++)
+                                        {
+                                            // Задаем нужную область вырезания (отсчет с верхнего левого угла)
+                                            Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
+                                            currX += pieceW;
+                                            currY += pieceH;
+                                            // передаем в нашу функцию   
+                                            Bitmap CuttedImage = CutImage(src, rect);
+                                            CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+                                            //запись кусочков в базу
+                                            bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
+                                        }
+                                    }
                                 }
+
                             }
                         }
                     }

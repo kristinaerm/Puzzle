@@ -163,11 +163,12 @@ namespace Puzzle
 
 
         }
-        public void InsertInPuzzle(string level_slognos, string form_pazzle, string id_picture, string height, string widht)
+        public string InsertInPuzzle(string level_slognos, string form_pazzle, string id_picture, string height, string widht)
         {
+            string id_puzzle = "";
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
-            string id_puzzle = id_picture + Guid.NewGuid().ToString();//уникальный идентификатор игры
+            id_puzzle = id_picture + Guid.NewGuid().ToString();//уникальный идентификатор игры
             using (NpgsqlCommand command = new NpgsqlCommand(
 
             "INSERT INTO puzzle (id_puzzle,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_puzzle,@level_slognos, @form_pazzle, @id_pictures,@height,@widht)", conn))
@@ -187,8 +188,10 @@ namespace Puzzle
                 catch
                 {
                     MessageBox.Show("Ошибка!Такая игра у вас уже есть");
+                    id_puzzle = "";
                 }
             }
+            return id_puzzle;
         }
         public void InsertInGallery(string path_to_file, string level_slognosty_gallery, string name_picture)
         {
