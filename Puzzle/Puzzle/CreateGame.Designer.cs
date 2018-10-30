@@ -50,7 +50,6 @@
             this.обИгреToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оРазработчикахToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
-            this.text_picture_path = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_height)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -171,7 +170,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.text_picture_path);
             this.groupBox3.Controls.Add(this.text_picture_id);
             this.groupBox3.Controls.Add(this.button_find_picture);
             this.groupBox3.Controls.Add(this.picture_pazzle);
@@ -202,9 +200,9 @@
             // 
             // picture_pazzle
             // 
-            this.picture_pazzle.Location = new System.Drawing.Point(6, 71);
+            this.picture_pazzle.Location = new System.Drawing.Point(6, 46);
             this.picture_pazzle.Name = "picture_pazzle";
-            this.picture_pazzle.Size = new System.Drawing.Size(263, 140);
+            this.picture_pazzle.Size = new System.Drawing.Size(263, 165);
             this.picture_pazzle.TabIndex = 0;
             this.picture_pazzle.TabStop = false;
             // 
@@ -301,14 +299,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // text_picture_path
-            // 
-            this.text_picture_path.Location = new System.Drawing.Point(6, 45);
-            this.text_picture_path.Name = "text_picture_path";
-            this.text_picture_path.ReadOnly = true;
-            this.text_picture_path.Size = new System.Drawing.Size(263, 20);
-            this.text_picture_path.TabIndex = 3;
-            // 
             // CreateGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +355,5 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem обИгреToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оРазработчикахToolStripMenuItem;
-        private System.Windows.Forms.TextBox text_picture_path;
     }
 }
