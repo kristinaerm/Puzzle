@@ -40,9 +40,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(145, 66);
+            this.button1.Location = new System.Drawing.Point(145, 61);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 20);
+            this.button1.Size = new System.Drawing.Size(109, 25);
             this.button1.TabIndex = 0;
             this.button1.Text = "Войти";
             this.button1.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(145, 27);
+            this.button2.Location = new System.Drawing.Point(145, 22);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(109, 20);
+            this.button2.Size = new System.Drawing.Size(109, 25);
             this.button2.TabIndex = 5;
             this.button2.Text = "Зарегистрировать";
             this.button2.UseVisualStyleBackColor = true;
@@ -98,6 +98,7 @@
             this.textBox3.Size = new System.Drawing.Size(109, 20);
             this.textBox3.TabIndex = 7;
             this.textBox3.Visible = false;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label3
             // 

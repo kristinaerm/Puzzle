@@ -81,6 +81,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "Profiles";
             this.Text = "Учетные записи";
+            this.Load += new System.EventHandler(this.Profiles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

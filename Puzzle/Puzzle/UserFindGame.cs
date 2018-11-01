@@ -31,5 +31,23 @@ namespace Puzzle
         {
 
         }
+
+        private void menu_top10_Click(object sender, EventArgs e)
+        {
+            Recorde recordForm = new Recorde();
+            recordForm.Show();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            //*********
+            GameOnField gameOnFieldForm = new GameOnField();
+            gameOnFieldForm.Show();
+        }
     }
 }

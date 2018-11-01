@@ -14,27 +14,27 @@ namespace Puzzle
     {
         public Recorde()
         {
-            ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
-            List<string[]> res=new List<string[]>();
-            if (comboBox1.Text=="По очкам")
+            comboBox1.SelectedIndex = 0;
+            ConnDatabase bd = new ConnDatabase();
+            List<string[]> res = new List<string[]>();
+
+            if (comboBox1.Text == "По времени")
             {
                 res.Clear();
-                res = bd.SelectResultOfGame("По очкам");
-              
-                foreach (string[] s in res)
-                dataGridView1.Rows.Add(s);
-            }else
-                if(comboBox1.Text == "По времени")
-            {
-                 res.Clear();
-                 res = bd.SelectResultOfGame("По времени");
+                res = bd.SelectResultOfGame("По времени");
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
             }
+            else
+            {
+                res.Clear();
+                res = bd.SelectResultOfGame("По очкам");
 
-                
+                foreach (string[] s in res)
+                    dataGridView1.Rows.Add(s);
+            }
         }
 
 
@@ -46,6 +46,29 @@ namespace Puzzle
         private void Recorde_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ConnDatabase bd = new ConnDatabase();
+            List<string[]> res = new List<string[]>();
+
+            if (comboBox1.Text == "По времени")
+            {
+                res.Clear();
+                res = bd.SelectResultOfGame("По времени");
+
+                foreach (string[] s in res)
+                    dataGridView1.Rows.Add(s);
+            }
+            else
+            {
+                res.Clear();
+                res = bd.SelectResultOfGame("По очкам");
+
+                foreach (string[] s in res)
+                    dataGridView1.Rows.Add(s);
+            }
         }
     }
 }

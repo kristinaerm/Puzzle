@@ -48,6 +48,7 @@
             this.button_pause.TabIndex = 0;
             this.button_pause.Text = "Пауза";
             this.button_pause.UseVisualStyleBackColor = true;
+            this.button_pause.Click += new System.EventHandler(this.button_pause_Click);
             // 
             // button_help
             // 
@@ -66,6 +67,7 @@
             this.button_end_game.TabIndex = 2;
             this.button_end_game.Text = "Закончить";
             this.button_end_game.UseVisualStyleBackColor = true;
+            this.button_end_game.Click += new System.EventHandler(this.button_end_game_Click);
             // 
             // button1
             // 
@@ -94,6 +96,7 @@
             this.menu_top10.Name = "menu_top10";
             this.menu_top10.Size = new System.Drawing.Size(63, 20);
             this.menu_top10.Text = "Рейтинг";
+            this.menu_top10.Click += new System.EventHandler(this.menu_top10_Click);
             // 
             // menu_about_game
             // 
@@ -112,6 +115,7 @@
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // GameOnField
             // 

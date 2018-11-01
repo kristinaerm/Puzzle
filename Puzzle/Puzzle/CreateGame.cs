@@ -45,7 +45,6 @@ namespace Puzzle
             string pictureID = "";
             string picturePath = "";
 
-
             if (!((radio_triangle.Checked) | (radio_square.Checked))) MessageBox.Show("Выберите форму пазла");
             else
             {
@@ -67,59 +66,61 @@ namespace Puzzle
                     {
                         pictureID = text_picture_id.Text;
 
-                        if (text_picture_path.Text.Equals("")) MessageBox.Show("Выберите картинку");
-                        else
+                        //запись пазла в базу
+                        ConnDatabase bd = new ConnDatabase();
+                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
+
+                        if (!puzzleID.Equals(""))
                         {
-                            picturePath = text_picture_path.Text;
-
-                            //запись пазла в базу
-                            ConnDatabase bd = new ConnDatabase();
-                            string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
-
-                            if (!puzzleID.Equals(""))
+                            if (formOfPuzzle.Equals("прямоугольник"))
                             {
-                                if (formOfPuzzle.Equals("прямоугольник"))
+                                //генерация кусочков из картинки
+                                //пока прямоугольные
+                                Image temp = Image.FromFile(picturePath);
+                                Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
+                                int pieceH = temp.Height / (int)numeric_height.Value;
+                                int pieceW = temp.Width / (int)numeric_width.Value;
+                                int currX = 0;
+                                int currY = 0;
+                                string path1 = @"d:\pic";
+                                for (int i = 1; i <= numeric_height.Value; i++)
                                 {
-                                    //генерация кусочков из картинки
-                                    //пока прямоугольные
-                                    Image temp = Image.FromFile(picturePath);
-                                    Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
-                                    int pieceH = temp.Height / (int)numeric_height.Value;
-                                    int pieceW = temp.Width / (int)numeric_width.Value;
-                                    int currX = 0;
-                                    int currY = 0;
-                                    string path1 = @"d:\pic";
-                                    for (int i = 1; i <= numeric_height.Value; i++)
+                                    for (int j = 1; j <= numeric_width.Value; j++)
                                     {
-                                        for (int j = 1; j <= numeric_width.Value; j++)
-                                        {
-                                            // Задаем нужную область вырезания (отсчет с верхнего левого угла)
-                                            Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
-                                            currX += pieceW;
-                                            currY += pieceH;
-                                            // передаем в нашу функцию   
-                                            Bitmap CuttedImage = CutImage(src, rect);
-                                            CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
-                                            //запись кусочков в базу
-                                            bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
-                                        }
+                                        // Задаем нужную область вырезания (отсчет с верхнего левого угла)
+                                        Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
+                                        currX += pieceW;
+                                        currY += pieceH;
+                                        // передаем в нашу функцию   
+                                        Bitmap CuttedImage = CutImage(src, rect);
+                                        CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+                                        //запись кусочков в базу
+                                        bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
                                     }
                                 }
-
                             }
                         }
                     }
                 }
             }
-
-
         }
 
         private void button_find_picture_Click(object sender, EventArgs e)
         {
-            Gallery g = new Gallery(true);
-            g.Show();
+            Gallery galleryForm = new Gallery(true);
+            galleryForm.Show();
+        }
 
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReadyPuzzles readyPuzzlesForm = new ReadyPuzzles();
+            readyPuzzlesForm.Show();
+        }
+
+        private void справкаToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Profiles profilesForm = new Profiles();
+            profilesForm.Show();
         }
     }
 }

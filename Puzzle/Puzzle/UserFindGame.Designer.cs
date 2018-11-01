@@ -32,6 +32,7 @@
             this.menu_top10 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_about_game = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
@@ -45,7 +46,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -75,6 +75,7 @@
             this.menu_top10.Name = "menu_top10";
             this.menu_top10.Size = new System.Drawing.Size(63, 20);
             this.menu_top10.Text = "Рейтинг";
+            this.menu_top10.Click += new System.EventHandler(this.menu_top10_Click);
             // 
             // menu_about_game
             // 
@@ -87,6 +88,13 @@
             this.menu_exit.Name = "menu_exit";
             this.menu_exit.Size = new System.Drawing.Size(112, 20);
             this.menu_exit.Text = "О разработчиках";
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // radioButton1
             // 
@@ -143,6 +151,7 @@
             this.button2.TabIndex = 14;
             this.button2.Text = "Играть";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // groupBox2
             // 
@@ -227,12 +236,6 @@
             this.radioButton8.TabStop = true;
             this.radioButton8.Text = "На очки";
             this.radioButton8.UseVisualStyleBackColor = true;
-            // 
-            // выходToolStripMenuItem
-            // 
-            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.выходToolStripMenuItem.Text = "Выход";
             // 
             // groupBox3
             // 

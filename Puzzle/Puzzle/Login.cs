@@ -27,7 +27,6 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             if ((textBox1.Text == "admin") && (textBox2.Text == "admin"))
             {
-
                 this.Hide();
                 CreateGame creategame = new CreateGame();
                 creategame.Show();
@@ -57,7 +56,6 @@ namespace Puzzle
                         MessageBox.Show("Пароли не совпадают");
                     }
                 }
-
             }
         }
 
@@ -65,12 +63,17 @@ namespace Puzzle
         {
             label3.Visible = true;
             textBox3.Visible = true;
-           
+            button2.Enabled = false;
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            button2.Enabled = true;
         }
     }
 }

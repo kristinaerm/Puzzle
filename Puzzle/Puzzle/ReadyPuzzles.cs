@@ -21,5 +21,10 @@ namespace Puzzle
         {
 
         }
+
+        private void ReadyPuzzles_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

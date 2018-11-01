@@ -43,7 +43,7 @@ namespace Puzzle
 
         private void Gallery_Load(object sender, EventArgs e)
         {
-             
+
 
         }
 
@@ -52,13 +52,11 @@ namespace Puzzle
             openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;//путь к файлу
             string FileName = System.IO.Path.GetFileName(path);
-           // string[] expansion = path.Split('.');
+            // string[] expansion = path.Split('.');
             string ext = System.IO.Path.GetExtension(FileName);
             if (!ext.Equals("png"))
             {
-
                 MessageBox.Show("Неверный формат файла!");
-
             }
             else
             {
@@ -122,7 +120,6 @@ namespace Puzzle
             List<string> path = bd.SelectPathPicture();
             if (listView1.SelectedIndices.Count != 0)
             {
-
                 int t = listView1.SelectedIndices[0];
                 bd.DeletePictures(path[t]);
                 updateListView();

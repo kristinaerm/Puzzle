@@ -14,10 +14,13 @@ namespace Puzzle
     {
         //Кристина
         //string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+
         //Полина
         string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+
         NpgsqlConnection conn;
         NpgsqlCommand comm;
+
         public void createTablesUsers()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -33,6 +36,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
+
         public void createTablesPuzzle()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -51,6 +55,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
+
         public void createTablesSave()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -70,6 +75,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
+
         public void createTablesGallery()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -85,6 +91,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
+
         public void createTablesPuzzlePiece()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -100,6 +107,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
+
         public void createTablesGame()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -127,19 +135,15 @@ namespace Puzzle
 
             "INSERT INTO games (id_puzzle,login,build,game_mode,result) VALUES(@id_puzzle,@login, @build, @game_mode,@result)", conn))
             {
-
-
                 command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                 command.Parameters.Add(new NpgsqlParameter("login", login));
                 command.Parameters.Add(new NpgsqlParameter("build", build));
                 command.Parameters.Add(new NpgsqlParameter("game_mode", game_mode));
                 command.Parameters.Add(new NpgsqlParameter("result", result));
                 command.ExecuteNonQuery();
-
-
-
             }
         }
+
         public void InsertInUsers(string login, string pass, string summ_ballov, string summ_time)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -173,7 +177,6 @@ namespace Puzzle
 
             "INSERT INTO puzzle (id_puzzle,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_puzzle,@level_slognos, @form_pazzle, @id_pictures,@height,@widht)", conn))
             {
-
                 try
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
@@ -193,6 +196,7 @@ namespace Puzzle
             }
             return id_puzzle;
         }
+
         public void InsertInGallery(string path_to_file, string level_slognosty_gallery, string name_picture)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -204,10 +208,8 @@ namespace Puzzle
             {
                 try
                 {
-
                     command.ExecuteNonQuery();
                     MessageBox.Show("Картинка добавлена в галерею!");
-
                 }
                 catch
                 {
@@ -215,6 +217,7 @@ namespace Puzzle
                 }
             }
         }
+
         public void InsertInSave(string id_piece, string id_game, string login, string coordinate_x, string coordinate_y)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -237,6 +240,7 @@ namespace Puzzle
                 }
             }
         }
+
         public void InsertInPuzzlePiece(string path_to_piece, string id_game)
         {
             string id_piece = id_game + Guid.NewGuid().ToString();//уникальный идентификатор кусочка пазла;
@@ -258,6 +262,7 @@ namespace Puzzle
                 }
             }
         }
+
         public string[] selectPictureForGallery()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -283,6 +288,7 @@ namespace Puzzle
             //надо вернуть 3 массива(пока не знаю как)
             return path;
         }
+
         public string SelectIdPiece(string id_game)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -295,8 +301,8 @@ namespace Puzzle
             string id_piece = reader.GetString(0);
             conn.Close();
             return id_piece;
-
         }
+
         public List<string> SelectLoginUser(string login, string pass)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -314,8 +320,8 @@ namespace Puzzle
             }
             conn.Close();
             return user;
-
         }
+
         public string SelectIdPicture(string path_to_file, string level_slognosty_gallery, string name_pictures)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -332,8 +338,8 @@ namespace Puzzle
             }
             conn.Close();
             return id_pictures;
-
         }
+
         public string SelectIdPuzzle(string id_pictures)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -351,6 +357,7 @@ namespace Puzzle
             conn.Close();
             return id_puzzle;
         }
+
         public List<string> SelectPathPicture()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -362,14 +369,12 @@ namespace Puzzle
             List<string> path_to_file = new List<string>();
             while (reader.Read())
             {
-
                 path_to_file.Add(reader.GetString(0));
-
-
             }
             conn.Close();
             return path_to_file;
         }
+
         public List<string[]> SelectResultOfGame(string game_mode)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -379,6 +384,7 @@ namespace Puzzle
             NpgsqlDataReader reader = command.ExecuteReader();
             int n = reader.FieldCount;
             List<string[]> login = new List<string[]>();
+
             while (reader.Read())
             {
                 login.Add(new string[] { reader.GetString(0), reader.GetString(1) });
@@ -386,6 +392,7 @@ namespace Puzzle
             conn.Close();
             return login;
         }
+
         public void DeletePictures(string path_to_file)
         {
             try
@@ -402,6 +409,7 @@ namespace Puzzle
                 MessageBox.Show("Ошибка !");
             }
         }
+
         public List<string[]> SelectProfilesOfGame()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -411,6 +419,7 @@ namespace Puzzle
             NpgsqlDataReader reader = command.ExecuteReader();
             int n = reader.FieldCount;
             List<string[]> user = new List<string[]>();
+
             while (reader.Read())
             {
                 user.Add(new string[] { reader.GetString(0), reader.GetString(1), reader.GetString(2) });
@@ -418,6 +427,7 @@ namespace Puzzle
             conn.Close();
             return user;
         }
+
         public void DeleteUsers(string login)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -427,6 +437,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             MessageBox.Show("Картинка удалена!");
         }
+
         public void DeleteGame(string login)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -436,6 +447,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             MessageBox.Show("Картинка удалена!");
         }
+
         public void DeletePreservation(string login)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -445,5 +457,6 @@ namespace Puzzle
             command.ExecuteNonQuery();
             MessageBox.Show("Картинка удалена!");
         }
+
     }
 }
