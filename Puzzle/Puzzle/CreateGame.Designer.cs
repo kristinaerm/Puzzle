@@ -205,6 +205,7 @@
             this.picture_pazzle.Size = new System.Drawing.Size(263, 165);
             this.picture_pazzle.TabIndex = 0;
             this.picture_pazzle.TabStop = false;
+            this.picture_pazzle.Click += new System.EventHandler(this.picture_pazzle_Click);
             // 
             // groupBox4
             // 
@@ -315,6 +316,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CreateGame";
             this.Text = "Создать новую игру";
+            this.Load += new System.EventHandler(this.CreateGame_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_height)).EndInit();

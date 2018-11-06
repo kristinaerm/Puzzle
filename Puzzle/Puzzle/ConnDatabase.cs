@@ -172,7 +172,7 @@ namespace Puzzle
             string id_puzzle = "";
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
-            id_puzzle = id_picture + Guid.NewGuid().ToString();//уникальный идентификатор игры
+            id_puzzle = id_picture + Guid.NewGuid().ToString();//уникальный id
             using (NpgsqlCommand command = new NpgsqlCommand(
 
             "INSERT INTO puzzle (id_puzzle,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_puzzle,@level_slognos, @form_pazzle, @id_pictures,@height,@widht)", conn))

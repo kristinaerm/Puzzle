@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ namespace Puzzle
         //на выходе 2 треугольника верхний и нижний в зависимости от параметра flag 
         //прямоуольник делится с верхнего левого угла по правый нижний если flag = true
         //прямоуольник делится с нижнего левого угла по правый верхний если flag = false
-        //нулевой верхний треугольник первый нижний треугольник 
+        //0- верхний треугольник, 1- нижний треугольник 
         public static Bitmap[] TriangularSection(Bitmap bitmap,bool flag)
         {
             double wight = bitmap.Width;
@@ -62,5 +64,46 @@ namespace Puzzle
             }
             return bitmaps;
         }
+        public void RectangleSection(string picturePath, string width, string height, string complexity, string pictureID)
+        {
+            //генерация кусочков из картинки
+            //пока прямоугольные
+            ConnDatabase bd = new ConnDatabase();
+            string puzzleID = bd.InsertInPuzzle(complexity, "прямоугольник", pictureID, height, width);
+            Image temp = Image.FromFile(picturePath);
+            Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
+            int pieceH = temp.Height / Convert.ToInt32(height);
+            int pieceW = temp.Width / Convert.ToInt32(width);
+            int currX = 0;
+            int currY = 0;
+            string path1 = @"d:\pic";
+            for (int i = 1; i <= Convert.ToInt32(height); i++)
+            {
+                for (int j = 1; j <= Convert.ToInt32(width); j++)
+                {
+                    // Задаем нужную область вырезания (отсчет с верхнего левого угла)
+                    Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
+                    currX += pieceW;
+                    currY += pieceH;
+                    // передаем в нашу функцию   
+                    Bitmap CuttedImage = CutImage(src, rect);
+                    CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+                    //запись кусочков в базу
+                    bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
+                }
+            }
+        }
+        public Bitmap CutImage(Bitmap src, Rectangle rect)
+        {
+
+            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            g.DrawImage(src, 0, 0, rect, GraphicsUnit.Pixel); //перерисовываем с источника по координатам
+
+            return bmp;
+        }
+
     }
 }

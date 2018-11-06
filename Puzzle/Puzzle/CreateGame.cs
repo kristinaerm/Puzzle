@@ -14,9 +14,15 @@ namespace Puzzle
 {
     public partial class CreateGame : Form
     {
+        private bool fromGallery = false;
         public CreateGame()
         {
             InitializeComponent();
+        }
+        public CreateGame(bool fromGal)
+        {
+            InitializeComponent();
+            fromGallery = fromGal;
         }
 
         public Bitmap CutImage(Bitmap src, Rectangle rect)
@@ -121,6 +127,21 @@ namespace Puzzle
         {
             Profiles profilesForm = new Profiles();
             profilesForm.Show();
+        }
+
+        private void picture_pazzle_Click(object sender, EventArgs e)
+        {
+
+
+        }
+        //принятие и отображение выбранной картинки в picture_pazzle из галлереи
+        private void CreateGame_Load(object sender, EventArgs e)
+        {
+            if (fromGallery == true)
+            {
+                Gallery gal = (Gallery)this.Owner;
+                picture_pazzle.Image = new Bitmap(gal.DataForm());
+            }
         }
     }
 }
