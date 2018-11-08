@@ -25,45 +25,72 @@ namespace Puzzle
         private void button1_Click(object sender, EventArgs e)
         {
             ConnDatabase bd = new ConnDatabase();
-            if ((textBox1.Text == "admin") && (textBox2.Text == "admin"))
+            //войти
+            if (!label3.Visible)
             {
-                this.Hide();
-                CreateGame creategame = new CreateGame();
-                creategame.Show();
-            }
-            else
-            {
-                string login = textBox1.Text;
-                string pass = textBox2.Text;
-                List<string> user = new List<string>();
-                user = bd.SelectLoginUser(login, pass);
-                user[0] = user[0].Replace(" ", "");
-                user[1] = user[1].Replace(" ", "");
-                if ((login == user[0]) && (pass == user[1]))
+                if ((textBox1.Text == "admin") && (textBox2.Text == "admin"))
                 {
                     this.Hide();
-                    UserFindGame usergame = new UserFindGame();
-                    usergame.Show();
+                    CreateGame creategame = new CreateGame();
+                    creategame.Show();
                 }
                 else
                 {
-                    if (textBox2.Text == textBox3.Text)
+                    string login = textBox1.Text;
+                    string pass = textBox2.Text;
+                    List<string> user = new List<string>();
+                    user = bd.SelectLoginUser(login, pass);
+                    if (user.Count != 0)
                     {
-                        bd.InsertInUsers(textBox1.Text, textBox2.Text, "", "");
+                        this.Hide();
+                        UserFindGame usergame = new UserFindGame();
+                        usergame.Show();
                     }
-                    else
+                    else if (!textBox3.Visible)
                     {
-                        MessageBox.Show("Пароли не совпадают");
+                        MessageBox.Show("Нет такой комбинации логина и пароля в базе данных, проверьте правильность введенных данных или зарегистрируйте нового пользователя.");
                     }
                 }
+            }
+            //<Вход
+            else
+            {
+                label3.Visible = false;
+                textBox3.Visible = false;
+                button1.Text = "Войти";
+                button2.Text = "Регистрация >";
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            label3.Visible = true;
-            textBox3.Visible = true;
-            button2.Enabled = false;
+            //регистрация
+            if (!label3.Visible)
+            {
+                label3.Visible = true;
+                textBox3.Visible = true;
+                button1.Text = "< Вход";
+                button2.Text = "Зарегистрировать";
+            }
+            else //зарегистрировать
+            {
+                if (textBox2.Text.Equals(textBox3.Text))
+                {
+                    ConnDatabase bd = new ConnDatabase();
+                    if (bd.InsertInUsers(textBox1.Text, textBox2.Text, "", ""))
+                    {
+                        MessageBox.Show("Новая учетная запись успешно зарегистрирована! Для входа нажмите на кнопку <Вход и войдите под новой учетной записью.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Такой логин уже существует!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Пароли не совпадают");
+                }
+            }
         }
 
         private void Login_Load(object sender, EventArgs e)

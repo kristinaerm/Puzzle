@@ -52,9 +52,8 @@ namespace Puzzle
             openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;//путь к файлу
             string FileName = System.IO.Path.GetFileName(path);
-            // string[] expansion = path.Split('.');
             string ext = System.IO.Path.GetExtension(FileName);
-            if (!ext.Equals("png"))
+            if (!ext.Equals(".png"))
             {
                 MessageBox.Show("Неверный формат файла!");
             }
@@ -63,6 +62,7 @@ namespace Puzzle
                 textBox1.Text = openFileDialog1.FileName;
                 listView1.Clear();
                 updateListView();
+                comboBox1.Enabled = true;
             }
         }
 
@@ -77,6 +77,8 @@ namespace Puzzle
             bd.InsertInGallery(path, selectedState, name_picture);//добавление в таблицу галереи
             listView1.Clear();
             updateListView();
+            comboBox1.Enabled = false;
+            button1.Enabled = false;
 
         }
         public void updateListView()
@@ -85,6 +87,7 @@ namespace Puzzle
             List<string> path = bd.SelectPathPicture();
             string s = "";
             // заполняем список изображениями
+            listView1.Clear();
             foreach (string file in path)
             {
                 // установка названия файла
@@ -108,6 +111,7 @@ namespace Puzzle
                     button3.Visible = true;
                 }
                 int t = listView1.SelectedIndices[0];
+                //индекс больше коллекции
                 pictureBox1.Image = new Bitmap(path[t]);
             }
 
@@ -149,6 +153,14 @@ namespace Puzzle
             }
 
             return path[t];
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!comboBox1.SelectedItem.ToString().Equals(""))
+            {
+                button1.Enabled = true;
+            }            
         }
     }
 }

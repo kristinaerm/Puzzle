@@ -68,8 +68,6 @@ namespace Puzzle
         {
             //генерация кусочков из картинки
             //пока прямоугольные
-            ConnDatabase bd = new ConnDatabase();
-            string puzzleID = bd.InsertInPuzzle(complexity, "прямоугольник", pictureID, height, width);
             Image temp = Image.FromFile(picturePath);
             Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
             int pieceH = temp.Height / Convert.ToInt32(height);
@@ -87,9 +85,8 @@ namespace Puzzle
                     currY += pieceH;
                     // передаем в нашу функцию   
                     Bitmap CuttedImage = CutImage(src, rect);
+                    //сохр в память
                     CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
-                    //запись кусочков в базу
-                    bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
                 }
             }
         }

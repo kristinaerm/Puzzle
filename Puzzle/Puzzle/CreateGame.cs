@@ -75,37 +75,7 @@ namespace Puzzle
                         //запись пазла в базу
                         ConnDatabase bd = new ConnDatabase();
                         string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
-
-                        if (!puzzleID.Equals(""))
-                        {
-                            if (formOfPuzzle.Equals("прямоугольник"))
-                            {
-                                //генерация кусочков из картинки
-                                //пока прямоугольные
-                                Image temp = Image.FromFile(picturePath);
-                                Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
-                                int pieceH = temp.Height / (int)numeric_height.Value;
-                                int pieceW = temp.Width / (int)numeric_width.Value;
-                                int currX = 0;
-                                int currY = 0;
-                                string path1 = @"d:\pic";
-                                for (int i = 1; i <= numeric_height.Value; i++)
-                                {
-                                    for (int j = 1; j <= numeric_width.Value; j++)
-                                    {
-                                        // Задаем нужную область вырезания (отсчет с верхнего левого угла)
-                                        Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
-                                        currX += pieceW;
-                                        currY += pieceH;
-                                        // передаем в нашу функцию   
-                                        Bitmap CuttedImage = CutImage(src, rect);
-                                        CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
-                                        //запись кусочков в базу
-                                        bd.InsertInPuzzlePiece(Path.Combine(path1, pictureID + i + j), puzzleID);
-                                    }
-                                }
-                            }
-                        }
+                        
                     }
                 }
             }

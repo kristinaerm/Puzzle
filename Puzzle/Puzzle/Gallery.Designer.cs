@@ -62,6 +62,7 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(287, 359);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(159, 23);
@@ -86,6 +87,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(174, 335);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(272, 20);
@@ -93,6 +95,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.Enabled = false;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Сложный",
@@ -102,6 +105,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(107, 21);
             this.comboBox1.TabIndex = 5;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button3
             // 

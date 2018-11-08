@@ -144,24 +144,26 @@ namespace Puzzle
             }
         }
 
-        public void InsertInUsers(string login, string pass, string summ_ballov, string summ_time)
+        public bool InsertInUsers(string login, string pass, string summ_ballov, string summ_time)
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO users (login,pass,summ_ballov) VALUES(@login, @pass,@summ_ballov,@summ_time)", conn))
+            "INSERT INTO users (login,pass,summ_ballov,summ_time) VALUES(@login, @pass,@summ_ballov,@summ_time)", conn))
             {
                 try
                 {
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("pass", pass));
                     command.Parameters.Add(new NpgsqlParameter("summ_ballov", summ_ballov));
-                    command.Parameters.Add(new NpgsqlParameter("summ_ballov", summ_time));
+                    command.Parameters.Add(new NpgsqlParameter("summ_time", summ_time));
                     command.ExecuteNonQuery();
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show("Такой логин уже существует");
+                    return false;
                 }
             }
 
@@ -294,7 +296,7 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             string selectpathpoctures = "select id_piece" +
            "from puzzle_piece" +
-           "where id_game=" + id_game + ";";
+           "where id_game='" + id_game + "';";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -327,7 +329,7 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             string selectpathpoctures = "select id_pictures" +
            "from gallery" +
-           "where path_to_file=" + path_to_file + "and level_slognosty_gallery=" + level_slognosty_gallery + "and name_pictures=" + name_pictures;
+           "where path_to_file='" + path_to_file + "' and level_slognosty_gallery='" + level_slognosty_gallery + "' and name_pictures='" + name_pictures + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -345,7 +347,7 @@ namespace Puzzle
             conn = new NpgsqlConnection(conn_param);
             string selectpathpoctures = "select id_puctures " +
            "from puzzle" +
-           "where id_pictures=" + id_pictures;
+           "where id_pictures='" + id_pictures + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -378,7 +380,15 @@ namespace Puzzle
         public List<string[]> SelectResultOfGame(string game_mode)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "select login,result from game where game_mode=" + game_mode + "  ORDER BY result DESC LIMIT 10;";
+            string selectpathpoctures = "";
+            if (game_mode.Equals("На время"))
+            {
+                 selectpathpoctures = "select login, summ_time from users ORDER BY summ_time DESC LIMIT 10;";
+            }
+            else
+            {
+                selectpathpoctures = "select login, summ_ballov from users ORDER BY summ_ballov DESC LIMIT 10;";
+            }            
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -395,25 +405,25 @@ namespace Puzzle
 
         public void DeletePictures(string path_to_file)
         {
-            try
-            {
+            //try
+            //{
                 conn = new NpgsqlConnection(conn_param);
-                string selectpathpoctures = "delete from gallery where path_to_file=" + path_to_file;
+                string selectpathpoctures = "delete from gallery where path_to_file='" + path_to_file + "'";
                 NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
                 conn.Open(); //Открываем соединение.
                 command.ExecuteNonQuery();
                 MessageBox.Show("Картинка удалена!");
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка !");
-            }
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Ошибка !");
+            //}
         }
 
         public List<string[]> SelectProfilesOfGame()
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "select login,summ_ballov,summ_time from user";
+            string selectpathpoctures = "select login,summ_ballov,summ_time from users";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -431,7 +441,7 @@ namespace Puzzle
         public void DeleteUsers(string login)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "delete from user where login=" + login;
+            string selectpathpoctures = "delete from user where login='" + login + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();
@@ -441,7 +451,7 @@ namespace Puzzle
         public void DeleteGame(string login)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "delete from game where login=" + login;
+            string selectpathpoctures = "delete from game where login='" + login + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();
@@ -451,7 +461,7 @@ namespace Puzzle
         public void DeletePreservation(string login)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "delete from preservation where login=" + login;
+            string selectpathpoctures = "delete from preservation where login='" + login + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();

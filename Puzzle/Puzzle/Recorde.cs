@@ -15,7 +15,9 @@ namespace Puzzle
         public Recorde()
         {
             InitializeComponent();
-            comboBox1.SelectedIndex = 0;
+            while (dataGridView1.Rows.Count > 1)
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                    dataGridView1.Rows.Remove(dataGridView1.Rows[i]);
             ConnDatabase bd = new ConnDatabase();
             List<string[]> res = new List<string[]>();
 
@@ -52,6 +54,9 @@ namespace Puzzle
         {
             ConnDatabase bd = new ConnDatabase();
             List<string[]> res = new List<string[]>();
+            while (dataGridView1.Rows.Count > 1)
+                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+                    dataGridView1.Rows.Remove(dataGridView1.Rows[i]);
 
             if (comboBox1.Text == "По времени")
             {
@@ -69,6 +74,11 @@ namespace Puzzle
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
