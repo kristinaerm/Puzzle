@@ -265,6 +265,21 @@ namespace Puzzle
             }
         }
 
+        public string selectPicture(string id)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select path_to_file from gallery where id_picture = '"+id+"'";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+
+            string path = "";
+            reader.Read();
+            path = reader.GetString(0);
+            conn.Close();
+            return path;
+        }
+
         public string[] selectPictureForGallery()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -403,23 +418,6 @@ namespace Puzzle
             return login;
         }
 
-        public void DeletePictures(string path_to_file)
-        {
-            //try
-            //{
-                conn = new NpgsqlConnection(conn_param);
-                string selectpathpoctures = "delete from gallery where path_to_file='" + path_to_file + "'";
-                NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
-                conn.Open(); //Открываем соединение.
-                command.ExecuteNonQuery();
-                MessageBox.Show("Картинка удалена!");
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Ошибка !");
-            //}
-        }
-
         public List<string[]> SelectProfilesOfGame()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -437,6 +435,51 @@ namespace Puzzle
             conn.Close();
             return user;
         }
+
+        public List<string[]> SelectPuzzles(string level_slognos)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "";
+            if (level_slognos.Equals(""))
+            {
+                selectpathpoctures = "select id_puzzle, level_slognos, form_pazzla, id_picture, height, width  from puzzle order by level_slognos";
+            }
+            else
+            {
+                selectpathpoctures = "select id_puzzle, level_slognos, form_pazzla, id_picture, height, width from puzzle where level_slognos = '" + level_slognos + "'";
+            }
+            
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            int n = reader.FieldCount;
+            List<string[]> puzzle = new List<string[]>();
+
+            while (reader.Read())
+            {
+                puzzle.Add(new string[] { reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5) });
+            }
+            conn.Close();
+            return puzzle;
+        }
+
+        public void DeletePictures(string path_to_file)
+        {
+            //try
+            //{
+                conn = new NpgsqlConnection(conn_param);
+                string selectpathpoctures = "delete from gallery where path_to_file='" + path_to_file + "'";
+                NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+                conn.Open(); //Открываем соединение.
+                command.ExecuteNonQuery();
+                MessageBox.Show("Картинка удалена!");
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Ошибка !");
+            //}
+        }
+        
 
         public void DeleteUsers(string login)
         {

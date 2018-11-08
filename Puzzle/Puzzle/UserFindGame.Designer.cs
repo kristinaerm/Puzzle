@@ -176,6 +176,7 @@
             this.radioButton6.TabStop = true;
             this.radioButton6.Text = "Средний";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
             // radioButton5
             // 
@@ -187,6 +188,7 @@
             this.radioButton5.TabStop = true;
             this.radioButton5.Text = "Легкий";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
             // radioButton4
             // 
@@ -198,6 +200,7 @@
             this.radioButton4.TabStop = true;
             this.radioButton4.Text = "Сложный";
             this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
             // listBox1
             // 
@@ -206,6 +209,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(279, 134);
             this.listBox1.TabIndex = 3;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
@@ -260,6 +264,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(320, 27);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
