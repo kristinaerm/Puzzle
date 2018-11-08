@@ -15,6 +15,16 @@ namespace Puzzle
     public partial class CreateGame : Form
     {
         private bool fromGallery = false;
+
+        public void setSelectedPic(string path)
+        {
+            text_picture_id.Text = path;
+            Bitmap MyImage;
+            picture_pazzle.SizeMode = PictureBoxSizeMode.StretchImage;
+            MyImage = new Bitmap(path);
+            picture_pazzle.Image = (Image)MyImage;
+        }
+
         public CreateGame()
         {
             InitializeComponent();
@@ -60,7 +70,7 @@ namespace Puzzle
                 height = numeric_height.Value.ToString();
                 width = numeric_width.Value.ToString();
 
-                if (!((radio_level3.Checked) | (radio_level3.Checked) | (radio_level3.Checked))) MessageBox.Show("Выберите сложность пазла");
+                if (!((radio_level3.Checked) | (radio_level2.Checked) | (radio_level1.Checked))) MessageBox.Show("Выберите сложность пазла");
                 else
                 {
                     if (radio_level3.Checked) complexity = "3";
@@ -70,12 +80,10 @@ namespace Puzzle
                     if (text_picture_id.Text.Equals("")) MessageBox.Show("Выберите картинку");
                     else
                     {
-                        pictureID = text_picture_id.Text;
-
-                        //запись пазла в базу
                         ConnDatabase bd = new ConnDatabase();
-                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);
-                        
+                        pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
+                        //запись пазла в базу                        
+                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID, height, width);                        
                     }
                 }
             }
@@ -83,7 +91,7 @@ namespace Puzzle
 
         private void button_find_picture_Click(object sender, EventArgs e)
         {
-            Gallery galleryForm = new Gallery(true);
+            Gallery galleryForm = new Gallery(true, this);
             galleryForm.Show();
         }
 

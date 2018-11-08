@@ -177,24 +177,26 @@ namespace Puzzle
             id_puzzle = id_picture + Guid.NewGuid().ToString();//уникальный id
             using (NpgsqlCommand command = new NpgsqlCommand(
 
-            "INSERT INTO puzzle (id_puzzle,level_slognos,form_pazzle,id_pictures,height,widht) VALUES(@id_puzzle,@level_slognos, @form_pazzle, @id_pictures,@height,@widht)", conn))
+            "INSERT INTO puzzle (id_puzzle,level_slognos,form_pazzla,id_picture,height,width) VALUES(@id_puzzle,@level_slognos, @form_pazzla, @id_picture,@height,@width)", conn))
             {
-                try
-                {
+                //try
+                //{
+                //ГОВОРИТ ДЛИНА ЧЕГО-ТО БОЛЬШЕ 100 СИМВОЛОВ
+                int o = id_picture.Length;
                     command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                     command.Parameters.Add(new NpgsqlParameter("level_slognos", level_slognos));
-                    command.Parameters.Add(new NpgsqlParameter("form_pazzle", form_pazzle));
+                    command.Parameters.Add(new NpgsqlParameter("form_pazzla", form_pazzle));
                     command.Parameters.Add(new NpgsqlParameter("id_picture", id_picture));
                     command.Parameters.Add(new NpgsqlParameter("height", height));
-                    command.Parameters.Add(new NpgsqlParameter("widht", widht));
+                    command.Parameters.Add(new NpgsqlParameter("width", widht));
                     command.ExecuteNonQuery();
                     MessageBox.Show("Игра сохранена!");
-                }
-                catch
-                {
-                    MessageBox.Show("Ошибка!Такая игра у вас уже есть");
-                    id_puzzle = "";
-                }
+                //}
+                //catch
+                //{
+                //    MessageBox.Show("Ошибка!Такой пазл уже есть");
+                //    id_puzzle = "";
+                //}
             }
             return id_puzzle;
         }
@@ -390,6 +392,22 @@ namespace Puzzle
             }
             conn.Close();
             return path_to_file;
+        }
+
+        public string SelectIdPictureByPath(string path)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select id_picture from gallery where path_to_file = '"+path+"'";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            int n = reader.FieldCount;
+            string id = "";
+            reader.Read();
+            id = reader.GetString(0);
+            int o = id.Length;
+            conn.Close();
+            return id;
         }
 
         public List<string[]> SelectResultOfGame(string game_mode)

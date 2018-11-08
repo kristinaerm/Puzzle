@@ -27,9 +27,12 @@ namespace Puzzle
             updateListView();
         }
 
-        public Gallery(bool fromGame)
+        private CreateGame parent = null;
+
+        public Gallery(bool fromGame, CreateGame par)
         {
             InitializeComponent();
+            parent = par;
             fromCreatePuzzle = fromGame;
             ConnDatabase bd = new ConnDatabase();
             //bd.createTablesUsers();
@@ -133,6 +136,15 @@ namespace Puzzle
 
         private void button4_Click(object sender, EventArgs e)
         {
+            ConnDatabase bd = new ConnDatabase();
+            List<string> path = bd.SelectPathPicture();
+            int t = 0;
+            if (listView1.SelectedIndices.Count != 0)
+            {
+                t = listView1.SelectedIndices[0];                
+            }
+            parent.setSelectedPic(path[t]);
+
             //нужно передать картинку на форму CreateGame
             CreateGame cg = new CreateGame(true);
             cg.Owner = this; //Передаём вновь созданной форме её владельца.
@@ -161,6 +173,11 @@ namespace Puzzle
             {
                 button1.Enabled = true;
             }            
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
