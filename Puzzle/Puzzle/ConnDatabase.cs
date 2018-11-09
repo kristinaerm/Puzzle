@@ -56,6 +56,7 @@ namespace Puzzle
             conn.Close(); //Закрываем соединение.
         }
 
+        //добавила current_result
         public void createTablesSave()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -66,10 +67,11 @@ namespace Puzzle
            "login character(100) NOT NULL," +
            "coordinate_x character(100) NOT NULL," +
            "coordinate_y character(100) NOT NULL," +
+           "current_result character(100) NOT NULL," +
            "FOREIGN KEY (id_puzzle) REFERENCES puzzle (id_puzzle)," +
            "FOREIGN KEY (id_piece) REFERENCES puzzle_piece(id_piece)," +
            "FOREIGN KEY (login) REFERENCES users(login)," +
-           "constraint pkk primary key (id_puzzle, login,id_piece));";
+           "constraint pkk primary key (id_puzzle, login, id_piece));";
             var command = conn.CreateCommand();
             command.CommandText = createTableSave;
             command.ExecuteNonQuery();
@@ -181,7 +183,6 @@ namespace Puzzle
             {
                 //try
                 //{
-                //ГОВОРИТ ДЛИНА ЧЕГО-ТО БОЛЬШЕ 100 СИМВОЛОВ
                 int o = id_picture.Length;
                     command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                     command.Parameters.Add(new NpgsqlParameter("level_slognos", level_slognos));
@@ -222,12 +223,13 @@ namespace Puzzle
             }
         }
 
-        public void InsertInSave(string id_piece, string id_game, string login, string coordinate_x, string coordinate_y)
+        //добавила current_result
+        public void InsertInSave(string id_piece, string id_game, string login, string coordinate_x, string coordinate_y, string current_result)
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO preservation (id_piece,id_game,login,coordinate_x,coordinate_y) VALUES(@id_piece,@id_game, @login, @coordinate_x,@coordinate_y)", conn))
+            "INSERT INTO preservation (id_piece,id_game,login, coordinate_x,coordinate_y,current_result) VALUES(@id_piece,@id_game, @login, @coordinate_x,@coordinate_y, @current_result)", conn))
             {
                 try
                 {
@@ -236,6 +238,7 @@ namespace Puzzle
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("coordinate_x", coordinate_x));
                     command.Parameters.Add(new NpgsqlParameter("coordinate_y", coordinate_y));
+                    command.Parameters.Add(new NpgsqlParameter("current_result", current_result));
                     command.ExecuteNonQuery();
                 }
                 catch
@@ -502,11 +505,11 @@ namespace Puzzle
         public void DeleteUsers(string login)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "delete from user where login='" + login + "'";
+            string selectpathpoctures = "delete from users where login='" + login + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();
-            MessageBox.Show("Картинка удалена!");
+            MessageBox.Show("Учетная запись удалена!");
         }
 
         public void DeleteGame(string login)
@@ -519,14 +522,14 @@ namespace Puzzle
             MessageBox.Show("Картинка удалена!");
         }
 
-        public void DeletePreservation(string login)
+        public void DeleteSave(string login)
         {
             conn = new NpgsqlConnection(conn_param);
-            string selectpathpoctures = "delete from preservation where login='" + login + "'";
+            string selectpathpoctures = "delete from save where login='" + login + "'";
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();
-            MessageBox.Show("Картинка удалена!");
+            MessageBox.Show("Сохранения пользователя удалены!");
         }
 
     }

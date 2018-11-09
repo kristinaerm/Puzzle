@@ -31,7 +31,7 @@ namespace Puzzle
             string login = dataGridView1.Rows[n].Cells[0].Value.ToString();
             bd.DeleteGame(login);
             bd.DeleteUsers(login);
-            bd.DeletePreservation(login);
+            bd.DeleteSave(login);
         }
 
         private void Profiles_Load(object sender, EventArgs e)
