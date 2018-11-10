@@ -37,5 +37,10 @@ namespace Puzzle
         {
 
         }
+
+        private void GameOnField_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

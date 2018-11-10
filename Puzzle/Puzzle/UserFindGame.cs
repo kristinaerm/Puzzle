@@ -63,7 +63,26 @@ namespace Puzzle
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            string bildOfPuzzle = "";
+            string levelComplexity = "";
+            string modeGame = "";
+        
             //*********
+            if (radioButton1.Checked) {
+                bildOfPuzzle = "На поле";
+
+            }
+            else
+                if (radioButton2.Checked) { bildOfPuzzle = "В куче"; }
+            else
+            {
+                bildOfPuzzle = "На ленте";
+            }
+        
+            if (radioButton7.Checked) { modeGame = "На время"; }
+            else
+                if (radioButton8.Checked) { modeGame = "На очки"; }
+
             GameOnField gameOnFieldForm = new GameOnField();
             gameOnFieldForm.Show();
         }

@@ -531,6 +531,7 @@ namespace Puzzle
             command.ExecuteNonQuery();
             MessageBox.Show("Сохранения пользователя удалены!");
         }
+       
 
     }
 }

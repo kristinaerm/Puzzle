@@ -116,7 +116,7 @@ namespace Puzzle
 
         private void picture_pazzle_Click(object sender, EventArgs e)
         {
-
+            
 
         }
         //принятие и отображение выбранной картинки в picture_pazzle из галлереи
