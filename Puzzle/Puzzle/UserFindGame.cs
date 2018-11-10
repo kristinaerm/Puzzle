@@ -66,11 +66,10 @@ namespace Puzzle
             string bildOfPuzzle = "";
             string levelComplexity = "";
             string modeGame = "";
-        
+
             //*********
             if (radioButton1.Checked) {
                 bildOfPuzzle = "На поле";
-
             }
             else
                 if (radioButton2.Checked) { bildOfPuzzle = "В куче"; }
@@ -83,7 +82,7 @@ namespace Puzzle
             else
                 if (radioButton8.Checked) { modeGame = "На очки"; }
 
-            GameOnField gameOnFieldForm = new GameOnField();
+            GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame);
             gameOnFieldForm.Show();
         }
 
@@ -105,6 +104,8 @@ namespace Puzzle
             update_list();
         }
 
+        private string id_puzzle_curr = "";
+
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //вывод картинки в пиксербокс и текста в текстбокс
@@ -114,6 +115,7 @@ namespace Puzzle
             textBox1.Text = selected[1] + ", " + selected[2] + ", " + selected[4] + " x " + selected[5];
             string path = bd.selectPicture(selected[3]);
             pictureBox1.Image = new Bitmap(path);
+            id_puzzle_curr = selected[0];
         }
     }
 }

@@ -17,6 +17,20 @@ namespace Puzzle
             InitializeComponent();
         }
 
+        string id_puzzle = "";
+        string game_mode = "";
+        string record = "";
+
+        //***********
+        public GameOnField(string id_puzzle, string game_mode, string record)
+        {
+            InitializeComponent();
+            this.id_puzzle = id_puzzle;
+            this.game_mode = game_mode;
+            this.record = record;
+            //тут резать выволить и тд
+        }
+
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -39,6 +53,11 @@ namespace Puzzle
         }
 
         private void GameOnField_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
