@@ -12,7 +12,7 @@ namespace Puzzle
 {
     public partial class Profiles : Form
     {
-        ConnDatabase bd = new ConnDatabase();
+        private ConnDatabase bd = new ConnDatabase();
         public Profiles()
         {
             InitializeComponent();
@@ -30,12 +30,12 @@ namespace Puzzle
             {
                 List<string[]> res = bd.SelectProfilesOfGame();
                 if (y < res.Count)
-                {
-                    dataGridView1.Rows.RemoveAt(y);
+                {                    
                     string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
                     bd.DeleteSave(login);
                     bd.DeleteGame(login);
                     bd.DeleteUsers(login);
+                    dataGridView1.Rows.RemoveAt(y);
                 }                
             }
         }

@@ -409,6 +409,20 @@ namespace Puzzle
             return path_to_file;
         }
 
+        public string SelectPathByID(string id)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select path_to_file from gallery where id_picture='"+id+"'";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            int n = reader.FieldCount;
+            reader.Read();
+            string path_to_file = reader.GetString(0);
+            conn.Close();
+            return path_to_file;
+        }
+
         public string SelectIdPictureByPath(string path)
         {
             conn = new NpgsqlConnection(conn_param);
