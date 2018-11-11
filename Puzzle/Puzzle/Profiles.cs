@@ -29,11 +29,14 @@ namespace Puzzle
             if (x == 3)
             {
                 List<string[]> res = bd.SelectProfilesOfGame();
-                dataGridView1.Rows.RemoveAt(y);
-                string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
-                bd.DeleteSave(login);
-                bd.DeleteGame(login);
-                bd.DeleteUsers(login);
+                if (y < res.Count)
+                {
+                    dataGridView1.Rows.RemoveAt(y);
+                    string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
+                    bd.DeleteSave(login);
+                    bd.DeleteGame(login);
+                    bd.DeleteUsers(login);
+                }                
             }
         }
 
