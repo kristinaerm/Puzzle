@@ -16,19 +16,21 @@ namespace Puzzle
         public ReadyPuzzles()
         {
             InitializeComponent();
-            object[] insert = new object[4];
+            dataGridView1.RowTemplate.Height = 150;
             List<string[]> res = bd.SelectPuzzles("");
+            int x = 0;
             foreach (string[] s in res)
             {
+                dataGridView1.Rows.Add();
+                
                 Bitmap MyImage;
                 MyImage = new Bitmap(bd.SelectPathByID(s[3]));
-                Image im = (Image)MyImage;
-
-                insert[0] = im;
-                insert[1] = bd.cutExcessSpace(s[1]);
-                insert[2] = bd.cutExcessSpace(s[2]);
-                insert[3] = bd.cutExcessSpace(s[4]) + " x " + bd.cutExcessSpace(s[5]);
-                dataGridView1.Rows.Add(s);
+                Bitmap image2 = new Bitmap(MyImage, 200, 150);
+                dataGridView1[0, x].Value = image2;
+                dataGridView1[1, x].Value = bd.cutExcessSpace(s[1]);
+                dataGridView1[2, x].Value = bd.cutExcessSpace(s[2]);
+                dataGridView1[3, x].Value = bd.cutExcessSpace(s[4]) + " x " + bd.cutExcessSpace(s[5]);
+                x++;
             }                
         }
 

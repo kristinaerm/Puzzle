@@ -61,7 +61,9 @@
             this.size});
             this.dataGridView1.Location = new System.Drawing.Point(12, 59);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(444, 235);
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(478, 235);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -69,11 +71,13 @@
             // 
             this.Column1.HeaderText = "Картинка";
             this.Column1.Name = "Column1";
+            this.Column1.Width = 200;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Сложность";
             this.Column2.Name = "Column2";
+            this.Column2.Width = 70;
             // 
             // Column3
             // 
@@ -86,12 +90,13 @@
             // 
             this.size.HeaderText = "Размерность";
             this.size.Name = "size";
+            this.size.Width = 80;
             // 
             // ReadyPuzzles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 306);
+            this.ClientSize = new System.Drawing.Size(502, 306);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
             this.Name = "ReadyPuzzles";
