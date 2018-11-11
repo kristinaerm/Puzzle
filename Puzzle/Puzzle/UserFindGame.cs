@@ -29,8 +29,11 @@ namespace Puzzle
             foreach (string[] file in path)
             {
                 s = "";
-                s += file[1]+", "+ file[2] + ", " + file[4] + " x " + file[5];
-                
+                if (file[1][0] == '1') s += "Лёгкий";
+                else if (file[1][0] == '2') s += "Средний";
+                else s += "Сложный";
+                s += ", " + bd.cutExcessSpace(file[2]) + ", " + bd.cutExcessSpace(file[4]) + " x " + bd.cutExcessSpace(file[5]);
+
                 listBox1.Items.Add(s);
             }
         }
@@ -64,26 +67,37 @@ namespace Puzzle
         private void button2_Click_1(object sender, EventArgs e)
         {
             string bildOfPuzzle = "";
-            string levelComplexity = "";
             string modeGame = "";
 
-            //*********
-            if (radioButton1.Checked) {
-                bildOfPuzzle = "На поле";
+            if ((radioButton1.Checked) || (radioButton2.Checked) || (radioButton3.Checked))
+            {
+                if (radioButton1.Checked)
+                {
+                    bildOfPuzzle = "На поле";
+                }
+                else if (radioButton2.Checked) { bildOfPuzzle = "В куче"; }
+                else if (radioButton3.Checked)
+                {
+                    bildOfPuzzle = "На ленте";
+                }
+
+                if ((radioButton7.Checked) || (radioButton8.Checked))
+                {
+                    if (radioButton7.Checked) { modeGame = "На время"; }
+                    else if (radioButton8.Checked) { modeGame = "На очки"; }
+
+                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame);
+                    gameOnFieldForm.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите режим игры!");
+                }
             }
-            else
-                if (radioButton2.Checked) { bildOfPuzzle = "В куче"; }
             else
             {
-                bildOfPuzzle = "На ленте";
+                MessageBox.Show("Выберите режим сборки!");
             }
-        
-            if (radioButton7.Checked) { modeGame = "На время"; }
-            else
-                if (radioButton8.Checked) { modeGame = "На очки"; }
-
-            GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame);
-            gameOnFieldForm.Show();
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
@@ -112,10 +126,28 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             List<string[]> puzz = bd.SelectPuzzles(level);
             string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
-            textBox1.Text = selected[1] + ", " + selected[2] + ", " + selected[4] + " x " + selected[5];
+            textBox1.Text = "";
+            if (selected[1][0] == '1') textBox1.Text += "Лёгкий";
+            else if (selected[1][0] == '2') textBox1.Text += "Средний";
+            else textBox1.Text += "Сложный";
+            textBox1.Text += " \r\n" + bd.cutExcessSpace(selected[2]) + " \r\n" + bd.cutExcessSpace(selected[4]) + " x " + bd.cutExcessSpace(selected[5]);
             string path = bd.selectPicture(selected[3]);
-            pictureBox1.Image = new Bitmap(path);
+            Bitmap MyImage;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            MyImage = new Bitmap(path);
+            pictureBox1.Image = (Image)MyImage;
             id_puzzle_curr = selected[0];
+        }
+
+        private void radioButton9_CheckedChanged(object sender, EventArgs e)
+        {
+            level = "";
+            update_list();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

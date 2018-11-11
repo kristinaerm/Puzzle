@@ -23,15 +23,18 @@ namespace Puzzle
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //разве не удалится если просто щелкнуть?
-            List<string[]> res = bd.SelectProfilesOfGame();
-            int n = dataGridView1.CurrentRow.Index;
-            //может тут проверить, выбран ли столбец с кнопкой удалить?
-            dataGridView1.Rows.RemoveAt(n);
-            string login = dataGridView1.Rows[n].Cells[0].Value.ToString();
-            bd.DeleteGame(login);
-            bd.DeleteUsers(login);
-            bd.DeleteSave(login);
+            Point xy = dataGridView1.CurrentCellAddress;
+            int x = xy.X;
+            int y = xy.Y;
+            if (x == 3)
+            {
+                List<string[]> res = bd.SelectProfilesOfGame();
+                dataGridView1.Rows.RemoveAt(y);
+                string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
+                bd.DeleteSave(login);
+                bd.DeleteGame(login);
+                bd.DeleteUsers(login);
+            }
         }
 
         private void Profiles_Load(object sender, EventArgs e)

@@ -21,6 +21,18 @@ namespace Puzzle
         NpgsqlConnection conn;
         NpgsqlCommand comm;
 
+        public string cutExcessSpace(string needToBeCut)
+        {
+            string cut = "";
+            int i = 0;
+            while ((i < needToBeCut.Length) && (needToBeCut[i] != ' '))
+            {
+                cut += needToBeCut[i];
+                i++;
+            }
+            return cut;
+        }
+
         public void createTablesUsers()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -519,7 +531,7 @@ namespace Puzzle
             NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
             conn.Open(); //Открываем соединение.
             command.ExecuteNonQuery();
-            MessageBox.Show("Картинка удалена!");
+            MessageBox.Show("Игры пользователя удалены!");
         }
 
         public void DeleteSave(string login)
