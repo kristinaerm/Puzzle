@@ -83,12 +83,7 @@ namespace Puzzle
                     {
                         ConnDatabase bd = new ConnDatabase();
                         pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
-                        int ii = 0;
-                        while ((ii< pictureID.Length)&&(pictureID[ii]!=' '))
-                        {
-                            pictureID1 += pictureID[ii];
-                            ii++;
-                        }
+                        pictureID1 = bd.cutExcessSpace(pictureID);
                         //запись пазла в базу                        
                         string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);                        
                     }
