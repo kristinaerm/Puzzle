@@ -13,10 +13,10 @@ namespace Puzzle
     class ConnDatabase
     {
         //Кристина
-        //string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
         //Полина
-        string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+        //string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
 
         NpgsqlConnection conn;
         NpgsqlCommand comm;
@@ -284,7 +284,20 @@ namespace Puzzle
             conn.Close();
             return path;
         }
+        public string selectIdPicture(string id_puzzle)
+        {
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select id_picture from puzzle where id_puzzle = '" + id_puzzle + "'";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
 
+            string id_picture = "";
+            reader.Read();
+            id_picture = reader.GetString(0);
+            conn.Close();
+            return id_picture;
+        }
         public string[] selectPictureForGallery()
         {
             conn = new NpgsqlConnection(conn_param);
@@ -343,7 +356,7 @@ namespace Puzzle
             conn.Close();
             return user;
         }
-
+     
         public string SelectIdPicture(string path_to_file, string level_slognosty_gallery, string name_pictures)
         {
             conn = new NpgsqlConnection(conn_param);
@@ -395,6 +408,41 @@ namespace Puzzle
             }
             conn.Close();
             return path_to_file;
+        }
+        public string SelectPathPicture(string id_picture)
+        {
+            conn = new NpgsqlConnection(conn_param);
+
+            string selectpathpoctures = "select path_to_file from gallery where id_picture= '" + id_picture.Replace(" ","") + "';";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            string path_to_file = "";
+            while (reader.Read())
+            {
+               path_to_file = reader.GetString(0);
+            }
+            conn.Close();
+            return path_to_file;
+        }
+        //возвращает ширину,высоту, уровень сложности
+        public List<string> SelectInPuzzle(string id_puzzel)
+        {
+            List<string> picture = new List<string>();
+            conn = new NpgsqlConnection(conn_param);
+            string selectpathpoctures = "select width, height,level_slognos from puzzle where id_puzzle='" + id_puzzel + "';";
+            NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
+            conn.Open(); //Открываем соединение.
+            NpgsqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+
+                picture.Add( reader.GetString(0));
+                picture.Add(reader.GetString(1));
+                picture.Add(reader.GetString(2));
+            }
+            conn.Close();
+            return picture;
         }
 
         public string SelectIdPictureByPath(string path)
@@ -486,19 +534,14 @@ namespace Puzzle
 
         public void DeletePictures(string path_to_file)
         {
-            //try
-            //{
+          
                 conn = new NpgsqlConnection(conn_param);
                 string selectpathpoctures = "delete from gallery where path_to_file='" + path_to_file + "'";
                 NpgsqlCommand command = new NpgsqlCommand(selectpathpoctures, conn);
                 conn.Open(); //Открываем соединение.
                 command.ExecuteNonQuery();
                 MessageBox.Show("Картинка удалена!");
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Ошибка !");
-            //}
+          
         }
         
 
@@ -531,7 +574,8 @@ namespace Puzzle
             command.ExecuteNonQuery();
             MessageBox.Show("Сохранения пользователя удалены!");
         }
-       
+
+      
 
     }
 }

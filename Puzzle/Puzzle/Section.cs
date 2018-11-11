@@ -64,7 +64,7 @@ namespace Puzzle
             }
             return bitmaps;
         }
-        public void RectangleSection(string picturePath, string width, string height, string complexity, string pictureID)
+        public static List<Bitmap> RectangleSection(string picturePath, string width, string height, string complexity, string pictureID)
         {
             //генерация кусочков из картинки
             //пока прямоугольные
@@ -75,6 +75,7 @@ namespace Puzzle
             int currX = 0;
             int currY = 0;
             string path1 = @"d:\pic";
+            List<Bitmap> btm = new List<Bitmap>();
             for (int i = 1; i <= Convert.ToInt32(height); i++)
             {
                 for (int j = 1; j <= Convert.ToInt32(width); j++)
@@ -86,11 +87,16 @@ namespace Puzzle
                     // передаем в нашу функцию   
                     Bitmap CuttedImage = CutImage(src, rect);
                     //сохр в память
-                    CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+                    //(тут ошибка какая-то,непонятно)  CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+                    btm.Add(CuttedImage);
+                   // btm[] = CuttedImage;//массив кусочков пазл разрезанных
+                
                 }
+                
             }
+            return btm;
         }
-        public Bitmap CutImage(Bitmap src, Rectangle rect)
+        public static Bitmap CutImage(Bitmap src, Rectangle rect)
         {
 
             Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
