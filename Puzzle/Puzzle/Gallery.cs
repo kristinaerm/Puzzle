@@ -40,11 +40,15 @@ namespace Puzzle
             //bd.createTablesPuzzle();
             //bd.createTablesGame();
             //bd.createTablesPuzzlePiece();
+<<<<<<< HEAD
 
            // bd.createTablesSave();
 
             //bd.createTablesSave();
 
+=======
+            // bd.createTablesSave();
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
             updateListView();
         }
 
@@ -119,7 +123,11 @@ namespace Puzzle
                 }
                 int t = listView1.SelectedIndices[0];
                 //индекс больше коллекции
-                pictureBox1.Image = new Bitmap(path[t]);
+                if (t < path.Count)
+                {
+                    pictureBox1.Image = new Bitmap(path[t]);
+                }
+
             }
 
 
@@ -145,7 +153,7 @@ namespace Puzzle
             int t = 0;
             if (listView1.SelectedIndices.Count != 0)
             {
-                t = listView1.SelectedIndices[0];                
+                t = listView1.SelectedIndices[0];
             }
             parent.setSelectedPic(path[t]);
 
@@ -176,7 +184,7 @@ namespace Puzzle
             if (!comboBox1.SelectedItem.ToString().Equals(""))
             {
                 button1.Enabled = true;
-            }            
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

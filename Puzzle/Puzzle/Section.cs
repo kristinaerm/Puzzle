@@ -68,18 +68,32 @@ namespace Puzzle
         {
             //генерация кусочков из картинки
             //пока прямоугольные
+<<<<<<< HEAD
             Image temp = Image.FromFile(picturePath);
 
             Bitmap src = new Bitmap(temp, 460, 360);
+=======
+            //Image temp = Image.FromFile(picturePath);
+
+            Bitmap temp = (Bitmap)Bitmap.FromFile(picturePath);
+            Size s = temp.Size;
+            s.Width = 460;
+            s.Height = 360;
+            Bitmap src = new Bitmap(temp, s);
+
+            int o = Convert.ToInt32(height);
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
 
             int pieceH = src.Height / Convert.ToInt32(height);
             int pieceW = src.Width / Convert.ToInt32(width);
 
+<<<<<<< HEAD
             Bitmap src1 = new Bitmap(temp, pieceW, pieceH);
 
+=======
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
             int currX = 0;
             int currY = 0;
-            string path1 = @"d:\pic";
             List<Bitmap> btm = new List<Bitmap>();
             for (int i = 1; i <= Convert.ToInt32(height); i++)
             {
@@ -90,9 +104,13 @@ namespace Puzzle
                     currX +=pieceW;
                     currY +=pieceH;
                     // передаем в нашу функцию   
+<<<<<<< HEAD
                     Bitmap CuttedImage = CutImage(src1, rect);
                     //сохр в память
                     //(тут ошибка какая-то,непонятно)  CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+=======
+                    Bitmap CuttedImage = CutImage(src, rect);
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
                     btm.Add(CuttedImage);
                    // btm[] = CuttedImage;//массив кусочков пазл разрезанных
                 
@@ -104,7 +122,7 @@ namespace Puzzle
         public static Bitmap CutImage(Bitmap src, Rectangle rect)
         {
 
-            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
+            Bitmap bmp = new Bitmap(rect.Width, rect.Height); //создаем битмап
 
             Graphics g = Graphics.FromImage(bmp);
 
