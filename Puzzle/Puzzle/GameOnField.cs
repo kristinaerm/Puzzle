@@ -56,6 +56,7 @@ namespace Puzzle
                 //    currw = 0;
                 //    currh += h + 5;
                 //}
+                //впвап
 
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
                 p.Image = (Image)btm[i];
