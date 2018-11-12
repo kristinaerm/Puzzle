@@ -68,13 +68,21 @@ namespace Puzzle
         {
             //генерация кусочков из картинки
             //пока прямоугольные
-            Image temp = Image.FromFile(picturePath);
-            Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
-            int pieceH = temp.Height / Convert.ToInt32(height);
-            int pieceW = temp.Width / Convert.ToInt32(width);
+            //Image temp = Image.FromFile(picturePath);
+
+            Bitmap temp = (Bitmap)Bitmap.FromFile(picturePath);
+            Size s = temp.Size;
+            s.Width = 460;
+            s.Height = 360;
+            Bitmap src = new Bitmap(temp, s);
+
+            int o = Convert.ToInt32(height);
+
+            int pieceH = src.Height / Convert.ToInt32(height);
+            int pieceW = src.Width / Convert.ToInt32(width);
+
             int currX = 0;
             int currY = 0;
-            string path1 = @"d:\pic";
             List<Bitmap> btm = new List<Bitmap>();
             for (int i = 1; i <= Convert.ToInt32(height); i++)
             {
@@ -86,8 +94,6 @@ namespace Puzzle
                     currY += pieceH;
                     // передаем в нашу функцию   
                     Bitmap CuttedImage = CutImage(src, rect);
-                    //сохр в память
-                    //(тут ошибка какая-то,непонятно)  CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
                     btm.Add(CuttedImage);
                    // btm[] = CuttedImage;//массив кусочков пазл разрезанных
                 
@@ -99,7 +105,7 @@ namespace Puzzle
         public static Bitmap CutImage(Bitmap src, Rectangle rect)
         {
 
-            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
+            Bitmap bmp = new Bitmap(rect.Width, rect.Height); //создаем битмап
 
             Graphics g = Graphics.FromImage(bmp);
 

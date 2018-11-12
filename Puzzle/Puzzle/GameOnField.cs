@@ -35,14 +35,34 @@ namespace Puzzle
             var btm = new List<Bitmap>();
             btm=Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
             List<PictureBox> pb = new List<PictureBox>();//создаем массив пикчербоксов
+            int h = btm[0].Height;
+            int w = btm[0].Width;
+            PictureBox p;
+            int currh = 0;
+            int currw = 0;
+
             for (int i = 0; i < btm.Count; i++)
             {
-                pb.Add(new PictureBox());
+                p = new PictureBox();
+                p.Size = new Size(w, h);
+                //p.Location = new Point(i*(w+5), i*(h+5));
+                //p.Location = new Point(currw, currh);
+                //if (currw < (flowLayoutPanel1.Size.Width - w - 5 * Convert.ToInt32(picture[0])))
+                //{
+                //    currw += w + 5;
+                //}
+                //else
+                //{
+                //    currw = 0;
+                //    currh += h + 5;
+                //}
+
+                p.SizeMode = PictureBoxSizeMode.StretchImage;
+                p.Image = (Image)btm[i];
+                pb.Add(p);
                 pb[i].Image = btm[i];
-               // pictureBox1.Image = pb[i].Image;
+                flowLayoutPanel1.Controls.Add(p);
             }
-            pictureBox1.Image = pb[1].Image;
-            //тут резать выволить и тд
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
