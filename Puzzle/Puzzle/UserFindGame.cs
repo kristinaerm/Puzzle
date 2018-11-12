@@ -125,18 +125,21 @@ namespace Puzzle
             //вывод картинки в пиксербокс и текста в текстбокс
             ConnDatabase bd = new ConnDatabase();
             List<string[]> puzz = bd.SelectPuzzles(level);
-            string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
-            textBox1.Text = "";
-            if (selected[1][0] == '1') textBox1.Text += "Лёгкий";
-            else if (selected[1][0] == '2') textBox1.Text += "Средний";
-            else textBox1.Text += "Сложный";
-            textBox1.Text += " \r\n" + bd.cutExcessSpace(selected[2]) + " \r\n" + bd.cutExcessSpace(selected[4]) + " x " + bd.cutExcessSpace(selected[5]);
-            string path = bd.selectPicture(selected[3]);
-            Bitmap MyImage;
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            MyImage = new Bitmap(path);
-            pictureBox1.Image = (Image)MyImage;
-            id_puzzle_curr = selected[0];
+            if (listBox1.SelectedIndex< puzz.Count)
+            {
+                string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
+                textBox1.Text = "";
+                if (selected[1][0] == '1') textBox1.Text += "Лёгкий";
+                else if (selected[1][0] == '2') textBox1.Text += "Средний";
+                else textBox1.Text += "Сложный";
+                textBox1.Text += " \r\n" + bd.cutExcessSpace(selected[2]) + " \r\n" + bd.cutExcessSpace(selected[4]) + " x " + bd.cutExcessSpace(selected[5]);
+                string path = bd.selectPicture(selected[3]);
+                Bitmap MyImage;
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                MyImage = new Bitmap(path);
+                pictureBox1.Image = (Image)MyImage;
+                id_puzzle_curr = selected[0];
+            }            
         }
 
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
