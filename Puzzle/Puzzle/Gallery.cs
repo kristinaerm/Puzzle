@@ -40,7 +40,15 @@ namespace Puzzle
             //bd.createTablesPuzzle();
             //bd.createTablesGame();
             //bd.createTablesPuzzlePiece();
+<<<<<<< HEAD
+
+           // bd.createTablesSave();
+
+            //bd.createTablesSave();
+
+=======
             // bd.createTablesSave();
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
             updateListView();
         }
 

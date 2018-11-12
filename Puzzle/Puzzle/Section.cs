@@ -68,6 +68,11 @@ namespace Puzzle
         {
             //генерация кусочков из картинки
             //пока прямоугольные
+<<<<<<< HEAD
+            Image temp = Image.FromFile(picturePath);
+
+            Bitmap src = new Bitmap(temp, 460, 360);
+=======
             //Image temp = Image.FromFile(picturePath);
 
             Bitmap temp = (Bitmap)Bitmap.FromFile(picturePath);
@@ -77,10 +82,16 @@ namespace Puzzle
             Bitmap src = new Bitmap(temp, s);
 
             int o = Convert.ToInt32(height);
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
 
             int pieceH = src.Height / Convert.ToInt32(height);
             int pieceW = src.Width / Convert.ToInt32(width);
 
+<<<<<<< HEAD
+            Bitmap src1 = new Bitmap(temp, pieceW, pieceH);
+
+=======
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
             int currX = 0;
             int currY = 0;
             List<Bitmap> btm = new List<Bitmap>();
@@ -90,10 +101,16 @@ namespace Puzzle
                 {
                     // Задаем нужную область вырезания (отсчет с верхнего левого угла)
                     Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
-                    currX += pieceW;
-                    currY += pieceH;
+                    currX +=pieceW;
+                    currY +=pieceH;
                     // передаем в нашу функцию   
+<<<<<<< HEAD
+                    Bitmap CuttedImage = CutImage(src1, rect);
+                    //сохр в память
+                    //(тут ошибка какая-то,непонятно)  CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
+=======
                     Bitmap CuttedImage = CutImage(src, rect);
+>>>>>>> 15d667cab3ddcfa72de181025217b23805b4f292
                     btm.Add(CuttedImage);
                    // btm[] = CuttedImage;//массив кусочков пазл разрезанных
                 
