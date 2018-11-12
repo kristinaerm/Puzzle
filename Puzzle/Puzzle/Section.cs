@@ -69,9 +69,14 @@ namespace Puzzle
             //генерация кусочков из картинки
             //пока прямоугольные
             Image temp = Image.FromFile(picturePath);
-            Bitmap src = new Bitmap(temp, temp.Width, temp.Height);
-            int pieceH = temp.Height / Convert.ToInt32(height);
-            int pieceW = temp.Width / Convert.ToInt32(width);
+
+            Bitmap src = new Bitmap(temp, 460, 360);
+
+            int pieceH = src.Height / Convert.ToInt32(height);
+            int pieceW = src.Width / Convert.ToInt32(width);
+
+            Bitmap src1 = new Bitmap(temp, pieceW, pieceH);
+
             int currX = 0;
             int currY = 0;
             string path1 = @"d:\pic";
@@ -82,10 +87,10 @@ namespace Puzzle
                 {
                     // Задаем нужную область вырезания (отсчет с верхнего левого угла)
                     Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
-                    currX += pieceW;
-                    currY += pieceH;
+                    currX +=pieceW;
+                    currY +=pieceH;
                     // передаем в нашу функцию   
-                    Bitmap CuttedImage = CutImage(src, rect);
+                    Bitmap CuttedImage = CutImage(src1, rect);
                     //сохр в память
                     //(тут ошибка какая-то,непонятно)  CuttedImage.Save(Path.Combine(path1, pictureID + i + j), ImageFormat.Png);
                     btm.Add(CuttedImage);
