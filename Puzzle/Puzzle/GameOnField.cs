@@ -35,19 +35,31 @@ namespace Puzzle
             var btm = new List<Bitmap>();
 
             Image img = System.Drawing.Image.FromFile(path);
-            btm=Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
+            btm = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
             List<PictureBox> pb = new List<PictureBox>();//создаем массив пикчербоксов
             int h = btm[0].Height;
             int w = btm[0].Width;
-            PictureBox p;
-            int currh = 0;
-            int currw = 0;
-
-            for (int i = 0; i < btm.Count; i++)
+            // PictureBox p;
+            int currH = 0;
+            int currW = 0;
+            int d = this.Controls.Count;
+            int count = btm.Count;
+            int countW = Int32.Parse(picture[0]);
+            int countH = Int32.Parse(picture[1]);
+            for (int i = 0; i < count; i++)
             {
-                p = new PictureBox();
+                int W = currW;
+                int H = currH;
+                PictureBox p = new PictureBox();
+                p.Location = new Point(W * w + 50, H * h +5);
                 p.Size = new Size(w, h);
-                //p.Location = new Point(i*(w+5), i*(h+5));
+                currW++;
+                if (currW == countW)
+                {
+                    currH++;
+                    currW = 0;
+                }
+                //p.Location = new Point(i*w+5, i*h+5);
                 //p.Location = new Point(currw, currh);
                 //if (currw < (flowLayoutPanel1.Size.Width - w - 5 * Convert.ToInt32(picture[0])))
                 //{
@@ -61,12 +73,17 @@ namespace Puzzle
                 //впвап
 
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
+
                 p.Image = (Image)btm[i];
+
                 pb.Add(p);
                 pb[i].Image = btm[i];
-                flowLayoutPanel1.Controls.Add(p);
+               // this.Controls.Add(p);
+
+                // flowLayoutPanel1.Controls.Add(p);
             }
 
+            this.Controls.Add(pb[4]);
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
