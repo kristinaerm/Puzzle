@@ -148,12 +148,7 @@ namespace Puzzle
                 t = listView1.SelectedIndices[0];
             }
             parent.setSelectedPic(path[t]);
-
-            //нужно передать картинку на форму CreateGame
-            CreateGame cg = new CreateGame(true);
-            cg.Owner = this; //Передаём вновь созданной форме её владельца.
-            cg.Show();
-            Close();
+            this.Close();
         }
         //передача выбранной картинки в CreateGame
         public string DataForm()

@@ -91,7 +91,7 @@ namespace Puzzle
             }
             hint = new PictureBox();
             hint.SizeMode = PictureBoxSizeMode.StretchImage;
-            hint.Size = new Size((w+1)*horisontalCountOfPieces,(h+1)*verticalCountOfPieces);
+            hint.Size = new Size((w+1)* verticalCountOfPieces, (h+1)* horisontalCountOfPieces);
             hint.Location = new Point(5,25);
             hint.Image = Image.FromFile(path);
             this.Controls.Add(hint);

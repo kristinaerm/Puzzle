@@ -15,16 +15,7 @@ namespace Puzzle
     public partial class CreateGame : Form
     {
         private bool fromGallery = false;
-
-        public void setSelectedPic(string path)
-        {
-            text_picture_id.Text = path;
-            Bitmap MyImage;
-            picture_pazzle.SizeMode = PictureBoxSizeMode.StretchImage;
-            MyImage = new Bitmap(path);
-            picture_pazzle.Image = (Image)MyImage;
-        }
-
+        
         public CreateGame()
         {
             InitializeComponent();
@@ -35,16 +26,13 @@ namespace Puzzle
             fromGallery = fromGal;
         }
 
-        public Bitmap CutImage(Bitmap src, Rectangle rect)
+        public void setSelectedPic(string path)
         {
-
-            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
-
-            Graphics g = Graphics.FromImage(bmp);
-
-            g.DrawImage(src, 0, 0, rect, GraphicsUnit.Pixel); //перерисовываем с источника по координатам
-
-            return bmp;
+            text_picture_id.Text = path;
+            Bitmap MyImage;
+            picture_pazzle.SizeMode = PictureBoxSizeMode.StretchImage;
+            MyImage = new Bitmap(path);
+            picture_pazzle.Image = (Image)MyImage;
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -60,7 +48,6 @@ namespace Puzzle
             string complexity = "";
             string pictureID = "";
             string pictureID1 = "";
-            string picturePath = "";
 
             if (!((radio_triangle.Checked) | (radio_square.Checked))) MessageBox.Show("Выберите форму пазла");
             else
@@ -85,7 +72,7 @@ namespace Puzzle
                         pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
                         pictureID1 = bd.cutExcessSpace(pictureID);
                         //запись пазла в базу                        
-                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);                        
+                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
                     }
                 }
             }
@@ -111,7 +98,7 @@ namespace Puzzle
 
         private void picture_pazzle_Click(object sender, EventArgs e)
         {
-            
+
 
         }
         //принятие и отображение выбранной картинки в picture_pazzle из галлереи
