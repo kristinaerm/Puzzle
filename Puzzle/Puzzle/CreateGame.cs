@@ -15,11 +15,12 @@ namespace Puzzle
     public partial class CreateGame : Form
     {
         private bool fromGallery = false;
-        
+
         public CreateGame()
         {
             InitializeComponent();
         }
+
         public CreateGame(bool fromGal)
         {
             InitializeComponent();
@@ -33,11 +34,6 @@ namespace Puzzle
             picture_pazzle.SizeMode = PictureBoxSizeMode.StretchImage;
             MyImage = new Bitmap(path);
             picture_pazzle.Image = (Image)MyImage;
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -70,8 +66,7 @@ namespace Puzzle
                     {
                         ConnDatabase bd = new ConnDatabase();
                         pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
-                        pictureID1 = bd.cutExcessSpace(pictureID);
-                        //запись пазла в базу                        
+                        pictureID1 = bd.cutExcessSpace(pictureID);                       
                         string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
                     }
                 }
@@ -96,11 +91,6 @@ namespace Puzzle
             profilesForm.Show();
         }
 
-        private void picture_pazzle_Click(object sender, EventArgs e)
-        {
-
-
-        }
         //принятие и отображение выбранной картинки в picture_pazzle из галлереи
         private void CreateGame_Load(object sender, EventArgs e)
         {
@@ -116,14 +106,14 @@ namespace Puzzle
 
         }
 
-        private void CreateGame_FormClosing(object sender, FormClosingEventArgs e)
+        private void CreateGame_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
 
-        private void CreateGame_FormClosing_1(object sender, FormClosingEventArgs e)
+        private void обИгреToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+
         }
     }
 }

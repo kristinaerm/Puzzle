@@ -14,40 +14,21 @@ namespace Puzzle
     public partial class Gallery : Form
     {
         private bool fromCreatePuzzle = false;
+        private CreateGame parent = null;
+        ConnDatabase bd = new ConnDatabase();
+
         public Gallery()
         {
-            InitializeComponent();
-            ConnDatabase bd = new ConnDatabase();
-            //bd.createTablesUsers();
-            //bd.createTablesGallery();
-            //bd.createTablesPuzzle();
-            //bd.createTablesGame();
-            //bd.createTablesPuzzlePiece();
-            //bd.createTablesSave();
+            InitializeComponent();            
             updateListView();
-        }
-
-        private CreateGame parent = null;
+        }        
 
         public Gallery(bool fromGame, CreateGame par)
         {
             InitializeComponent();
             parent = par;
             fromCreatePuzzle = fromGame;
-            ConnDatabase bd = new ConnDatabase();
-            //bd.createTablesUsers();
-            //bd.createTablesGallery();
-            //bd.createTablesPuzzle();
-            //bd.createTablesGame();
-            //bd.createTablesPuzzlePiece();
-           // bd.createTablesSave();
             updateListView();
-        }
-
-        private void Gallery_Load(object sender, EventArgs e)
-        {
-
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -102,8 +83,6 @@ namespace Puzzle
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            ConnDatabase bd = new ConnDatabase();
             List<string> path = bd.SelectPathPicture();
 
             if (listView1.SelectedIndices.Count != 0)
@@ -127,7 +106,6 @@ namespace Puzzle
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ConnDatabase bd = new ConnDatabase();
             List<string> path = bd.SelectPathPicture();
             if (listView1.SelectedIndices.Count != 0)
             {
@@ -140,7 +118,6 @@ namespace Puzzle
 
         private void button4_Click(object sender, EventArgs e)
         {
-            ConnDatabase bd = new ConnDatabase();
             List<string> path = bd.SelectPathPicture();
             int t = 0;
             if (listView1.SelectedIndices.Count != 0)
@@ -153,7 +130,6 @@ namespace Puzzle
         //передача выбранной картинки в CreateGame
         public string DataForm()
         {
-            ConnDatabase bd = new ConnDatabase();
             List<string> path = bd.SelectPathPicture();
             int t = 0;
             if (listView1.SelectedIndices.Count != 0)
@@ -172,11 +148,6 @@ namespace Puzzle
             {
                 button1.Enabled = true;
             }
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
