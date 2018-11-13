@@ -123,12 +123,18 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 27);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.flowLayoutPanel1.Size = new System.Drawing.Size(510, 410);
 =======
+=======
+>>>>>>> 9032a2e80ac498d601070c28395e800103308953
             this.flowLayoutPanel1.Size = new System.Drawing.Size(460, 360);
 
             this.flowLayoutPanel1.Size = new System.Drawing.Size(510, 410);
 
+<<<<<<< HEAD
+>>>>>>> 9032a2e80ac498d601070c28395e800103308953
+=======
 >>>>>>> 9032a2e80ac498d601070c28395e800103308953
             this.flowLayoutPanel1.TabIndex = 5;
             this.flowLayoutPanel1.Visible = false;
@@ -138,13 +144,19 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(643, 449);
 =======
+=======
+>>>>>>> 9032a2e80ac498d601070c28395e800103308953
 
             this.ClientSize = new System.Drawing.Size(592, 405);
 
             this.ClientSize = new System.Drawing.Size(643, 449);
 
+<<<<<<< HEAD
+>>>>>>> 9032a2e80ac498d601070c28395e800103308953
+=======
 >>>>>>> 9032a2e80ac498d601070c28395e800103308953
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
