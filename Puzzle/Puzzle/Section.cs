@@ -87,20 +87,19 @@ namespace Puzzle
             List<Bitmap> btm = new List<Bitmap>();
             for (int i = 1; i <= Convert.ToInt32(height); i++)
             {
+                currX = 0;
                 for (int j = 1; j <= Convert.ToInt32(width); j++)
                 {
                     // Задаем нужную область вырезания (отсчет с верхнего левого угла)
-                    Rectangle rect = new Rectangle(new Point(currX, currY), new Size(pieceW, pieceH));
-                    currX +=pieceW;
-                    currY +=pieceH;
-
+                    Rectangle rect = new Rectangle(new Point(currX,currY), new Size(pieceW, pieceH));
+                    
                     Bitmap CuttedImage = CutImage(src, rect);
 
                     btm.Add(CuttedImage);
-                   // btm[] = CuttedImage;//массив кусочков пазл разрезанных
-                
+                    // btm[] = CuttedImage;//массив кусочков пазл разрезанных
+                    currX += pieceW;
                 }
-                
+                currY += pieceH;
             }
             return btm;
         }
@@ -115,6 +114,10 @@ namespace Puzzle
 
             return bmp;
         }
+
+
+
+
 
     }
 }

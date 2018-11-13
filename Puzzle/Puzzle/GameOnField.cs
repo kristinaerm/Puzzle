@@ -78,12 +78,15 @@ namespace Puzzle
 
                 pb.Add(p);
                 pb[i].Image = btm[i];
-               // this.Controls.Add(p);
+                //this.Controls.Add(p);
 
-                // flowLayoutPanel1.Controls.Add(p);
+                 flowLayoutPanel1.Controls.Add(p);
+                pb[i].MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+                pb[i].MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+                pb[i].MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             }
 
-            this.Controls.Add(pb[4]);
+          
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
