@@ -291,6 +291,7 @@
             this.оРазработчикахToolStripMenuItem.Name = "оРазработчикахToolStripMenuItem";
             this.оРазработчикахToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
             this.оРазработчикахToolStripMenuItem.Text = "О разработчиках";
+            this.оРазработчикахToolStripMenuItem.Click += new System.EventHandler(this.оРазработчикахToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -316,6 +317,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CreateGame";
             this.Text = "Создать новую игру";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateGame_FormClosing_1);
             this.Load += new System.EventHandler(this.CreateGame_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

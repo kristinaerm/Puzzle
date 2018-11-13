@@ -123,5 +123,20 @@ namespace Puzzle
                 picture_pazzle.Image = new Bitmap(gal.DataForm());
             }
         }
+
+        private void оРазработчикахToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CreateGame_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void CreateGame_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
