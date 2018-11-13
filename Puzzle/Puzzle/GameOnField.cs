@@ -20,7 +20,7 @@ namespace Puzzle
         string id_puzzle = "";
         string game_mode = "";
         string record = "";
-
+        private Point MouseDownLocation;
         //***********
         public GameOnField(string id_puzzle, string game_mode, string record)
         {
@@ -33,7 +33,6 @@ namespace Puzzle
             string path = bd.SelectPathPicture(id_picture);
             List<string> picture = bd.SelectInPuzzle(id_puzzle);
             var btm = new List<Bitmap>();
-
             Image img = System.Drawing.Image.FromFile(path);
             btm = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
             List<PictureBox> pb = new List<PictureBox>();//создаем массив пикчербоксов
@@ -78,17 +77,16 @@ namespace Puzzle
 
                 pb.Add(p);
                 pb[i].Image = btm[i];
-                //this.Controls.Add(p);
+                this.Controls.Add(p);
 
-                 flowLayoutPanel1.Controls.Add(p);
-                pb[i].MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-                pb[i].MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-                pb[i].MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+                // flowLayoutPanel1.Controls.Add(p);
+                ControlMover.Add(pb[i]); 
             }
 
           
         }
 
+       
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();

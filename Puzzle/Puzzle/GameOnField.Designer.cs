@@ -37,7 +37,6 @@
             this.menu_about_game = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,19 +117,11 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 27);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(510, 383);
-            this.flowLayoutPanel1.TabIndex = 5;
-            // 
             // GameOnField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 422);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button_end_game);
@@ -157,6 +148,5 @@
         private System.Windows.Forms.ToolStripMenuItem menu_about_game;
         private System.Windows.Forms.ToolStripMenuItem menu_exit;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

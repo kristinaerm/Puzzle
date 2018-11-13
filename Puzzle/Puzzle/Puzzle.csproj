@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnDatabase.cs" />
+    <Compile Include="ControlMover.cs" />
     <Compile Include="CreateGame.cs">
       <SubType>Form</SubType>
     </Compile>
