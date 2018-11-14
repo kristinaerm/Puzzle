@@ -68,6 +68,8 @@ namespace Puzzle
                         pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
                         pictureID1 = bd.cutExcessSpace(pictureID);                       
                         string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
+                        if (puzzleID.Equals("")) MessageBox.Show("Не удалось создать такой пазл!");
+                        else MessageBox.Show("Пазл успешно создан!");
                     }
                 }
             }

@@ -19,9 +19,9 @@ namespace Puzzle
 
         public Gallery()
         {
-            InitializeComponent();            
+            InitializeComponent();
             updateListView();
-        }        
+        }
 
         public Gallery(bool fromGame, CreateGame par)
         {
@@ -58,12 +58,14 @@ namespace Puzzle
             string selectedState = comboBox1.SelectedItem.ToString();//выбор из combobox
             string name_picture = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
             ConnDatabase bd = new ConnDatabase();
-            bd.InsertInGallery(path, selectedState, name_picture);//добавление в таблицу галереи
-            listView1.Clear();
-            updateListView();
-            comboBox1.Enabled = false;
-            button1.Enabled = false;
-
+            if (bd.InsertInGallery(path, selectedState, name_picture))
+            {
+                listView1.Clear();
+                updateListView();
+                comboBox1.Enabled = false;
+                button1.Enabled = false;
+            }
+            else MessageBox.Show("Не удалось добавить картинку");
         }
         public void updateListView()
         {

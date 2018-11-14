@@ -21,30 +21,32 @@ namespace Puzzle
                 ConnDatabase bd = new ConnDatabase();
                 try
                 {
-                    bd.createTablesUsers();
+                    bd.createTableUsers();
                 }
                 catch (Exception e) { }
                 try
                 {
-                    bd.createTablesGallery();
-                }
-                catch (Exception e) {}
-                try
-                {
-                    bd.createTablesPuzzle();
-                } catch (Exception e) { }
-                try
-                {
-                    bd.createTablesGame();
-                } catch (Exception e) { }
-                try
-                {
-                    bd.createTablesPuzzlePiece();
+                    bd.createTableGallery();
                 }
                 catch (Exception e) { }
                 try
                 {
-                    bd.createTablesSave();
+                    bd.createTablePuzzle();
+                }
+                catch (Exception e) { }
+                try
+                {
+                    bd.createTableGame();
+                }
+                catch (Exception e) { }
+                try
+                {
+                    bd.createTablePuzzlePiece();
+                }
+                catch (Exception e) { }
+                try
+                {
+                    bd.createTableSave();
                 }
                 catch (Exception e) { }
             }

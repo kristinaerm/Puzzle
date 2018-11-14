@@ -56,7 +56,7 @@ namespace Puzzle
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
 
-            btm = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
+            btm = Section.RectangleSection(path, picture[1], picture[0], picture[2], id_picture);//разрезаем картинку на кусочки
             //Shuffle<Bitmap>(btm1);//перемешиваем кусочки списка
 
             int h = btm[0].Height;
