@@ -205,7 +205,6 @@
             this.picture_pazzle.Size = new System.Drawing.Size(263, 165);
             this.picture_pazzle.TabIndex = 0;
             this.picture_pazzle.TabStop = false;
-            this.picture_pazzle.Click += new System.EventHandler(this.picture_pazzle_Click);
             // 
             // groupBox4
             // 
@@ -218,7 +217,6 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сложность";
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // radio_level3
             // 
@@ -285,12 +283,14 @@
             this.обИгреToolStripMenuItem.Name = "обИгреToolStripMenuItem";
             this.обИгреToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.обИгреToolStripMenuItem.Text = "Об игре";
+            this.обИгреToolStripMenuItem.Click += new System.EventHandler(this.обИгреToolStripMenuItem_Click);
             // 
             // оРазработчикахToolStripMenuItem
             // 
             this.оРазработчикахToolStripMenuItem.Name = "оРазработчикахToolStripMenuItem";
             this.оРазработчикахToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
             this.оРазработчикахToolStripMenuItem.Text = "О разработчиках";
+            this.оРазработчикахToolStripMenuItem.Click += new System.EventHandler(this.оРазработчикахToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -316,6 +316,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CreateGame";
             this.Text = "Создать новую игру";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateGame_FormClosing_1);
             this.Load += new System.EventHandler(this.CreateGame_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

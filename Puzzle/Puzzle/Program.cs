@@ -16,6 +16,19 @@ namespace Puzzle
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                ConnDatabase bd = new ConnDatabase();
+                bd.createTablesUsers();
+                bd.createTablesGallery();
+                bd.createTablesPuzzle();
+                bd.createTablesGame();
+                bd.createTablesPuzzlePiece();
+                bd.createTablesSave();
+            } catch(Exception e)
+            {
+
+            }
             Application.Run(new Login());
         }
     }

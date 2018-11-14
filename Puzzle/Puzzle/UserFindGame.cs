@@ -152,5 +152,15 @@ namespace Puzzle
         {
 
         }
+
+        private void UserFindGame_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UserFindGame_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

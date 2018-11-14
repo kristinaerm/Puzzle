@@ -58,10 +58,11 @@
             this.button_help.TabIndex = 1;
             this.button_help.Text = "Подсказка";
             this.button_help.UseVisualStyleBackColor = true;
+            this.button_help.Click += new System.EventHandler(this.button_help_Click);
             // 
             // button_end_game
             // 
-            this.button_end_game.Location = new System.Drawing.Point(546, 71);
+            this.button_end_game.Location = new System.Drawing.Point(546, 100);
             this.button_end_game.Name = "button_end_game";
             this.button_end_game.Size = new System.Drawing.Size(75, 23);
             this.button_end_game.TabIndex = 2;
@@ -71,7 +72,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(546, 100);
+            this.button1.Location = new System.Drawing.Point(546, 71);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -129,6 +130,7 @@
             this.Controls.Add(this.button_pause);
             this.Name = "GameOnField";
             this.Text = "Игра";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOnField_FormClosing);
             this.Load += new System.EventHandler(this.GameOnField_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

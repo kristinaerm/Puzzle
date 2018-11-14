@@ -16,6 +16,17 @@ namespace Puzzle
     {
         private bool fromGallery = false;
 
+        public CreateGame()
+        {
+            InitializeComponent();
+        }
+
+        public CreateGame(bool fromGal)
+        {
+            InitializeComponent();
+            fromGallery = fromGal;
+        }
+
         public void setSelectedPic(string path)
         {
             text_picture_id.Text = path;
@@ -23,33 +34,6 @@ namespace Puzzle
             picture_pazzle.SizeMode = PictureBoxSizeMode.StretchImage;
             MyImage = new Bitmap(path);
             picture_pazzle.Image = (Image)MyImage;
-        }
-
-        public CreateGame()
-        {
-            InitializeComponent();
-        }
-        public CreateGame(bool fromGal)
-        {
-            InitializeComponent();
-            fromGallery = fromGal;
-        }
-
-        public Bitmap CutImage(Bitmap src, Rectangle rect)
-        {
-
-            Bitmap bmp = new Bitmap(src.Width, src.Height); //создаем битмап
-
-            Graphics g = Graphics.FromImage(bmp);
-
-            g.DrawImage(src, 0, 0, rect, GraphicsUnit.Pixel); //перерисовываем с источника по координатам
-
-            return bmp;
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -60,7 +44,6 @@ namespace Puzzle
             string complexity = "";
             string pictureID = "";
             string pictureID1 = "";
-            string picturePath = "";
 
             if (!((radio_triangle.Checked) | (radio_square.Checked))) MessageBox.Show("Выберите форму пазла");
             else
@@ -83,9 +66,8 @@ namespace Puzzle
                     {
                         ConnDatabase bd = new ConnDatabase();
                         pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
-                        pictureID1 = bd.cutExcessSpace(pictureID);
-                        //запись пазла в базу                        
-                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);                        
+                        pictureID1 = bd.cutExcessSpace(pictureID);                       
+                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
                     }
                 }
             }
@@ -109,11 +91,6 @@ namespace Puzzle
             profilesForm.Show();
         }
 
-        private void picture_pazzle_Click(object sender, EventArgs e)
-        {
-            
-
-        }
         //принятие и отображение выбранной картинки в picture_pazzle из галлереи
         private void CreateGame_Load(object sender, EventArgs e)
         {
@@ -122,6 +99,21 @@ namespace Puzzle
                 Gallery gal = (Gallery)this.Owner;
                 picture_pazzle.Image = new Bitmap(gal.DataForm());
             }
+        }
+
+        private void оРазработчикахToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CreateGame_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void обИгреToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
