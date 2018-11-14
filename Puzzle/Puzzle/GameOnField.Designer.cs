@@ -37,8 +37,12 @@
             this.menu_about_game = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+<<<<<<< HEAD
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
+=======
+            this.button2 = new System.Windows.Forms.Button();
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,6 +124,7 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
+<<<<<<< HEAD
             // buttonRight
             // 
             this.buttonRight.Enabled = false;
@@ -143,6 +148,17 @@
             this.buttonLeft.UseVisualStyleBackColor = true;
             this.buttonLeft.Visible = false;
             this.buttonLeft.Click += new System.EventHandler(this.buttonLeft_Click);
+=======
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(546, 130);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Играть";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
             // 
             // GameOnField
             // 
@@ -150,8 +166,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(638, 422);
+<<<<<<< HEAD
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonRight);
+=======
+            this.Controls.Add(this.button2);
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button_end_game);
@@ -179,7 +199,11 @@
         private System.Windows.Forms.ToolStripMenuItem menu_about_game;
         private System.Windows.Forms.ToolStripMenuItem menu_exit;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+<<<<<<< HEAD
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonLeft;
+=======
+        private System.Windows.Forms.Button button2;
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
     }
 }

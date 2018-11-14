@@ -12,9 +12,10 @@ namespace Puzzle
 {
     public partial class Login : Form
     {
+        ConnDatabase bd = new ConnDatabase();
         public Login()
         {
-            InitializeComponent();
+            InitializeComponent();     
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -24,7 +25,7 @@ namespace Puzzle
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ConnDatabase bd = new ConnDatabase();
+        
             //войти
             if (!label3.Visible)
             {

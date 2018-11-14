@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +18,7 @@ namespace Puzzle
         {
             InitializeComponent();
         }
-
+        
         string id_puzzle = "";
         string game_mode = "";
         string record = "";
@@ -25,11 +27,12 @@ namespace Puzzle
         Point currentLocationOfStripZoneTopLeft;
         Point currentLocationOfStripZoneBottomRight;
         PictureBox hint;
+        private static Random rng = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-        private Point MouseDownLocation;
         //***********
         public GameOnField(string id_puzzle, string game_mode, string record)
         {
+        
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
             this.id_puzzle = id_puzzle;
@@ -41,10 +44,16 @@ namespace Puzzle
             List<string> picture = bd.SelectInPuzzle(id_puzzle);
             verticalCountOfPieces = Convert.ToInt32(picture[0]);
             horisontalCountOfPieces = Convert.ToInt32(picture[1]);
-            var btm = new List<Bitmap>();
+            var btm = new List<Bitmap>();//нормальный список кусочков пазл
+            var btm1 = new List<Bitmap>();//перемешанный список
             Image img = System.Drawing.Image.FromFile(path);
+<<<<<<< HEAD
 
+=======
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
             btm = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
+            btm1 = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
+            Shuffle<Bitmap>(btm1);//перемешиваем кусочки списка
             List<PictureBox> pb = new List<PictureBox>();//создаем массив пикчербоксов
             int h = btm[0].Height;
             int w = btm[0].Width;
@@ -57,6 +66,10 @@ namespace Puzzle
             int countH = Int32.Parse(picture[1]);
             if (game_mode == "На поле")
             {
+<<<<<<< HEAD
+=======
+
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
                 for (int i = 0; i < count; i++)
                 {
                     int W = currW;
@@ -71,18 +84,40 @@ namespace Puzzle
                         currW = 0;
                     }
                     p.SizeMode = PictureBoxSizeMode.StretchImage;
-                    p.Image = (Image)btm[i];
+                    p.Image = (Image)btm1[i];
                     pb.Add(p);
-                    pb[i].Image = btm[i];
+                    pb[i].Image = btm1[i];
                     this.Controls.Add(p);
+                    
                     ControlMover.Add(pb[i]); //перемещение кусочков
                 }
             }
             else
                 if (game_mode == "В куче")
             {
+                Random r = new Random();
+                for (int i = 0; i < count; i++)
+                {
+                    PictureBox p = new PictureBox();
+                    p.Location = new Point(r.Next(50, 300), r.Next(50,300));
+                    p.Size = new Size(w, h);
+                    p.SizeMode = PictureBoxSizeMode.StretchImage;
+                    p.Image = (Image)btm[i];
+                    pb.Add(p);
+                    pb[i].Image = btm[i];
+                    this.Controls.Add(p);
+                    ControlMover.Add(pb[i]); //перемещение кусочков
+                }
+<<<<<<< HEAD
+            }
+            else
+                if (game_mode == "В куче")
+            {
 
             }
+=======
+                }
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
             else
                 if (game_mode == "На ленте")
             {
@@ -99,6 +134,7 @@ namespace Puzzle
                 buttonLeft.Location = new Point(buttonLeft.Location.X, this.Size.Height - 15 - (h / 2) - buttonLeft.Height-38);
                 buttonRight.Location = new Point(buttonRight.Location.X, this.Size.Height - 15 - (h / 2) - buttonRight.Height-38);
 
+<<<<<<< HEAD
                 currentLocationOfStripZoneBottomRight = new Point(this.Width - 50, this.Size.Height - 15 - 38);
                 currentLocationOfStripZoneTopLeft = new Point(50, this.Size.Height - h - buttonLeft.Height - 38);
 
@@ -130,6 +166,33 @@ namespace Puzzle
         }
 
 
+=======
+            }
+            //hint = new PictureBox();
+            //hint.SizeMode = PictureBoxSizeMode.StretchImage;
+            //hint.Size = new Size((w+1)* verticalCountOfPieces, (h+1)* horisontalCountOfPieces);
+            //hint.Location = new Point(5,25);
+            //hint.Image = Image.FromFile(path);
+            //this.Controls.Add(hint);
+            //hint.Visible = false;
+            //hint.BringToFront();
+
+        }
+  
+            //метод, который рандомит элементы списка
+        public static void Shuffle<T>(List<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+>>>>>>> bcdda259ec6b9495a0474b1736134f51319cb21f
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -148,7 +211,8 @@ namespace Puzzle
 
         private void button_pause_Click(object sender, EventArgs e)
         {
-
+           
+            
         }
 
         private void GameOnField_Load(object sender, EventArgs e)
