@@ -34,6 +34,8 @@ namespace Puzzle
             List<string> picture = bd.SelectInPuzzle(id_puzzle);
             var btm = new List<Bitmap>();
             Image img = System.Drawing.Image.FromFile(path);
+            if(game_mode=="На поле")
+            { 
             btm = Section.RectangleSection(path, picture[0], picture[1], picture[2], id_picture);//разрезаем картинку на кусочки
             List<PictureBox> pb = new List<PictureBox>();//создаем массив пикчербоксов
             int h = btm[0].Height;
@@ -45,42 +47,45 @@ namespace Puzzle
             int count = btm.Count;
             int countW = Int32.Parse(picture[0]);
             int countH = Int32.Parse(picture[1]);
-            for (int i = 0; i < count; i++)
-            {
-                int W = currW;
-                int H = currH;
-                PictureBox p = new PictureBox();
-                p.Location = new Point(W * w + 50, H * h +5);
-                p.Size = new Size(w, h);
-                currW++;
-                if (currW == countW)
+                for (int i = 0; i < count; i++)
                 {
-                    currH++;
-                    currW = 0;
+                    int W = currW;
+                    int H = currH;
+                    PictureBox p = new PictureBox();
+                    p.Location = new Point(W * w + 5, H * h + 5);
+                    p.Size = new Size(w, h);
+                    currW++;
+                    if (currW == countW)
+                    {
+                        currH++;
+                        currW = 0;
+                    }
+                    //p.Location = new Point(i*w+5, i*h+5);
+                    //p.Location = new Point(currw, currh);
+                    //if (currw < (flowLayoutPanel1.Size.Width - w - 5 * Convert.ToInt32(picture[0])))
+                    //{
+                    //    currw += w + 5;
+                    //}
+                    //else
+                    //{
+                    //    currw = 0;
+                    //    currh += h + 5;
+                    //}
+                    p.SizeMode = PictureBoxSizeMode.StretchImage;
+                    p.Image = (Image)btm[i];
+                    pb.Add(p);
+                    pb[i].Image = btm[i];
+                    this.Controls.Add(p);
+                    // flowLayoutPanel1.Controls.Add(p);
+                    ControlMover.Add(pb[i]); //перемещение кусочков
                 }
-                //p.Location = new Point(i*w+5, i*h+5);
-                //p.Location = new Point(currw, currh);
-                //if (currw < (flowLayoutPanel1.Size.Width - w - 5 * Convert.ToInt32(picture[0])))
-                //{
-                //    currw += w + 5;
-                //}
-                //else
-                //{
-                //    currw = 0;
-                //    currh += h + 5;
-                //}
-                //впвап
+            }else
+                if(game_mode=="В куче")
+            {
 
-                p.SizeMode = PictureBoxSizeMode.StretchImage;
+            }else
+                if(game_mode=="На ленте") {
 
-                p.Image = (Image)btm[i];
-
-                pb.Add(p);
-                pb[i].Image = btm[i];
-                this.Controls.Add(p);
-
-                // flowLayoutPanel1.Controls.Add(p);
-                ControlMover.Add(pb[i]); 
             }
 
           
