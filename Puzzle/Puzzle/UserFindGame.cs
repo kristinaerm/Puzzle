@@ -125,7 +125,7 @@ namespace Puzzle
             //вывод картинки в пиксербокс и текста в текстбокс
             ConnDatabase bd = new ConnDatabase();
             List<string[]> puzz = bd.SelectPuzzles(level);
-            if (listBox1.SelectedIndex< puzz.Count)
+            if (listBox1.SelectedIndex < puzz.Count)
             {
                 string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
                 textBox1.Text = "";
@@ -139,7 +139,9 @@ namespace Puzzle
                 MyImage = new Bitmap(path);
                 pictureBox1.Image = (Image)MyImage;
                 id_puzzle_curr = selected[0];
-            }            
+                button2.Enabled = true;
+            }
+            else button2.Enabled = false;
         }
 
         private void radioButton9_CheckedChanged(object sender, EventArgs e)

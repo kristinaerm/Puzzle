@@ -37,6 +37,8 @@
             this.menu_about_game = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonRight = new System.Windows.Forms.Button();
+            this.buttonLeft = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +54,7 @@
             // 
             // button_help
             // 
-            this.button_help.Location = new System.Drawing.Point(546, 312);
+            this.button_help.Location = new System.Drawing.Point(546, 156);
             this.button_help.Name = "button_help";
             this.button_help.Size = new System.Drawing.Size(75, 23);
             this.button_help.TabIndex = 1;
@@ -118,11 +120,38 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
+            // buttonRight
+            // 
+            this.buttonRight.Enabled = false;
+            this.buttonRight.Location = new System.Drawing.Point(592, 365);
+            this.buttonRight.Name = "buttonRight";
+            this.buttonRight.Size = new System.Drawing.Size(31, 32);
+            this.buttonRight.TabIndex = 5;
+            this.buttonRight.Text = ">";
+            this.buttonRight.UseVisualStyleBackColor = true;
+            this.buttonRight.Visible = false;
+            this.buttonRight.Click += new System.EventHandler(this.buttonRight_Click);
+            // 
+            // buttonLeft
+            // 
+            this.buttonLeft.Enabled = false;
+            this.buttonLeft.Location = new System.Drawing.Point(15, 365);
+            this.buttonLeft.Name = "buttonLeft";
+            this.buttonLeft.Size = new System.Drawing.Size(31, 32);
+            this.buttonLeft.TabIndex = 6;
+            this.buttonLeft.Text = "<";
+            this.buttonLeft.UseVisualStyleBackColor = true;
+            this.buttonLeft.Visible = false;
+            this.buttonLeft.Click += new System.EventHandler(this.buttonLeft_Click);
+            // 
             // GameOnField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(638, 422);
+            this.Controls.Add(this.buttonLeft);
+            this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button_end_game);
@@ -150,5 +179,7 @@
         private System.Windows.Forms.ToolStripMenuItem menu_about_game;
         private System.Windows.Forms.ToolStripMenuItem menu_exit;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.Button buttonRight;
+        private System.Windows.Forms.Button buttonLeft;
     }
 }
