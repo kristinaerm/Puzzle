@@ -15,7 +15,40 @@ namespace Puzzle
         ConnDatabase bd = new ConnDatabase();
         public Login()
         {
-            InitializeComponent();     
+            InitializeComponent();
+            try
+            {
+                ConnDatabase bd = new ConnDatabase();
+                try
+                {
+                    bd.createTablesUsers();
+                }
+                catch (Exception e) { }
+                try
+                {
+                    bd.createTablesGallery();
+                }
+                catch (Exception e) {}
+                try
+                {
+                    bd.createTablesPuzzle();
+                } catch (Exception e) { }
+                try
+                {
+                    bd.createTablesGame();
+                } catch (Exception e) { }
+                try
+                {
+                    bd.createTablesPuzzlePiece();
+                }
+                catch (Exception e) { }
+                try
+                {
+                    bd.createTablesSave();
+                }
+                catch (Exception e) { }
+            }
+            catch (Exception e) { }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -25,7 +58,7 @@ namespace Puzzle
 
         private void button1_Click(object sender, EventArgs e)
         {
-        
+
             //войти
             if (!label3.Visible)
             {
