@@ -13,10 +13,10 @@ namespace Puzzle
     class ConnDatabase
     {
         //Кристина
-        //string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        string conn_param = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
         //Полина
-        string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+        //string conn_param = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
 
         NpgsqlConnection conn;
         NpgsqlCommand comm;
@@ -105,14 +105,16 @@ namespace Puzzle
             command.ExecuteNonQuery();
             conn.Close(); //Закрываем соединение.
         }
-
+        //пересоздай таблицу!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public void createTablesPuzzlePiece()
         {
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             string createTableSave = "create table puzzle_piece (" +
-           "id_piece character(100) NOT NULL," +
-           "path_to_piece character(100) NOT NULL," +
+            "id_piece character(100) NOT NULL," +
+           "num_piece character(100) NOT NULL," +
+           "correct_X character(100) NOT NULL," +
+           "correct_Y character(100) NOT NULL," +
            "id_puzzle character(100) NOT NULL," +
            "FOREIGN KEY (id_puzzle) REFERENCES puzzle(id_puzzle)," +
            "PRIMARY KEY(id_piece));";
@@ -260,18 +262,20 @@ namespace Puzzle
             }
         }
 
-        public void InsertInPuzzlePiece(string path_to_piece, string id_game)
+        public void InsertInPuzzlePiece(string num_piece,string correct_X,string correct_Y, string id_game)
         {
             string id_piece = id_game + Guid.NewGuid().ToString();//уникальный идентификатор кусочка пазла;
             conn = new NpgsqlConnection(conn_param);
             conn.Open(); //Открываем соединение.
             using (NpgsqlCommand command = new NpgsqlCommand(
-            "INSERT INTO puzzle_piece (id_piece,path_to_piece,id_game) VALUES(@id_piece,@path_to_piece, @id_game)", conn))
+            "INSERT INTO puzzle_piece (id_piece,num_piece,correct_X,correct_Y,id_game) VALUES(@id_piece,@num_piece,@correct_X,@correct_Y, @id_game)", conn))
             {
                 try
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_piece", id_piece));
-                    command.Parameters.Add(new NpgsqlParameter("path_to_piece", path_to_piece));
+                    command.Parameters.Add(new NpgsqlParameter("num_piece", id_piece));
+                    command.Parameters.Add(new NpgsqlParameter("correct_X", correct_X));
+                    command.Parameters.Add(new NpgsqlParameter("correct_Y", correct_Y));
                     command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
                     command.ExecuteNonQuery();
                 }
