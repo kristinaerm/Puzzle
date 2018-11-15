@@ -46,7 +46,7 @@ namespace Puzzle
         private List<Bitmap> btm = new List<Bitmap>();
         private List<PictureBox> pb = new List<PictureBox>();
         private List<Point> right_location = new List<Point>();//правильные координаты
-        private List<int> serial_number = new List<int>();
+        private List<int> serial_number = new List<int>();//номера
 
         //для вывода на ленте
         private int currentFirstElementOnStrip = 0;
@@ -219,13 +219,13 @@ namespace Puzzle
                 list1[k] = list1[n];
                 list1[n] = value1;
 
-                V value2 = list2[k];                
+                V value2 = list2[k];
                 list2[k] = list2[n];
                 list2[n] = value2;
 
                 P value3 = list3[k];
                 list3[k] = list3[n];
-                list3[n] = value3;                
+                list3[n] = value3;
             }
         }
 
@@ -371,10 +371,46 @@ namespace Puzzle
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ConnDatabase bd = new ConnDatabase();
             stopWatch.Stop();
             timer1.Enabled = false;
+            string id_piece ="";
+            //проверить,если такая игра уже есть
+            //try
+            //{
+            // for (int j=0;j< piece.Count;j++) { piece[j] = bd.selectIdPiece(id_puzzle); }
+            if (record == "На время")
+            {
+                TimeSpan ts = stopWatch.Elapsed.Add(fromSave);
+                bd.insertInGame(id_puzzle, login, game_mode, record, ts.ToString());
+                for (int i = 0; i < serial_number.Count; i++)
+                {
+                    
+                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                    id_piece = bd.selectIDPiece(serial_number[i].ToString());
 
-            //еали на очки, со сохраняем countofmoves
+                    bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+                }
+            }
+            else
+                {
+                    bd.insertInGame(id_puzzle, login, game_mode, record, currentmoves.ToString());
+                    for (int i = 0; i < serial_number.Count; i++)
+                    {
+                   
+                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                    id_piece = bd.selectIDPiece(serial_number[i].ToString());
+                    bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+                    }
+                }
+            
+          //  }
+            //catch
+            //{
+            //    MessageBox.Show("Игра успешно сохранена!");
+            //}
+
+            //еали на очки, со сохраняем currentmoves
             //если на время, то TimeSpan ts = stopWatch.Elapsed.Add(fromSave); или что-то в этом роде
         }
 

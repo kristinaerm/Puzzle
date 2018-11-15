@@ -13,10 +13,10 @@ namespace Puzzle
     class ConnDatabase
     {
         //Кристина
-        //string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
         //Полина
-        string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+        //string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
 
 
         NpgsqlConnection connection;
@@ -315,17 +315,17 @@ namespace Puzzle
             executeCreate(create_table_save);
         }
 
-        public bool insertInSave(string id_piece, string id_game, string login, string coordinate_x, string coordinate_y)
+        public bool insertInSave(string id_piece, string id_puzzle, string login, string coordinate_x, string coordinate_y)
         {
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
                 connection.Open();
                 using (NpgsqlCommand command = new NpgsqlCommand(
-                "INSERT INTO save (id_piece,id_game,login, coordinate_x,coordinate_y,current_result) VALUES(@id_piece,@id_game, @login, @coordinate_x,@coordinate_y)", connection))
+                "INSERT INTO save (id_piece,id_puzzle,login, coordinate_x,coordinate_y) VALUES(@id_piece,@id_puzzle, @login, @coordinate_x,@coordinate_y)", connection))
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_piece", id_piece));
-                    command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
+                    command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("coordinate_x", coordinate_x));
                     command.Parameters.Add(new NpgsqlParameter("coordinate_y", coordinate_y));
@@ -527,30 +527,30 @@ namespace Puzzle
             executeCreate(create_table_puzzle_piece);
         }
 
-        public string insertInPuzzlePiece(string num_piece, string correct_X, string correct_Y, string id_game)
+        public void insertInPuzzlePiece(string num_piece, string correct_X, string correct_Y, string id_puzzle)
         {
             string id_piece = "";
-            try
-            {
-                id_piece = id_game + Guid.NewGuid().ToString();
+            //try
+            //{
+                id_piece = Guid.NewGuid().ToString();
                 connection = new NpgsqlConnection(connection_parameters);
                 connection.Open();
                 using (NpgsqlCommand command = new NpgsqlCommand(
-                "INSERT INTO puzzle_piece (id_piece,num_piece,correct_X,correct_Y,id_game) VALUES(@id_piece,@num_piece,@correct_X,@correct_Y, @id_game)", connection))
+                "INSERT INTO puzzle_piece (id_piece,num_piece,correct_X,correct_Y,id_puzzle) VALUES(@id_piece,@num_piece,@correct_X,@correct_Y, @id_puzzle)", connection))
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_piece", id_piece));
-                    command.Parameters.Add(new NpgsqlParameter("num_piece", id_piece));
+                    command.Parameters.Add(new NpgsqlParameter("num_piece", num_piece));
                     command.Parameters.Add(new NpgsqlParameter("correct_X", correct_X));
                     command.Parameters.Add(new NpgsqlParameter("correct_Y", correct_Y));
-                    command.Parameters.Add(new NpgsqlParameter("id_game", id_game));
+                    command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                     command.ExecuteNonQuery();
                 }
-                return id_piece;
-            }
-            catch
-            {
-                return "";
-            }
+                
+            //}
+            //catch
+            //{
+             
+            //}
 
         }
 
@@ -572,6 +572,25 @@ namespace Puzzle
             return id_piece;
         }
 
+        public string selectIDPiece(string num_piece)
+        {
+            string id_piece = "";
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "select id_piece from puzzle_piece " +
+                "where num_piece='" + num_piece + "';";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                NpgsqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                id_piece = reader.GetString(0);
+                connection.Close();
+
+            }
+            catch { }
+            return id_piece;
+        }
         //не хватает удаления кусочка для удаления сохранений, когда игра окончена после повтороного запуска
 
 
@@ -600,7 +619,7 @@ namespace Puzzle
                 connection = new NpgsqlConnection(connection_parameters);
                 connection.Open();
                 using (NpgsqlCommand command = new NpgsqlCommand(
-                "INSERT INTO games (id_puzzle,login,build,game_mode,result) VALUES(@id_puzzle,@login, @build, @game_mode,@result)", connection))
+                "INSERT INTO game (id_puzzle,login,build,game_mode,result) VALUES(@id_puzzle,@login, @build, @game_mode,@result)", connection))
                 {
                     command.Parameters.Add(new NpgsqlParameter("id_puzzle", id_puzzle));
                     command.Parameters.Add(new NpgsqlParameter("login", login));
