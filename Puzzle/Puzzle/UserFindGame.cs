@@ -14,6 +14,8 @@ namespace Puzzle
     {
         private string level = "";
         private string login = "";
+        private string id_puzzle_curr = "";
+
         public UserFindGame()
         {
             InitializeComponent();
@@ -75,9 +77,15 @@ namespace Puzzle
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            //добавить обработку сейвов
             string bildOfPuzzle = "";
             string modeGame = "";
+
+            if (button2.Text.Equals("Начать заново"))
+            {
+                ConnDatabase bd = new ConnDatabase();
+                bd.deleteSaveByIdPuzzleAndLogin(id_puzzle_curr, login);
+                bd.deleteGameByIdPuzzleAndLogin(id_puzzle_curr, login);
+            }
 
             if ((radioButton1.Checked) || (radioButton2.Checked) || (radioButton3.Checked))
             {
@@ -96,7 +104,7 @@ namespace Puzzle
                     if (radioButton7.Checked) { modeGame = "На время"; }
                     else if (radioButton8.Checked) { modeGame = "На очки"; }
 
-                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login);
+                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, false);
                     gameOnFieldForm.Show();
                 }
                 else
@@ -128,7 +136,7 @@ namespace Puzzle
             update_list();
         }
 
-        private string id_puzzle_curr = "";
+
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -156,15 +164,16 @@ namespace Puzzle
                 {
                     button1.Enabled = true;
                     button1.Visible = true;
-                    //вывести в текстбокс данные о сейве
-                    textBox1.Text += " \r\n";
-                    //и флажок, что вызывать теперь как из сейва
+                    textBox1.Text += " \r\n"+ bd.cutExcessSpace(saved_game[0]);
+                    textBox1.Text += " \r\n" + bd.cutExcessSpace(saved_game[1]);
+                    textBox1.Text += " \r\nРезультат:" + bd.cutExcessSpace(saved_game[2]);
+                    button2.Text = "Начать заново";
                 }
                 else
                 {
                     button1.Enabled = false;
                     button1.Visible = false;
-                    //и флажок, что вызывать теперь как заново
+                    button2.Text = "Играть!";
                 }
             }
             else button2.Enabled = false;
@@ -190,5 +199,16 @@ namespace Puzzle
         {
             Application.Exit();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConnDatabase bd = new ConnDatabase();
+            List<string> saved_game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle_curr);
+            string bildOfPuzzle = saved_game[0];
+            string modeGame = saved_game[1];
+            GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, true);
+            gameOnFieldForm.Show();
+        }
     }
 }
+

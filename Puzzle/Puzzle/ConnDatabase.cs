@@ -25,7 +25,7 @@ namespace Puzzle
         {
             string cut = "";
             int i = 0;
-            while ((i < need_to_be_cut.Length) && (need_to_be_cut[i] != ' '))
+            while ((i < need_to_be_cut.Length) && ((need_to_be_cut[i] != ' ')||(i==2)))
             {
                 cut += need_to_be_cut[i];
                 i++;
@@ -339,9 +339,6 @@ namespace Puzzle
             }
         }
 
-        //тут надо написать селект сейвов, чтобы выводить их в список доступных игр
-        //в параметры передавать уровень сложности и логин
-
         public void deleteSaveByLogin(string login)
         {
             try
@@ -375,6 +372,26 @@ namespace Puzzle
                 MessageBox.Show("Сохранения этого пазла НЕ удалены!");
             }
         }
+
+        public void deleteSaveByIdPuzzleAndLogin(string id, string login)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "delete from save where id_puzzle='" + id + "' and login = '"+login+"'";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                MessageBox.Show("Сохранение этого пазла у этого пользователя удалено!");
+            }
+            catch
+            {
+                MessageBox.Show("Сохранение этого пазла у этого пользователя НЕ удалено!");
+            }
+        }
+
+        //не хватает селекта по пазлу и логину всех сейвов кусочков
+
 
 
 
@@ -572,8 +589,51 @@ namespace Puzzle
             return id_piece;
         }
 
-        //не хватает удаления кусочка для удаления сохранений, когда игра окончена после повтороного запуска
+        //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
+        public string selectPuzzlePieceByPuzzleId(string path)
+        {
+            string id = "";
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "select id_picture from gallery where path_to_file = '" + path + "'";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                NpgsqlDataReader reader = command.ExecuteReader();
+                int n = reader.FieldCount;
+                reader.Read();
+                id = reader.GetString(0);
+                connection.Close();
+            }
+            catch { }
+            return id;
+        }
 
+        public void deletePiecePuzzleByIdPuzzleAndOrIdPicture(string id_pazzle, string id_picture)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "delete from puzzle_piece where ";
+                if (!id_pazzle.Equals(""))
+                {
+                    select+= "id_puzzle='" + id_pazzle + "'";
+                    if (!id_picture.Equals(""))
+                    {
+                        select += "and id_picture='"+ id_picture +"'";
+                    }
+                }
+                else select += " id_picture='" + id_picture + "'";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                MessageBox.Show("Кусочки удалены!");
+            }
+            catch
+            {
+                MessageBox.Show("Кусочки НЕ удалены!");
+            }
+        }
 
 
 
@@ -649,6 +709,23 @@ namespace Puzzle
             catch
             {
                 MessageBox.Show("Игры этого пазла НЕ удалены!");
+            }
+        }
+
+        public void deleteGameByIdPuzzleAndLogin(string id_p, string login)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "delete from game where id_puzzle='" + id_p + "' and login = '"+login+"';";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                MessageBox.Show("Игра этого пользователя в этот пазл удалена!");
+            }
+            catch
+            {
+                MessageBox.Show("Игра этого пользователя в этот пазл НЕ удалены!");
             }
         }
 

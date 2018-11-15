@@ -149,7 +149,7 @@
             // 
             this.button2.Enabled = false;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(320, 245);
+            this.button2.Location = new System.Drawing.Point(320, 270);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(142, 29);
             this.button2.TabIndex = 14;
@@ -232,7 +232,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(320, 89);
+            this.pictureBox1.Location = new System.Drawing.Point(320, 114);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(150, 150);
             this.pictureBox1.TabIndex = 16;
@@ -289,14 +289,14 @@
             this.textBox1.Location = new System.Drawing.Point(320, 27);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(150, 53);
+            this.textBox1.Size = new System.Drawing.Size(150, 81);
             this.textBox1.TabIndex = 23;
             // 
             // button1
             // 
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(320, 280);
+            this.button1.Location = new System.Drawing.Point(320, 305);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 44);
             this.button1.TabIndex = 24;
@@ -304,6 +304,7 @@
             this.button1.UseCompatibleTextRendering = true;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // UserFindGame
             // 

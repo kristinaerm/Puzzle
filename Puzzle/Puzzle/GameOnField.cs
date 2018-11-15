@@ -23,6 +23,7 @@ namespace Puzzle
         private string game_mode = "";
         private string record = "";
         private string login = "";
+        private bool fromGame = false;
 
         private int betweenGreatAndNormal;
         private int betweenNormalAndBad;
@@ -55,7 +56,7 @@ namespace Puzzle
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-        public GameOnField(string id, string game_m, string rec, string log)
+        public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
@@ -63,7 +64,28 @@ namespace Puzzle
             game_mode = game_m;
             record = rec;
             login = log;
-            //загрузить время если из сейва
+            fromGame = fromSavedGame;
+            if (fromGame)
+            {
+                List<string> saved = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
+                if (bd.cutExcessSpace(record).Equals("На очки"))
+                {
+                    currentmoves = Convert.ToInt32(saved[2]);
+                }
+                else
+                {
+                    string hh = "";
+                    hh+= saved[2][0];
+                    hh += saved[2][1];
+                    string mm = "";
+                    mm += saved[2][2];
+                    mm += saved[2][3];
+                    string ss = "";
+                    ss += saved[2][4];
+                    ss += saved[2][5];
+                    fromSave = new TimeSpan(Convert.ToInt32(hh), Convert.ToInt32(mm), Convert.ToInt32(ss));
+                }
+            }
 
             string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
@@ -99,6 +121,8 @@ namespace Puzzle
             }
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
+
+
 
             btm = Section.RectangleSection(path, picture[1], picture[0], id_picture);//разрезаем картинку на кусочки
 
