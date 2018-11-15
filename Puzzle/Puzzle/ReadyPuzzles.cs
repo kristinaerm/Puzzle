@@ -17,14 +17,14 @@ namespace Puzzle
         {
             InitializeComponent();
             dataGridView1.RowTemplate.Height = 150;
-            List<string[]> res = bd.SelectPuzzles("");
+            List<string[]> res = bd.selectPuzzlesByComplexity("");
             int x = 0;
             foreach (string[] s in res)
             {
                 dataGridView1.Rows.Add();
                 
                 Bitmap MyImage;
-                MyImage = new Bitmap(bd.SelectPathByID(s[3]));
+                MyImage = new Bitmap(bd.selectPathByIdPicture(s[3]));
                 Bitmap image2 = new Bitmap(MyImage, 200, 150);
                 dataGridView1[0, x].Value = image2;
                 dataGridView1[1, x].Value = bd.cutExcessSpace(s[1]);

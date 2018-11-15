@@ -65,11 +65,24 @@ namespace Puzzle
                     else
                     {
                         ConnDatabase bd = new ConnDatabase();
-                        pictureID = bd.SelectIdPictureByPath(text_picture_id.Text);
+                        pictureID = bd.selectIdByPathPicture(text_picture_id.Text);
                         pictureID1 = bd.cutExcessSpace(pictureID);                       
-                        string puzzleID = bd.InsertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
+                        string puzzleID = bd.insertInPuzzle(complexity, formOfPuzzle, pictureID1, height, width);
                         if (puzzleID.Equals("")) MessageBox.Show("Не удалось создать такой пазл!");
-                        else MessageBox.Show("Пазл успешно создан!");
+                        else
+                        {
+                            MessageBox.Show("Пазл успешно создан!");
+                            numeric_height.Value = 3;
+                            numeric_width.Value = 3;
+                            radio_level1.Checked = false;
+                            radio_level2.Checked = false;
+                            radio_level3.Checked = false;
+                            radio_triangle.Checked = false;
+                            radio_square.Checked = true;
+                            text_picture_id.Text = "";
+                            picture_pazzle.Image = null;
+
+                        }
                     }
                 }
             }
@@ -93,14 +106,9 @@ namespace Puzzle
             profilesForm.Show();
         }
 
-        //принятие и отображение выбранной картинки в picture_pazzle из галлереи
         private void CreateGame_Load(object sender, EventArgs e)
         {
-            if (fromGallery == true)
-            {
-                Gallery gal = (Gallery)this.Owner;
-                picture_pazzle.Image = new Bitmap(gal.DataForm());
-            }
+
         }
 
         private void оРазработчикахToolStripMenuItem_Click(object sender, EventArgs e)

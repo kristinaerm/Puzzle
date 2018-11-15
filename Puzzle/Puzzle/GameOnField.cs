@@ -47,9 +47,9 @@ namespace Puzzle
             this.game_mode = game_mode;
             this.record = record;
 
-            string id_picture = bd.selectIdPicture(id_puzzle);
-            string path = bd.SelectPathPicture(id_picture);
-            List<string> picture = bd.SelectInPuzzle(id_puzzle);
+            string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
+            string path = bd.selectPathByIdPicture(id_picture);
+            List<string> picture = bd.selectSizeAndComplexityFromPuzzleByIdPuzzle(id_puzzle);
 
             verticalCountOfPieces = Convert.ToInt32(picture[0]);
             horisontalCountOfPieces = Convert.ToInt32(picture[1]);

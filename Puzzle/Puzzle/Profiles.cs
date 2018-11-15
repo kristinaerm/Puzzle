@@ -16,7 +16,7 @@ namespace Puzzle
         public Profiles()
         {
             InitializeComponent();
-            List<string[]> res = bd.SelectProfilesOfGame();
+            List<string[]> res = bd.selectAllUsersAndResults();
             foreach (string[] s in res)
                 dataGridView1.Rows.Add(s);
         }
@@ -28,13 +28,13 @@ namespace Puzzle
             int y = xy.Y;
             if (x == 3)
             {
-                List<string[]> res = bd.SelectProfilesOfGame();
+                List<string[]> res = bd.selectAllUsersAndResults();
                 if (y < res.Count)
                 {                    
                     string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
-                    bd.DeleteSave(login);
-                    bd.DeleteGame(login);
-                    bd.DeleteUsers(login);
+                    bd.deleteSave(login);
+                    bd.deleteGame(login);
+                    bd.deleteUsers(login);
                     dataGridView1.Rows.RemoveAt(y);
                 }                
             }

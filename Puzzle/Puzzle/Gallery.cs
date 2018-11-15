@@ -58,7 +58,7 @@ namespace Puzzle
             string selectedState = comboBox1.SelectedItem.ToString();//выбор из combobox
             string name_picture = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
             ConnDatabase bd = new ConnDatabase();
-            if (bd.InsertInGallery(path, selectedState, name_picture))
+            if (bd.insertInGallery(path, selectedState, name_picture))
             {
                 listView1.Clear();
                 updateListView();
@@ -70,14 +70,15 @@ namespace Puzzle
         public void updateListView()
         {
             ConnDatabase bd = new ConnDatabase();
-            List<string> path = bd.SelectPathPicture();
+            List<string[]> path = bd.selectPathToPicturesByComplexityOrder(comboBox2.SelectedItem.ToString());
             string s = "";
             // заполняем список изображениями
             listView1.Clear();
-            foreach (string file in path)
+            foreach (string[] file in path)
             {
                 // установка названия файла
-                s = file.Remove(0, file.LastIndexOf('\\') + 1);
+                s = bd.cutExcessSpace(file[1]) +", ";
+                s += file[0].Remove(0, file[0].LastIndexOf('\\') + 1);
                 listView1.Items.Add(s);
             }
 
@@ -85,8 +86,7 @@ namespace Puzzle
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<string> path = bd.SelectPathPicture();
-
+            List<string[]> path = bd.selectPathToPicturesByComplexityOrder(comboBox2.SelectedItem.ToString());
             if (listView1.SelectedIndices.Count != 0)
             {
                 if (fromCreatePuzzle == true)
@@ -98,21 +98,18 @@ namespace Puzzle
                 //индекс больше коллекции
                 if (t < path.Count)
                 {
-                    pictureBox1.Image = new Bitmap(path[t]);
+                    pictureBox1.Image = new Bitmap(path[t][0]);
                 }
-
             }
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            List<string> path = bd.SelectPathPicture();
+            List<string[]> path = bd.selectPathToPicturesByComplexityOrder(comboBox2.SelectedItem.ToString());
             if (listView1.SelectedIndices.Count != 0)
             {
                 int t = listView1.SelectedIndices[0];
-                bd.DeletePictures(path[t]);
+                bd.deletePictures(path[t][0]);
                 updateListView();
             }
 
@@ -120,28 +117,14 @@ namespace Puzzle
 
         private void button4_Click(object sender, EventArgs e)
         {
-            List<string> path = bd.SelectPathPicture();
+            List<string[]> path = bd.selectPathToPicturesByComplexityOrder(comboBox2.SelectedItem.ToString());
             int t = 0;
             if (listView1.SelectedIndices.Count != 0)
             {
                 t = listView1.SelectedIndices[0];
             }
-            parent.setSelectedPic(path[t]);
+            parent.setSelectedPic(path[t][0]);
             this.Close();
-        }
-        //передача выбранной картинки в CreateGame
-        public string DataForm()
-        {
-            List<string> path = bd.SelectPathPicture();
-            int t = 0;
-            if (listView1.SelectedIndices.Count != 0)
-            {
-                t = listView1.SelectedIndices[0];
-
-                // pictureBox1.Image = new Bitmap(path[t]);
-            }
-
-            return path[t];
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,6 +133,11 @@ namespace Puzzle
             {
                 button1.Enabled = true;
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateListView();
         }
     }
 }

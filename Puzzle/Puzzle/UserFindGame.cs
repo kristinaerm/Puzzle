@@ -22,7 +22,7 @@ namespace Puzzle
         private void update_list()
         {
             ConnDatabase bd = new ConnDatabase();
-            List<string[]> path = bd.SelectPuzzles(level);
+            List<string[]> path = bd.selectPuzzlesByComplexity(level);
             string s = "";
             // заполняем список изображениями
             listBox1.Items.Clear();
@@ -124,7 +124,7 @@ namespace Puzzle
         {
             //вывод картинки в пиксербокс и текста в текстбокс
             ConnDatabase bd = new ConnDatabase();
-            List<string[]> puzz = bd.SelectPuzzles(level);
+            List<string[]> puzz = bd.selectPuzzlesByComplexity(level);
             if (listBox1.SelectedIndex < puzz.Count)
             {
                 string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
@@ -133,7 +133,7 @@ namespace Puzzle
                 else if (selected[1][0] == '2') textBox1.Text += "Средний";
                 else textBox1.Text += "Сложный";
                 textBox1.Text += " \r\n" + bd.cutExcessSpace(selected[2]) + " \r\n" + bd.cutExcessSpace(selected[4]) + " x " + bd.cutExcessSpace(selected[5]);
-                string path = bd.selectPicture(selected[3]);
+                string path = bd.selectPathByIdPicture(selected[3]);
                 Bitmap MyImage;
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                 MyImage = new Bitmap(path);
