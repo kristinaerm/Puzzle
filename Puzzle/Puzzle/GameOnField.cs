@@ -60,6 +60,7 @@ namespace Puzzle
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
+                        
             id_puzzle = id;
             game_mode = game_m;
             record = rec;
@@ -163,66 +164,82 @@ namespace Puzzle
                 }
             }
 
-            //тут шафл массива пикчеров и правильных координат синхронно
-            syncShuffle<PictureBox, Point, int>(pb, right_location, serial_number);
-
-            currH = 0;
-            currW = 0;
-
-            if (game_mode == "На поле")
+            if (fromGame)
             {
-                for (int i = 0; i < count; i++)
+                List<string[]> num_x_y = bd.selectPuzzlePiecesByPuzzleId(id, log);
+                for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
                 {
-                    pb[i].Location = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
-                    currW++;
-                    if (currW == horisontalCountOfPieces)
+                    int j = 0;
+                    while ((j < num_x_y.Count) && (!bd.cutExcessSpace(num_x_y[j][0]).Equals(j.ToString())))
                     {
-                        currH++;
-                        currW = 0;
+                        j++;
+                    }
+                    pb[i].Location = new Point(Convert.ToInt32(num_x_y[j][1]), Convert.ToInt32(num_x_y[j][2]));
+                }
+            }
+            else
+            {
+                //тут шафл массива пикчеров и правильных координат синхронно
+                syncShuffle<PictureBox, Point, int>(pb, right_location, serial_number);
+
+                currH = 0;
+                currW = 0;
+
+                if (game_mode == "На поле")
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        pb[i].Location = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                        currW++;
+                        if (currW == horisontalCountOfPieces)
+                        {
+                            currH++;
+                            currW = 0;
+                        }
                     }
                 }
-            }
-            else if (game_mode == "В куче")
-            {
-                Random r = new Random();
-                for (int i = 0; i < count; i++)
+                else if (game_mode == "В куче")
                 {
-                    pb[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+                    Random r = new Random();
+                    for (int i = 0; i < count; i++)
+                    {
+                        pb[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+                    }
+                }
+                else if (game_mode == "На ленте")
+                {
+                    int newHeightOfForm = this.Size.Height + h + 30;
+
+                    buttonLeft.Enabled = true;
+                    buttonLeft.Visible = true;
+
+                    buttonRight.Enabled = true;
+                    buttonRight.Visible = true;
+
+                    this.Size = new Size(this.Width, newHeightOfForm);
+
+                    buttonLeft.Location = new Point(buttonLeft.Location.X, this.Size.Height - 15 - (h / 2) - buttonLeft.Height - 38);
+                    buttonRight.Location = new Point(buttonRight.Location.X, this.Size.Height - 15 - (h / 2) - buttonRight.Height - 38);
+
+                    currentLocationOfStripZoneBottomRight = new Point(this.Width - 50, this.Size.Height - 15 - 38);
+                    currentLocationOfStripZoneTopLeft = new Point(50, this.Size.Height - h - buttonLeft.Height - 38);
+
+                    //столько кусочков уместится на ленте
+                    countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
+
+                    for (int i = 0; i < countOfPiecesOnStrip; i++)
+                    {
+                        pb[i].Location = new Point(5 + currentLocationOfStripZoneTopLeft.X + i * (w + 5), currentLocationOfStripZoneTopLeft.Y);
+                        is_on_strip[i] = 's';
+                        pb[i].Visible = true;
+                    }
+                    currentFirstElementOnStrip = 0;
                 }
             }
-            else if (game_mode == "На ленте")
-            {
-                int newHeightOfForm = this.Size.Height + h + 30;
-
-                buttonLeft.Enabled = true;
-                buttonLeft.Visible = true;
-
-                buttonRight.Enabled = true;
-                buttonRight.Visible = true;
-
-                this.Size = new Size(this.Width, newHeightOfForm);
-
-                buttonLeft.Location = new Point(buttonLeft.Location.X, this.Size.Height - 15 - (h / 2) - buttonLeft.Height - 38);
-                buttonRight.Location = new Point(buttonRight.Location.X, this.Size.Height - 15 - (h / 2) - buttonRight.Height - 38);
-
-                currentLocationOfStripZoneBottomRight = new Point(this.Width - 50, this.Size.Height - 15 - 38);
-                currentLocationOfStripZoneTopLeft = new Point(50, this.Size.Height - h - buttonLeft.Height - 38);
-
-                //столько кусочков уместится на ленте
-                countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
-
-                for (int i = 0; i < countOfPiecesOnStrip; i++)
-                {
-                    pb[i].Location = new Point(5 + currentLocationOfStripZoneTopLeft.X + i * (w + 5), currentLocationOfStripZoneTopLeft.Y);
-                    is_on_strip[i] = 's';
-                    pb[i].Visible = true;
-                }
-                currentFirstElementOnStrip = 0;
-            }
-
+        
             hint = new PictureBox();
             hint.SizeMode = PictureBoxSizeMode.StretchImage;
-            hint.Size = new Size((btm[0].Width + 1) * verticalCountOfPieces, (btm[0].Height + 1) * horisontalCountOfPieces);
+            hint.Size = new Size((btm[0].Width + 1) * horisontalCountOfPieces, (btm[0].Height + 1) * verticalCountOfPieces);
             hint.Location = new Point(5, 25);
             hint.Image = Image.FromFile(path);
             this.Controls.Add(hint);

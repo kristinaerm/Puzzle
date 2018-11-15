@@ -13,10 +13,10 @@ namespace Puzzle
     class ConnDatabase
     {
         //Кристина
-        string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        //string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
         //Полина
-        //string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+        string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
 
 
         NpgsqlConnection connection;
@@ -589,7 +589,7 @@ namespace Puzzle
             return id_piece;
         }
 
-<<<<<<< HEAD
+
         public string selectIDPiece(string num_piece)
         {
             string id_piece = "";
@@ -609,28 +609,33 @@ namespace Puzzle
             catch { }
             return id_piece;
         }
-        //не хватает удаления кусочка для удаления сохранений, когда игра окончена после повтороного запуска
-=======
+
         //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
-        public string selectPuzzlePieceByPuzzleId(string path)
+        public List<string[]> selectPuzzlePiecesByPuzzleId(string puzzle_id, string login)
         {
-            string id = "";
+            List<string[]> list = new List<string[]>();
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
-                string select = "select id_picture from gallery where path_to_file = '" + path + "'";
+                string select = "select num_piece, coordinate_x, coordinate_y from puzzle_piece as pp, save as s where s.id_piece=pp.id_piece and pp.id_puzzle = '"+puzzle_id+"' and login = '"+login+"'";
                 NpgsqlCommand command = new NpgsqlCommand(select, connection);
                 connection.Open();
                 NpgsqlDataReader reader = command.ExecuteReader();
-                int n = reader.FieldCount;
-                reader.Read();
-                id = reader.GetString(0);
+                string[] ss;
+                while (reader.Read())
+                {
+                    ss = new string[3];
+                    ss[0] = reader.GetString(0);
+                    ss[1] = reader.GetString(1);
+                    ss[2] = reader.GetString(2);
+                    list.Add(ss);                    
+                }
                 connection.Close();
             }
             catch { }
-            return id;
+            return list;
         }
->>>>>>> ec5fef2c59f76f5c7447875b943855a5a0732f06
+
 
         public void deletePiecePuzzleByIdPuzzleAndOrIdPicture(string id_pazzle, string id_picture)
         {
