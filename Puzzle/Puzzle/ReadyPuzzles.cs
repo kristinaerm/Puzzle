@@ -17,14 +17,14 @@ namespace Puzzle
         {
             InitializeComponent();
             dataGridView1.RowTemplate.Height = 150;
-            List<string[]> res = bd.SelectPuzzles("");
+            List<string[]> res = bd.selectPuzzlesByComplexity("");
             int x = 0;
             foreach (string[] s in res)
             {
                 dataGridView1.Rows.Add();
                 
                 Bitmap MyImage;
-                MyImage = new Bitmap(bd.SelectPathByID(s[3]));
+                MyImage = new Bitmap(bd.selectPathByIdPicture(s[3]));
                 Bitmap image2 = new Bitmap(MyImage, 200, 150);
                 dataGridView1[0, x].Value = image2;
                 dataGridView1[1, x].Value = bd.cutExcessSpace(s[1]);
@@ -36,7 +36,21 @@ namespace Puzzle
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            Point xy = dataGridView1.CurrentCellAddress;
+            int x = xy.X;
+            int y = xy.Y;
+            if (x == 4)
+            {
+                List<string[]> res = bd.selectPuzzlesByComplexity("");
+                if (y < res.Count)
+                {
+                    string id = res[y][0];
+                    bd.deleteSaveByIdPuzzle(id);
+                    bd.deleteGameByIdPuzzle(id);
+                    bd.deletePuzzle(id);
+                    dataGridView1.Rows.RemoveAt(y);
+                }
+            }
         }
 
         private void ReadyPuzzles_Load(object sender, EventArgs e)

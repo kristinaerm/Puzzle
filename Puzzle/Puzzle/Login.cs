@@ -21,34 +21,36 @@ namespace Puzzle
                 ConnDatabase bd = new ConnDatabase();
                 try
                 {
-                    bd.createTablesUsers();
+                    bd.createTableUsers();
                 }
-                catch (Exception e) { }
+                catch { }
                 try
                 {
-                    bd.createTablesGallery();
+                    bd.createTableGallery();
                 }
-                catch (Exception e) {}
+                catch { }
                 try
                 {
-                    bd.createTablesPuzzle();
-                } catch (Exception e) { }
-                try
-                {
-                    bd.createTablesGame();
-                } catch (Exception e) { }
-                try
-                {
-                    bd.createTablesPuzzlePiece();
+                    bd.createTablePuzzle();
                 }
-                catch (Exception e) { }
+                catch { }
                 try
                 {
-                    bd.createTablesSave();
+                    bd.createTableGame();
                 }
-                catch (Exception e) { }
+                catch { }
+                try
+                {
+                    bd.createTablePuzzlePiece();
+                }
+                catch { }
+                try
+                {
+                    bd.createTableSave();
+                }
+                catch { }
             }
-            catch (Exception e) { }
+            catch { }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -73,7 +75,7 @@ namespace Puzzle
                     string login = textBox1.Text;
                     string pass = textBox2.Text;
                     List<string> user = new List<string>();
-                    user = bd.SelectLoginUser(login, pass);
+                    user = bd.selectLoginAndPasswordFromUser(login, pass);
                     if (user.Count != 0)
                     {
                         this.Hide();
@@ -111,7 +113,7 @@ namespace Puzzle
                 if (textBox2.Text.Equals(textBox3.Text))
                 {
                     ConnDatabase bd = new ConnDatabase();
-                    if (bd.InsertInUsers(textBox1.Text, textBox2.Text, "", ""))
+                    if (bd.insertInUsers(textBox1.Text, textBox2.Text, "", ""))
                     {
                         MessageBox.Show("Новая учетная запись успешно зарегистрирована! Для входа нажмите на кнопку <Вход и войдите под новой учетной записью.");
                     }

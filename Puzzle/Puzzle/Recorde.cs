@@ -24,7 +24,7 @@ namespace Puzzle
             if (comboBox1.Text == "По времени")
             {
                 res.Clear();
-                res = bd.SelectResultOfGame("По времени");
+                res = bd.selectResultOfUsersByGamemode("По времени");
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
@@ -32,7 +32,7 @@ namespace Puzzle
             else
             {
                 res.Clear();
-                res = bd.SelectResultOfGame("По очкам");
+                res = bd.selectResultOfUsersByGamemode("По очкам");
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
@@ -61,7 +61,7 @@ namespace Puzzle
             if (comboBox1.Text == "По времени")
             {
                 res.Clear();
-                res = bd.SelectResultOfGame("По времени");
+                res = bd.selectResultOfUsersByGamemode("По времени");
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
@@ -69,7 +69,7 @@ namespace Puzzle
             else
             {
                 res.Clear();
-                res = bd.SelectResultOfGame("По очкам");
+                res = bd.selectResultOfUsersByGamemode("По очкам");
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
