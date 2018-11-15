@@ -589,15 +589,19 @@ namespace Puzzle
             return id_piece;
         }
 
+<<<<<<< HEAD
 
         public string selectIDPiece(string num_piece)
+=======
+        public string selectIDPiece(string num_piece, string  id_puzzle)
+>>>>>>> 78e49f406dc445e69c4a25e269c950c52f688d11
         {
             string id_piece = "";
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
                 string select = "select id_piece from puzzle_piece " +
-                "where num_piece='" + num_piece + "';";
+                "where num_piece='" + num_piece +"'" + " and"+ " id_puzzle='"+ id_puzzle + "';";
                 NpgsqlCommand command = new NpgsqlCommand(select, connection);
                 connection.Open();
                 NpgsqlDataReader reader = command.ExecuteReader();
@@ -609,7 +613,11 @@ namespace Puzzle
             catch { }
             return id_piece;
         }
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 78e49f406dc445e69c4a25e269c950c52f688d11
         //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
         public List<string[]> selectPuzzlePiecesByPuzzleId(string puzzle_id, string login)
         {

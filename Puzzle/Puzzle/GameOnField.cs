@@ -24,6 +24,7 @@ namespace Puzzle
         private string record = "";
         private string login = "";
         private bool fromGame = false;
+        private string id_picture = "";
 
         private int betweenGreatAndNormal;
         private int betweenNormalAndBad;
@@ -76,7 +77,7 @@ namespace Puzzle
                 else
                 {
                     string hh = "";
-                    hh+= saved[2][0];
+                    hh += saved[2][0];
                     hh += saved[2][1];
                     string mm = "";
                     mm += saved[2][2];
@@ -88,7 +89,7 @@ namespace Puzzle
                 }
             }
 
-            string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
+            id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
             List<string> picture = bd.selectSizeAndComplexityFromPuzzleByIdPuzzle(id_puzzle);
 
@@ -415,41 +416,52 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             stopWatch.Stop();
             timer1.Enabled = false;
-            string id_piece ="";
-            //проверить,если такая игра уже есть
-            //try
-            //{
-            // for (int j=0;j< piece.Count;j++) { piece[j] = bd.selectIdPiece(id_puzzle); }
-            if (record == "На время")
-            {
-                TimeSpan ts = stopWatch.Elapsed.Add(fromSave);
-                bd.insertInGame(id_puzzle, login, game_mode, record, ts.ToString());
-                for (int i = 0; i < serial_number.Count; i++)
-                {
-                    
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
-                    id_piece = bd.selectIDPiece(serial_number[i].ToString());
+            string id_piece = "";
+            List<string> game = new List<string>();
 
-                    bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
-                }
+            try
+            {
+                game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
+            if (game.Count != 0)
+            {
+                bd.deleteGameByIdPuzzleAndLogin(id_puzzle, login);
+                bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture(id_puzzle,id_picture);
+                bd.deleteSaveByIdPuzzleAndLogin(id_puzzle, login);
             }
             else
+            {
+                if (record == "На время")
+                {
+                    TimeSpan ts = stopWatch.Elapsed.Add(fromSave);
+                        string formatts = ts.ToString(@"hh\:mm\:ss");
+                    bd.insertInGame(id_puzzle, login, game_mode, record, formatts);
+                    for (int i = 0; i < serial_number.Count; i++)
+                    {
+
+                        bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                        id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
+                        bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+                    }
+                    MessageBox.Show("Игра успешно сохранена!");
+                }
+                else
                 {
                     bd.insertInGame(id_puzzle, login, game_mode, record, currentmoves.ToString());
                     for (int i = 0; i < serial_number.Count; i++)
                     {
-                   
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
-                    id_piece = bd.selectIDPiece(serial_number[i].ToString());
-                    bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+
+                        bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                        id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
+                        bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
                     }
+                    MessageBox.Show("Игра успешно сохранена!");
                 }
-            
-          //  }
-            //catch
-            //{
-            //    MessageBox.Show("Игра успешно сохранена!");
-            //}
+            }
+            }
+            catch
+            {
+
+            }
 
             //еали на очки, со сохраняем currentmoves
             //если на время, то TimeSpan ts = stopWatch.Elapsed.Add(fromSave); или что-то в этом роде
