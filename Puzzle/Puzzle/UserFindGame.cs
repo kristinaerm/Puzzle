@@ -157,6 +157,7 @@ namespace Puzzle
                     button1.Enabled = true;
                     button1.Visible = true;
                     //вывести в текстбокс данные о сейве
+                    textBox1.Text += " \r\n";
                     //и флажок, что вызывать теперь как из сейва
                 }
                 else

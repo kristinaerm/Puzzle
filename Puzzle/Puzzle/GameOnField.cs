@@ -43,9 +43,10 @@ namespace Puzzle
         private Point currentLocationOfStripZoneBottomRight;
         private PictureBox hint;
 
-        private List<PictureBox> pb = new List<PictureBox>();
         private List<Bitmap> btm = new List<Bitmap>();
+        private List<PictureBox> pb = new List<PictureBox>();
         private List<Point> right_location = new List<Point>();//правильные координаты
+        private List<int> serial_number = new List<int>();
 
         //для вывода на ленте
         private int currentFirstElementOnStrip = 0;
@@ -58,10 +59,10 @@ namespace Puzzle
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
-            id_puzzle = bd.cutExcessSpace(id);
-            game_mode = bd.cutExcessSpace(game_m);
-            record = bd.cutExcessSpace(rec);
-            login = bd.cutExcessSpace(log);
+            id_puzzle = id;
+            game_mode = game_m;
+            record = rec;
+            login = log;
             //загрузить время если из сейва
 
             string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
@@ -126,6 +127,7 @@ namespace Puzzle
                 }
 
                 right_location.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
+                serial_number.Add(i);
 
                 this.Controls.Add(pb[i]);
                 ControlMover.Add(pb[i]);
@@ -138,7 +140,7 @@ namespace Puzzle
             }
 
             //тут шафл массива пикчеров и правильных координат синхронно
-            syncShuffle<PictureBox, Point>(pb, right_location);
+            syncShuffle<PictureBox, Point, int>(pb, right_location, serial_number);
 
             currH = 0;
             currW = 0;
@@ -206,7 +208,7 @@ namespace Puzzle
             stopWatch.Start();
         }
 
-        public static void syncShuffle<T, V>(List<T> list1, List<V> list2)
+        public static void syncShuffle<T, V, P>(List<T> list1, List<V> list2, List<P> list3)
         {
             int n = list1.Count;
             while (n > 1)
@@ -214,11 +216,16 @@ namespace Puzzle
                 n--;
                 int k = random.Next(n + 1);
                 T value1 = list1[k];
-                V value2 = list2[k];
                 list1[k] = list1[n];
-                list2[k] = list2[n];
                 list1[n] = value1;
+
+                V value2 = list2[k];                
+                list2[k] = list2[n];
                 list2[n] = value2;
+
+                P value3 = list3[k];
+                list3[k] = list3[n];
+                list3[n] = value3;                
             }
         }
 
