@@ -589,12 +589,7 @@ namespace Puzzle
             return id_piece;
         }
 
-<<<<<<< HEAD
-
-        public string selectIDPiece(string num_piece)
-=======
         public string selectIDPiece(string num_piece, string  id_puzzle)
->>>>>>> 78e49f406dc445e69c4a25e269c950c52f688d11
         {
             string id_piece = "";
             try
@@ -613,11 +608,7 @@ namespace Puzzle
             catch { }
             return id_piece;
         }
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> 78e49f406dc445e69c4a25e269c950c52f688d11
         //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
         public List<string[]> selectPuzzlePiecesByPuzzleId(string puzzle_id, string login)
         {
