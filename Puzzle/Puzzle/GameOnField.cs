@@ -231,10 +231,26 @@ namespace Puzzle
         {
             this.Close();
         }
-
+        
         private void button_pause_Click(object sender, EventArgs e)
-        {
-
+        {//добавить стоп таймера времени, когда режим по времени
+          
+            if (button_pause.Text.Equals("Пауза")) {
+                button_pause.Text = "Возобновить";
+                for (int i = 0; i < pb.Count; i++)
+                {
+                    pb[i].Enabled = false;
+                }
+               
+            }
+            else { 
+            
+                button_pause.Text = "Пауза";
+                for (int i = 0; i < pb.Count; i++)
+                {
+                    pb[i].Enabled = true;
+                }
+            }
         }
 
         private void GameOnField_Load(object sender, EventArgs e)
