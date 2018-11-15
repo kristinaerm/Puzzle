@@ -22,6 +22,16 @@ namespace Puzzle
         private string id_puzzle = "";
         private string game_mode = "";
         private string record = "";
+        private string login = "";
+
+        private int good = 0;
+        private int normal = 0;
+        private int bad = 0;
+
+        private int currentmoves = 0;
+
+        private Stopwatch stopWatch = new Stopwatch();
+
         private int verticalCountOfPieces = 0;
         private int horisontalCountOfPieces = 0;
         private Point currentLocationOfStripZoneTopLeft;
@@ -39,13 +49,14 @@ namespace Puzzle
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-        public GameOnField(string id_puzzle, string game_mode, string record)
+        public GameOnField(string id_puzzle, string game_mode, string record, string login)
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
             this.id_puzzle = id_puzzle;
             this.game_mode = game_mode;
             this.record = record;
+            this.login = login;
 
             string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
@@ -53,6 +64,7 @@ namespace Puzzle
 
             verticalCountOfPieces = Convert.ToInt32(picture[0]);
             horisontalCountOfPieces = Convert.ToInt32(picture[1]);
+            int complexity = 0;
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
 
@@ -158,6 +170,9 @@ namespace Puzzle
             hint.Image = Image.FromFile(path);
             this.Controls.Add(hint);
             hint.Visible = false;
+
+            timer1.Enabled = true;
+            stopWatch.Start();
         }
 
         public static void syncShuffle<T, V>(List<T> list1, List<V> list2)
@@ -218,6 +233,8 @@ namespace Puzzle
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            stopWatch.Stop();
+            timer1.Enabled = false;
             this.Close();
         }
 
@@ -229,11 +246,15 @@ namespace Puzzle
 
         private void button_end_game_Click(object sender, EventArgs e)
         {
+            stopWatch.Stop();
+            timer1.Enabled = false;
             this.Close();
         }
 
         private void button_pause_Click(object sender, EventArgs e)
         {
+            stopWatch.Stop();
+            timer1.Enabled = false;
 
         }
 
@@ -289,6 +310,19 @@ namespace Puzzle
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            stopWatch.Stop();
+            timer1.Enabled = false;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            TimeSpan ts = stopWatch.Elapsed;
+            label1.Text= String.Format("{0:00}:{1:00}:{2:00}",
+            ts.Hours, ts.Minutes, ts.Seconds);
         }
     }
 }

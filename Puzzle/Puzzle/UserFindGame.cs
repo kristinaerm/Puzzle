@@ -12,10 +12,18 @@ namespace Puzzle
 {
     public partial class UserFindGame : Form
     {
-        string level = "";
+        private string level = "";
+        private string login = "";
         public UserFindGame()
         {
             InitializeComponent();
+            update_list();
+        }
+
+        public UserFindGame(string log)
+        {
+            InitializeComponent();
+            login = log;
             update_list();
         }
 
@@ -36,6 +44,7 @@ namespace Puzzle
 
                 listBox1.Items.Add(s);
             }
+            //добавить вывод сейвов
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -66,6 +75,7 @@ namespace Puzzle
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            //добавить обработку сейвов
             string bildOfPuzzle = "";
             string modeGame = "";
 
@@ -86,7 +96,7 @@ namespace Puzzle
                     if (radioButton7.Checked) { modeGame = "На время"; }
                     else if (radioButton8.Checked) { modeGame = "На очки"; }
 
-                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame);
+                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login);
                     gameOnFieldForm.Show();
                 }
                 else
@@ -122,7 +132,8 @@ namespace Puzzle
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //вывод картинки в пиксербокс и текста в текстбокс
+            //добавить обработку сейвов
+
             ConnDatabase bd = new ConnDatabase();
             List<string[]> puzz = bd.selectPuzzlesByComplexity(level);
             if (listBox1.SelectedIndex < puzz.Count)

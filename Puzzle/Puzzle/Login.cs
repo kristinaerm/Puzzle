@@ -60,7 +60,6 @@ namespace Puzzle
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             //войти
             if (!label3.Visible)
             {
@@ -79,7 +78,7 @@ namespace Puzzle
                     if (user.Count != 0)
                     {
                         this.Hide();
-                        UserFindGame usergame = new UserFindGame();
+                        UserFindGame usergame = new UserFindGame(login);
                         usergame.Show();
                     }
                     else if (!textBox3.Visible)
