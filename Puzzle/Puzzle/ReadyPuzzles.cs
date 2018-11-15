@@ -46,6 +46,7 @@ namespace Puzzle
                 {
                     string id = res[y][0];
                     bd.deleteSaveByIdPuzzle(id);
+                    bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture(id, "");
                     bd.deleteGameByIdPuzzle(id);
                     bd.deletePuzzle(id);
                     dataGridView1.Rows.RemoveAt(y);

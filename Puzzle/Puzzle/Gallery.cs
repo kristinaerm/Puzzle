@@ -95,7 +95,6 @@ namespace Puzzle
                     button3.Visible = true;
                 }
                 int t = listView1.SelectedIndices[0];
-                //индекс больше коллекции
                 if (t < path.Count)
                 {
                     pictureBox1.Image = new Bitmap(path[t][0]);
@@ -109,6 +108,9 @@ namespace Puzzle
             if (listView1.SelectedIndices.Count != 0)
             {
                 int t = listView1.SelectedIndices[0];
+                //удалить сначала сейвы с этой картинкой
+                bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture("", bd.selectIdByPathPicture(path[t][0]));
+                //удалить геймы с этой картинкой
                 bd.deletePictures(path[t][0]);
                 updateListView();
             }
