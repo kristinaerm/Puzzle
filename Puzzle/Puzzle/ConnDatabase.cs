@@ -589,15 +589,14 @@ namespace Puzzle
             return id_piece;
         }
 
-<<<<<<< HEAD
-        public string selectIDPiece(string num_piece)
+        public string selectIDPiece(string num_piece, string  id_puzzle)
         {
             string id_piece = "";
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
                 string select = "select id_piece from puzzle_piece " +
-                "where num_piece='" + num_piece + "';";
+                "where num_piece='" + num_piece +"'" + " and"+ " id_puzzle='"+ id_puzzle + "';";
                 NpgsqlCommand command = new NpgsqlCommand(select, connection);
                 connection.Open();
                 NpgsqlDataReader reader = command.ExecuteReader();
@@ -609,8 +608,7 @@ namespace Puzzle
             catch { }
             return id_piece;
         }
-        //не хватает удаления кусочка для удаления сохранений, когда игра окончена после повтороного запуска
-=======
+ 
         //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
         public string selectPuzzlePieceByPuzzleId(string path)
         {
@@ -630,7 +628,7 @@ namespace Puzzle
             catch { }
             return id;
         }
->>>>>>> ec5fef2c59f76f5c7447875b943855a5a0732f06
+
 
         public void deletePiecePuzzleByIdPuzzleAndOrIdPicture(string id_pazzle, string id_picture)
         {
