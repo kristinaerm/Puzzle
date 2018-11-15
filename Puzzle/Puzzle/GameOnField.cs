@@ -250,12 +250,33 @@ namespace Puzzle
             timer1.Enabled = false;
             this.Close();
         }
-
+        
         private void button_pause_Click(object sender, EventArgs e)
+<<<<<<< HEAD
         {
             stopWatch.Stop();
             timer1.Enabled = false;
 
+=======
+        {//добавить стоп таймера времени, когда режим по времени
+          
+            if (button_pause.Text.Equals("Пауза")) {
+                button_pause.Text = "Возобновить";
+                for (int i = 0; i < pb.Count; i++)
+                {
+                    pb[i].Enabled = false;
+                }
+               
+            }
+            else { 
+            
+                button_pause.Text = "Пауза";
+                for (int i = 0; i < pb.Count; i++)
+                {
+                    pb[i].Enabled = true;
+                }
+            }
+>>>>>>> 6913d165bd41278bbbc59608d7019bfb5934ae50
         }
 
         private void GameOnField_Load(object sender, EventArgs e)
