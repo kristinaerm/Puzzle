@@ -151,6 +151,20 @@ namespace Puzzle
                 pictureBox1.Image = (Image)MyImage;
                 id_puzzle_curr = selected[0];
                 button2.Enabled = true;
+                List<string> saved_game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, selected[0]);
+                if (saved_game.Count > 0)
+                {
+                    button1.Enabled = true;
+                    button1.Visible = true;
+                    //вывести в текстбокс данные о сейве
+                    //и флажок, что вызывать теперь как из сейва
+                }
+                else
+                {
+                    button1.Enabled = false;
+                    button1.Visible = false;
+                    //и флажок, что вызывать теперь как заново
+                }
             }
             else button2.Enabled = false;
         }

@@ -64,7 +64,7 @@ namespace Puzzle
             }
             return bitmaps;
         }
-        public static List<Bitmap> RectangleSection(string picturePath, string width, string height, string complexity, string pictureID)
+        public static List<Bitmap> RectangleSection(string picturePath, string width, string height, string pictureID)
         {
             //генерация кусочков из картинки
             //пока прямоугольные

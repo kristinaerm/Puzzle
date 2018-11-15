@@ -24,11 +24,16 @@ namespace Puzzle
         private string record = "";
         private string login = "";
 
-        private int good = 0;
-        private int normal = 0;
-        private int bad = 0;
+        private int betweenGreatAndNormal;
+        private int betweenNormalAndBad;
+        private int complexityKoeff;
+        private const int GREAT = 10;
+        private const int NORMAL = 5;
+        private const int BAD = 1;
 
         private int currentmoves = 0;
+        private TimeSpan fromSave = new TimeSpan(0);
+
 
         private Stopwatch stopWatch = new Stopwatch();
 
@@ -49,14 +54,15 @@ namespace Puzzle
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-        public GameOnField(string id_puzzle, string game_mode, string record, string login)
+        public GameOnField(string id, string game_m, string rec, string log)
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
-            this.id_puzzle = id_puzzle;
-            this.game_mode = game_mode;
-            this.record = record;
-            this.login = login;
+            id_puzzle = bd.cutExcessSpace(id);
+            game_mode = bd.cutExcessSpace(game_m);
+            record = bd.cutExcessSpace(rec);
+            login = bd.cutExcessSpace(log);
+            //загрузить время если из сейва
 
             string id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
@@ -64,12 +70,37 @@ namespace Puzzle
 
             verticalCountOfPieces = Convert.ToInt32(picture[0]);
             horisontalCountOfPieces = Convert.ToInt32(picture[1]);
-            int complexity = 0;
+
+            if (bd.cutExcessSpace(picture[2]).Equals("Легкий"))
+            {
+                complexityKoeff = 10;
+            }
+            if (bd.cutExcessSpace(picture[2]).Equals("Средний"))
+            {
+                complexityKoeff = 50;
+            }
+            else
+            {
+                complexityKoeff = 100;
+            }
+            if (bd.cutExcessSpace(record).Equals("На очки"))
+            {
+                //в движениях
+                betweenGreatAndNormal = 5;
+                betweenNormalAndBad = 15;
+                //потом при подсчете результата число мувов делю на верт*горизонт и сравниваю и домнажаю на бэднормалгуд и на комплексити
+            }
+            else
+            {
+                //в секундах
+                betweenGreatAndNormal = 20;
+                betweenNormalAndBad = 60;
+            }
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
 
-            btm = Section.RectangleSection(path, picture[1], picture[0], picture[2], id_picture);//разрезаем картинку на кусочки
-          
+            btm = Section.RectangleSection(path, picture[1], picture[0], id_picture);//разрезаем картинку на кусочки
+
 
             int h = btm[0].Height;
             int w = btm[0].Width;
@@ -207,7 +238,7 @@ namespace Puzzle
                 i++;
             }
             j = 0;
-            
+
             if (right)
             {
                 currentFirstElementOnStrip += countOfPiecesOnStrip;
@@ -250,33 +281,31 @@ namespace Puzzle
             timer1.Enabled = false;
             this.Close();
         }
-        
-        private void button_pause_Click(object sender, EventArgs e)
-<<<<<<< HEAD
-        {
-            stopWatch.Stop();
-            timer1.Enabled = false;
 
-=======
-        {//добавить стоп таймера времени, когда режим по времени
-          
-            if (button_pause.Text.Equals("Пауза")) {
+        private void button_pause_Click(object sender, EventArgs e)
+        {
+            if (button_pause.Text.Equals("Пауза"))
+            {
                 button_pause.Text = "Возобновить";
                 for (int i = 0; i < pb.Count; i++)
                 {
                     pb[i].Enabled = false;
                 }
-               
+                stopWatch.Stop();
+                timer1.Enabled = false;
             }
-            else { 
-            
+            else
+            {
+
                 button_pause.Text = "Пауза";
                 for (int i = 0; i < pb.Count; i++)
                 {
                     pb[i].Enabled = true;
                 }
+                stopWatch.Start();
+                timer1.Enabled = true;
             }
->>>>>>> 6913d165bd41278bbbc59608d7019bfb5934ae50
+
         }
 
         private void GameOnField_Load(object sender, EventArgs e)
@@ -337,13 +366,22 @@ namespace Puzzle
         {
             stopWatch.Stop();
             timer1.Enabled = false;
+
+            //еали на очки, со сохраняем countofmoves
+            //если на время, то TimeSpan ts = stopWatch.Elapsed.Add(fromSave); или что-то в этом роде
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan ts = stopWatch.Elapsed;
-            label1.Text= String.Format("{0:00}:{1:00}:{2:00}",
+            ts.Add(fromSave);
+            label1.Text = String.Format("{0:00}:{1:00}:{2:00}",
             ts.Hours, ts.Minutes, ts.Seconds);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -48,9 +48,9 @@
             // 
             // button_pause
             // 
-            this.button_pause.Location = new System.Drawing.Point(546, 42);
+            this.button_pause.Location = new System.Drawing.Point(535, 42);
             this.button_pause.Name = "button_pause";
-            this.button_pause.Size = new System.Drawing.Size(75, 23);
+            this.button_pause.Size = new System.Drawing.Size(91, 23);
             this.button_pause.TabIndex = 0;
             this.button_pause.Text = "Пауза";
             this.button_pause.UseVisualStyleBackColor = true;
@@ -58,9 +58,9 @@
             // 
             // button_help
             // 
-            this.button_help.Location = new System.Drawing.Point(546, 156);
+            this.button_help.Location = new System.Drawing.Point(535, 156);
             this.button_help.Name = "button_help";
-            this.button_help.Size = new System.Drawing.Size(75, 23);
+            this.button_help.Size = new System.Drawing.Size(91, 23);
             this.button_help.TabIndex = 1;
             this.button_help.Text = "Подсказка";
             this.button_help.UseVisualStyleBackColor = true;
@@ -68,9 +68,9 @@
             // 
             // button_end_game
             // 
-            this.button_end_game.Location = new System.Drawing.Point(546, 100);
+            this.button_end_game.Location = new System.Drawing.Point(535, 100);
             this.button_end_game.Name = "button_end_game";
-            this.button_end_game.Size = new System.Drawing.Size(75, 23);
+            this.button_end_game.Size = new System.Drawing.Size(91, 23);
             this.button_end_game.TabIndex = 2;
             this.button_end_game.Text = "Закончить";
             this.button_end_game.UseVisualStyleBackColor = true;
@@ -78,9 +78,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(546, 71);
+            this.button1.Location = new System.Drawing.Point(535, 71);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(91, 23);
             this.button1.TabIndex = 3;
             this.button1.Text = "Сохранить";
             this.button1.UseVisualStyleBackColor = true;
@@ -165,11 +165,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(549, 132);
+            this.label1.Location = new System.Drawing.Point(539, 133);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 8;
-            this.label1.Text = "label1";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // GameOnField
             // 

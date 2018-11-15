@@ -12,9 +12,6 @@ namespace Puzzle
 {
     class ConnDatabase
     {
-
-
-
         //Кристина
         //string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
@@ -653,6 +650,29 @@ namespace Puzzle
             {
                 MessageBox.Show("Игры этого пазла НЕ удалены!");
             }
+        }
+
+        public List<string> selectAllAboutGameByLoginAndIdPuzzle(string login, string id_puzzle)
+        {
+            List<string> game_info = new List<string>();
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "select build, game_mode, result from game " +
+                "where id_puzzle='" + id_puzzle + "' and login='"+login+"';";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                NpgsqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    game_info.Add(cutExcessSpace(reader.GetString(0)));
+                    game_info.Add(cutExcessSpace(reader.GetString(1)));
+                    game_info.Add(cutExcessSpace(reader.GetString(2)));
+                }
+                connection.Close();
+            }
+            catch { }
+            return game_info;
         }
     }
 }
