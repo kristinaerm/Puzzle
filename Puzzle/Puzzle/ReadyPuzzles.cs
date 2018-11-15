@@ -36,7 +36,21 @@ namespace Puzzle
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            Point xy = dataGridView1.CurrentCellAddress;
+            int x = xy.X;
+            int y = xy.Y;
+            if (x == 4)
+            {
+                List<string[]> res = bd.selectPuzzlesByComplexity("");
+                if (y < res.Count)
+                {
+                    string id = res[y][0];
+                    bd.deleteSaveByIdPuzzle(id);
+                    bd.deleteGameByIdPuzzle(id);
+                    bd.deletePuzzle(id);
+                    dataGridView1.Rows.RemoveAt(y);
+                }
+            }
         }
 
         private void ReadyPuzzles_Load(object sender, EventArgs e)

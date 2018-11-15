@@ -58,23 +58,25 @@
             // 
             this.Column2.HeaderText = "Логин";
             this.Column2.Name = "Column2";
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // size
             // 
             this.size.HeaderText = "Очки";
             this.size.Name = "size";
+            this.size.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // time
             // 
             this.time.HeaderText = "Время";
             this.time.Name = "time";
+            this.time.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Удалить";
             this.Column1.Name = "Column1";
             this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Column1.Text = "Удалить";
             // 
             // Profiles

@@ -348,7 +348,7 @@ namespace Puzzle
         //тут надо написать селект сейвов, чтобы выводить их в список доступных игр
         //в параметры передавать уровень сложности и логин
 
-        public void deleteSave(string login)
+        public void deleteSaveByLogin(string login)
         {
             try
             {
@@ -363,7 +363,23 @@ namespace Puzzle
             {
                 MessageBox.Show("Сохранения пользователя НЕ удалены!");
             }
+        }
 
+        public void deleteSaveByIdPuzzle(string id)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "delete from save where id_puzzle='" + id + "'";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                MessageBox.Show("Сохранения этого пазла удалены!");
+            }
+            catch
+            {
+                MessageBox.Show("Сохранения этого пазла НЕ удалены!");
+            }
         }
 
 
@@ -608,7 +624,7 @@ namespace Puzzle
 
         }
 
-        public void deleteGame(string login)
+        public void deleteGameByLogin(string login)
         {
             try
             {
@@ -622,6 +638,23 @@ namespace Puzzle
             catch
             {
                 MessageBox.Show("Игры пользователя НЕ удалены!");
+            }
+        }
+
+        public void deleteGameByIdPuzzle(string id_p)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(connection_parameters);
+                string select = "delete from game where id_puzzle='" + id_p + "'";
+                NpgsqlCommand command = new NpgsqlCommand(select, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                MessageBox.Show("Игры этого пазла удалены!");
+            }
+            catch
+            {
+                MessageBox.Show("Игры этого пазла НЕ удалены!");
             }
         }
     }

@@ -32,8 +32,8 @@ namespace Puzzle
                 if (y < res.Count)
                 {                    
                     string login = dataGridView1.Rows[y].Cells[0].Value.ToString();
-                    bd.deleteSave(login);
-                    bd.deleteGame(login);
+                    bd.deleteSaveByLogin(login);
+                    bd.deleteGameByLogin(login);
                     bd.deleteUsers(login);
                     dataGridView1.Rows.RemoveAt(y);
                 }                
