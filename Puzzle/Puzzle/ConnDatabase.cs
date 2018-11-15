@@ -12,15 +12,15 @@ namespace Puzzle
 {
     class ConnDatabase
     {
-<<<<<<< HEAD
-        
-=======
+
+
+
         //Кристина
-        //string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
+        string connection_parameters = "Server=localhost;Port=5432;User Id=postgres;Password=1;Database=postgres;";
 
         //Полина
-        string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
->>>>>>> 2ec97411c96ec4ec5e2115f1ef24702bc7cb8968
+        // string connection_parameters = "Server=localhost;Port=5433;User Id=postgres;Password=0;Database=postgres;";
+
 
         NpgsqlConnection connection;
 
@@ -56,24 +56,22 @@ namespace Puzzle
            "login character(100) NOT NULL," +
            "pass character(100) NOT NULL," +
            "summ_ballov character(100)," +
-           "summ_time character(100)," +
            "PRIMARY KEY(login));";
             executeCreate(create_table_users);
         }
 
-        public bool insertInUsers(string login, string pass, string summ_ballov, string summ_time)
+        public bool insertInUsers(string login, string pass, string summ_ballov)
         {
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
                 connection.Open();
                 using (NpgsqlCommand command = new NpgsqlCommand(
-                "INSERT INTO users (login,pass,summ_ballov,summ_time) VALUES(@login, @pass,@summ_ballov,@summ_time)", connection))
+                "INSERT INTO users (login,pass,summ_ballov) VALUES(@login, @pass,@summ_ballov)", connection))
                 {
                     command.Parameters.Add(new NpgsqlParameter("login", login));
                     command.Parameters.Add(new NpgsqlParameter("pass", pass));
                     command.Parameters.Add(new NpgsqlParameter("summ_ballov", summ_ballov));
-                    command.Parameters.Add(new NpgsqlParameter("summ_time", summ_time));
                     command.ExecuteNonQuery();
                 }
                 return true;
@@ -106,21 +104,16 @@ namespace Puzzle
             return user;
         }
 
-        public List<string[]> selectResultOfUsersByGamemode(string game_mode)
+        public List<string[]> selectResultOfUsersByGamemode()
         {
             List<string[]> login = new List<string[]>();
             try
             {
                 connection = new NpgsqlConnection(connection_parameters);
                 string select = "";
-                if (game_mode.Equals("На время"))
-                {
-                    select = "select login, summ_time from users ORDER BY summ_time DESC LIMIT 10;";
-                }
-                else
-                {
-                    select = "select login, summ_ballov from users ORDER BY summ_ballov DESC LIMIT 10;";
-                }
+
+                select = "select login, summ_ballov from users ORDER BY summ_ballov DESC LIMIT 10;";
+
                 NpgsqlCommand command = new NpgsqlCommand(select, connection);
                 connection.Open();
                 NpgsqlDataReader reader = command.ExecuteReader();
@@ -563,7 +556,7 @@ namespace Puzzle
             }
 
         }
-        
+
         public string selectIdPiece(string id_game)
         {
             string id_piece = "";

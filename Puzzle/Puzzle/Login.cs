@@ -113,7 +113,7 @@ namespace Puzzle
                 if (textBox2.Text.Equals(textBox3.Text))
                 {
                     ConnDatabase bd = new ConnDatabase();
-                    if (bd.insertInUsers(textBox1.Text, textBox2.Text, "", ""))
+                    if (bd.insertInUsers(textBox1.Text, textBox2.Text, ""))
                     {
                         MessageBox.Show("Новая учетная запись успешно зарегистрирована! Для входа нажмите на кнопку <Вход и войдите под новой учетной записью.");
                     }

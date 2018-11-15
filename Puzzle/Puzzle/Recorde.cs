@@ -21,22 +21,13 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             List<string[]> res = new List<string[]>();
 
-            if (comboBox1.Text == "По времени")
-            {
+           
                 res.Clear();
-                res = bd.selectResultOfUsersByGamemode("По времени");
+                res = bd.selectResultOfUsersByGamemode();
 
                 foreach (string[] s in res)
                     dataGridView1.Rows.Add(s);
-            }
-            else
-            {
-                res.Clear();
-                res = bd.selectResultOfUsersByGamemode("По очкам");
-
-                foreach (string[] s in res)
-                    dataGridView1.Rows.Add(s);
-            }
+            
         }
 
 
@@ -52,28 +43,7 @@ namespace Puzzle
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ConnDatabase bd = new ConnDatabase();
-            List<string[]> res = new List<string[]>();
-            while (dataGridView1.Rows.Count > 1)
-                for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
-                    dataGridView1.Rows.Remove(dataGridView1.Rows[i]);
-
-            if (comboBox1.Text == "По времени")
-            {
-                res.Clear();
-                res = bd.selectResultOfUsersByGamemode("По времени");
-
-                foreach (string[] s in res)
-                    dataGridView1.Rows.Add(s);
-            }
-            else
-            {
-                res.Clear();
-                res = bd.selectResultOfUsersByGamemode("По очкам");
-
-                foreach (string[] s in res)
-                    dataGridView1.Rows.Add(s);
-            }
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -30,7 +30,7 @@ namespace Puzzle
 
         private List<PictureBox> pb = new List<PictureBox>();
         private List<Bitmap> btm = new List<Bitmap>();
-        private List<Point> right_location = new List<Point>();
+        private List<Point> right_location = new List<Point>();//правильные координаты
 
         //для вывода на ленте
         private int currentFirstElementOnStrip = 0;
@@ -57,7 +57,7 @@ namespace Puzzle
             btm = new List<Bitmap>();//нормальный список кусочков пазл
 
             btm = Section.RectangleSection(path, picture[1], picture[0], picture[2], id_picture);//разрезаем картинку на кусочки
-            //Shuffle<Bitmap>(btm1);//перемешиваем кусочки списка
+          
 
             int h = btm[0].Height;
             int w = btm[0].Width;
