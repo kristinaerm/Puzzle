@@ -42,11 +42,15 @@ namespace Puzzle
             if (x == 4)
             {
                 List<string[]> res = bd.selectPuzzlesByComplexity("");
+                List<string> id_piece = new List<string>();
                 if (y < res.Count)
                 {
                     string id = res[y][0];
+                    
+                    id_piece = bd.selectIdPiece(id);
                     bd.deleteSaveByIdPuzzle(id);
-                    bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture(id, "");
+                    for(int i=0;i<id_piece.Count;i++)
+                    bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id, id_piece[i]);
                     bd.deleteGameByIdPuzzle(id);
                     bd.deletePuzzle(id);
                     dataGridView1.Rows.RemoveAt(y);

@@ -105,11 +105,22 @@ namespace Puzzle
         private void button3_Click(object sender, EventArgs e)
         {
             List<string[]> path = bd.selectPathToPicturesByComplexityOrder(comboBox2.SelectedItem.ToString());
+            List<string> id_piece = new List<string>();
             if (listView1.SelectedIndices.Count != 0)
             {
                 int t = listView1.SelectedIndices[0];
+                string id_picture = bd.selectIdByPathPicture(path[t][0]);
+                string id_puzzle = bd.selectPuzzleByIdPuzzleByIdPicture(id_picture);
+                 id_piece = bd.selectIdPiece(id_puzzle);
                 //удалить сначала сейвы с этой картинкой
-                bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture("", bd.selectIdByPathPicture(path[t][0]));
+                //(еще надо посмотреть!!!!!)
+                bd.deleteSaveByIdPuzzle(id_puzzle);
+                bd.deleteGameByIdPuzzle(id_puzzle);
+                bd.deletePuzzle(id_puzzle);
+                for(int i=0;i< id_piece.Count;i++)
+                bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece[i]);
+
+                // bd.deletePiecePuzzleByIdPuzzleAndOrIdPicture("", bd.selectIdByPathPicture(path[t][0]));
                 //удалить геймы с этой картинкой
                 bd.deletePictures(path[t][0]);
                 updateListView();
