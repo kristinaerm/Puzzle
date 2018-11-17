@@ -16,6 +16,7 @@ namespace Puzzle
         public static bool BringToFront { get; set; }
         public static int ResizingMargin { get; set; }
         public static int MinSize { get; set; }
+        public static GameOnField Owner { get; set; }
 
         private static Point startMouse;
         private static Point startLocation;
@@ -46,6 +47,7 @@ namespace Puzzle
                 return;
             var ctrl = (sender as Control);
             ctrl.Cursor = oldCursor;
+            Owner.setPieceIfOnRightLocation(sender);
         }
 
         public static void Remove(Control ctrl)

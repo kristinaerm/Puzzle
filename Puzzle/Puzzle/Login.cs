@@ -13,6 +13,8 @@ namespace Puzzle
     public partial class Login : Form
     {
         ConnDatabase bd = new ConnDatabase();
+        
+
         public Login()
         {
             InitializeComponent();
@@ -136,6 +138,11 @@ namespace Puzzle
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             button2.Enabled = true;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

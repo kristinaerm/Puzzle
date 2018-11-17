@@ -26,6 +26,9 @@ namespace Puzzle
         private bool fromGame = false;
         private string id_picture = "";
 
+        private int h = 0;
+        private int w = 0;
+
         private int betweenGreatAndNormal;
         private int betweenNormalAndBad;
         private int complexityKoeff;
@@ -47,7 +50,6 @@ namespace Puzzle
 
         private List<Bitmap> btm = new List<Bitmap>();
         private List<PictureBox> pb = new List<PictureBox>();
-        private List<Point> right_location = new List<Point>();//правильные координаты
         private List<int> serial_number = new List<int>();//номера
 
         //для вывода на ленте
@@ -61,6 +63,7 @@ namespace Puzzle
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
+            ControlMover.Owner = this;
 
             id_puzzle = id;
             game_mode = game_m;
@@ -123,14 +126,10 @@ namespace Puzzle
             }
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
-
-
-
             btm = Section.RectangleSection(path, picture[1], picture[0], id_picture);//разрезаем картинку на кусочки
 
-
-            int h = btm[0].Height;
-            int w = btm[0].Width;
+            h = btm[0].Height;
+            w = btm[0].Width;
 
             int currH = 0;
             int currW = 0;
@@ -138,6 +137,7 @@ namespace Puzzle
             int count = btm.Count;
 
             PictureBox p;
+            object[] obj;
 
             for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
@@ -146,13 +146,19 @@ namespace Puzzle
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
                 p.Image = (Image)btm[i];
                 pb.Add(p);
+                obj = new object[2];
                 if (game_mode == "На ленте")
                 {
                     is_on_strip.Add('n');
                     p.Visible = false;
+                    obj[1] = 'n';
                 }
-
-                right_location.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
+                else
+                {
+                    obj[1] = ' ';
+                }
+                obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                p.Tag = obj;
                 serial_number.Add(i);
 
                 this.Controls.Add(pb[i]);
@@ -181,7 +187,7 @@ namespace Puzzle
             else
             {
                 //тут шафл массива пикчеров и правильных координат синхронно
-                syncShuffle<PictureBox, Point, int>(pb, right_location, serial_number);
+                syncShuffle<PictureBox, int>(pb, serial_number);
 
                 currH = 0;
                 currW = 0;
@@ -232,6 +238,12 @@ namespace Puzzle
                     {
                         pb[i].Location = new Point(5 + currentLocationOfStripZoneTopLeft.X + i * (w + 5), currentLocationOfStripZoneTopLeft.Y);
                         is_on_strip[i] = 's';
+
+                        object[] o = new object[2];
+                        o[0] = ((Point)((object[])pb[i].Tag)[0]);
+                        o[1] = 's';
+                        pb[i].Tag = o;
+
                         pb[i].Visible = true;
                     }
                     currentFirstElementOnStrip = 0;
@@ -250,7 +262,7 @@ namespace Puzzle
             stopWatch.Start();
         }
 
-        public static void syncShuffle<T, V, P>(List<T> list1, List<V> list2, List<P> list3)
+        public static void syncShuffle<T, V>(List<T> list1, List<V> list2)
         {
             int n = list1.Count;
             while (n > 1)
@@ -264,45 +276,122 @@ namespace Puzzle
                 V value2 = list2[k];
                 list2[k] = list2[n];
                 list2[n] = value2;
-
-                P value3 = list3[k];
-                list3[k] = list3[n];
-                list3[n] = value3;
             }
+        }
+
+        public void updateStrip()
+        {
+            //те шо были убрать в n
+            int i = 0;
+            int j = 0;
+            while (i < (verticalCountOfPieces * horisontalCountOfPieces))
+            {
+                if ((char)(((object[])pb[i].Tag)[1]) == 's')
+                {
+                    j++;
+                    object[] o = new object[2];
+                    o[0] = ((Point)((object[])pb[i].Tag)[0]);
+                    o[1] = 'n';
+                    pb[i].Tag = o;
+                    pb[i].Visible = false;
+                }
+                i++;
+            }
+
+            i = 0;
+            j = 0;
+
+            while ((i < (verticalCountOfPieces * horisontalCountOfPieces) && (j < countOfPiecesOnStrip)))
+            {
+                if ((char)(((object[])pb[i].Tag)[1]) == 'n')
+                {
+                    object[] o = new object[2];
+                    o[0] = ((Point)((object[])pb[i].Tag)[0]);
+                    o[1] = 's';
+                    pb[i].Tag = o;
+                    pb[i].Location = new Point(5 + currentLocationOfStripZoneTopLeft.X + j * (btm[0].Width + 5), currentLocationOfStripZoneTopLeft.Y);
+                    pb[i].Visible = true;
+                    j++;
+                }
+                i++;
+            }
+            i = 0;
+            while (!((char)(((object[])pb[i].Tag)[1]) == 's')) i++;
+            currentFirstElementOnStrip = i;
         }
 
         public void updateStrip(bool right)
         {
             int i = 0;
             int j = 0;
-            i = currentFirstElementOnStrip;
-            while ((i < (verticalCountOfPieces * horisontalCountOfPieces)) && (j < countOfPiecesOnStrip))
+            int curr_last_strip = verticalCountOfPieces * horisontalCountOfPieces - 1;
+
+            while ((curr_last_strip > -1) && !((char)(((object[])pb[curr_last_strip].Tag)[1]) == 's')) curr_last_strip--;
+
+            //i = currentFirstElementOnStrip;
+            while (i < (verticalCountOfPieces * horisontalCountOfPieces))
             {
-                if (is_on_strip[i] == 's')
+                if ((char)(((object[])pb[i].Tag)[1]) == 's')
                 {
-                    j++;
-                    is_on_strip[i] = 'n';
+                    object[] o = new object[2];
+                    o[0] = ((Point)((object[])pb[i].Tag)[0]);
+                    o[1] = 'n';
+                    pb[i].Tag = o;
                     pb[i].Visible = false;
+                    curr_last_strip = i;
                 }
                 i++;
             }
-            j = 0;
 
+            j = 0;
             if (right)
             {
-                currentFirstElementOnStrip += countOfPiecesOnStrip;
+                if (!(curr_last_strip == (verticalCountOfPieces * horisontalCountOfPieces - 1)))
+                {
+                    curr_last_strip++;
+                    while ((!((char)(((object[])pb[curr_last_strip].Tag)[1]) == 'n')) && (curr_last_strip < verticalCountOfPieces * horisontalCountOfPieces - 1))
+                    {
+                        curr_last_strip++;
+                    }
+                    if (!(curr_last_strip == verticalCountOfPieces * horisontalCountOfPieces - 1))
+                    {
+                        currentFirstElementOnStrip = curr_last_strip;
+                    }
+                }
             }
             else
             {
-                currentFirstElementOnStrip -= countOfPiecesOnStrip;
                 i = currentFirstElementOnStrip;
+                i--;
+                while ((i > -1) && (!((char)(((object[])pb[i].Tag)[1]) == 'n')))
+                {
+                    i--;
+                }
+                if (!(i == 0))
+                {
+                    while ((j < countOfPiecesOnStrip) && ((i > -1)))
+                    {
+                        if (((char)(((object[])pb[i].Tag)[1]) == 'n'))
+                        {
+                            j++;
+                        }
+                        i--;
+                    }
+                    currentFirstElementOnStrip = i + 1;
+                }
             }
 
-            while ((i < (verticalCountOfPieces * horisontalCountOfPieces) && (i < (currentFirstElementOnStrip + countOfPiecesOnStrip))))
+            i = currentFirstElementOnStrip;
+            j = 0;
+
+            while ((i < (verticalCountOfPieces * horisontalCountOfPieces) && (j < countOfPiecesOnStrip)))
             {
-                if (is_on_strip[i] == 'n')
+                if ((char)(((object[])pb[i].Tag)[1]) == 'n')
                 {
-                    is_on_strip[i] = 's';
+                    object[] o = new object[2];
+                    o[0] = ((Point)((object[])pb[i].Tag)[0]);
+                    o[1] = 's';
+                    pb[i].Tag = o;
                     pb[i].Location = new Point(5 + currentLocationOfStripZoneTopLeft.X + j * (btm[0].Width + 5), currentLocationOfStripZoneTopLeft.Y);
                     pb[i].Visible = true;
                     j++;
@@ -354,16 +443,6 @@ namespace Puzzle
                 stopWatch.Start();
                 timer1.Enabled = true;
             }
-
-        }
-
-        private void GameOnField_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
 
         }
 
@@ -458,7 +537,7 @@ namespace Puzzle
                 for (int i = 0; i < serial_number.Count; i++)
                 {
 
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                    bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
                     id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
                     bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
                 }
@@ -470,7 +549,7 @@ namespace Puzzle
                 for (int i = 0; i < serial_number.Count; i++)
                 {
 
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), right_location[i].X.ToString(), right_location[i].Y.ToString(), id_puzzle);
+                    bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
                     id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
                     bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
                 }
@@ -488,6 +567,92 @@ namespace Puzzle
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public void setPieceIfOnRightLocation(object pic)
+        {
+            currentmoves++;
+            PictureBox picture = (PictureBox)pic;
+            char place = (char)((object[])picture.Tag)[1];
+            Point rightxy = (Point)((object[])picture.Tag)[0];
+            bool need_to_update_strip = false;
+            
+            if ((picture.Location.X < (rightxy.X + 5)) && (picture.Location.X > (rightxy.X - 5)))
+            {
+                if ((picture.Location.Y < (rightxy.Y + 5)) && (picture.Location.Y > (rightxy.Y - 5)))
+                {
+                    picture.Location = rightxy;
+                    picture.Enabled = false;
+                    if (!place.Equals(' '))
+                    {
+                        object[] o = new object[2];
+                        o[0] = rightxy;
+                        o[1] = 'f';
+                        picture.Tag = o;
+                        if (place == 's') need_to_update_strip = true;
+                    }
+                }
+            }
+
+            //лента
+            if (!place.Equals(' '))
+            {
+                if ((currentLocationOfStripZoneTopLeft.X< picture.Location.X) &&(picture.Location.X< currentLocationOfStripZoneBottomRight.X))
+                {
+                    if ((currentLocationOfStripZoneTopLeft.Y < picture.Location.Y) && (picture.Location.Y < currentLocationOfStripZoneBottomRight.Y))
+                    {
+                        //значит в зоне ленты
+                        if (!(place == 's'))
+                        {
+                            need_to_update_strip = true;
+                            object[] o = new object[2];
+                            o[0] = rightxy;
+                            o[1] = 'n';
+                            picture.Tag = o;
+                        }
+                    }
+                }
+                if (place == 's')
+                {
+                    need_to_update_strip = true;
+                    object[] o = new object[2];
+                    o[0] = rightxy;
+                    o[1] = 'f';
+                    picture.Tag = o;
+                }
+            }
+
+            int i = 0;
+            while ((i < pb.Count) && (pb[i].Enabled == false))
+            {
+                i++;
+            }
+            if (i == pb.Count)
+            {
+                string res = "";
+                int points = 0;
+                TimeSpan ts = stopWatch.Elapsed;
+                ts.Add(fromSave);
+                int sec = ts.Hours * 60 * 60 + ts.Minutes * 60 + ts.Seconds;
+                if (record.Equals("На очки"))
+                {
+                    points = currentmoves / (verticalCountOfPieces * horisontalCountOfPieces);
+                }
+                else
+                {
+                    points = sec / (verticalCountOfPieces * horisontalCountOfPieces);
+                }
+                if (points > betweenGreatAndNormal) points *= GREAT;
+                else if (points < betweenNormalAndBad) points *= BAD;
+                else points *= NORMAL;
+                points *= complexityKoeff;
+                res = points.ToString();
+                MessageBox.Show("Победа! Ваш результат: " + res);
+                //удалить сейвы игры, если они были
+                //записать результат к сумме в его логин в базу
+                //значит в базе надо прописать сет сумма баллов у юзера с логином
+            }
+            else if(need_to_update_strip) updateStrip();
         }
     }
 }

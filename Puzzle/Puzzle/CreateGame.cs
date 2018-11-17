@@ -21,12 +21,6 @@ namespace Puzzle
             InitializeComponent();
         }
 
-        public CreateGame(bool fromGal)
-        {
-            InitializeComponent();
-            fromGallery = fromGal;
-        }
-
         public void setSelectedPic(string path)
         {
             text_picture_id.Text = path;

@@ -22,13 +22,6 @@ namespace Puzzle
             update_list();
         }
 
-        public UserFindGame(string log)
-        {
-            InitializeComponent();
-            login = log;
-            update_list();
-        }
-
         private void update_list()
         {
             ConnDatabase bd = new ConnDatabase();

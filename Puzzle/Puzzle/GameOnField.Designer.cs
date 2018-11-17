@@ -189,7 +189,6 @@
             this.Name = "GameOnField";
             this.Text = "Игра";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOnField_FormClosing);
-            this.Load += new System.EventHandler(this.GameOnField_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -83,6 +83,7 @@
             this.textBox2.Size = new System.Drawing.Size(109, 20);
             this.textBox2.TabIndex = 4;
             this.textBox2.Text = "123";
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // button2
             // 
