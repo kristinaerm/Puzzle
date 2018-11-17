@@ -113,10 +113,10 @@ namespace Puzzle
                 string id_puzzle = bd.selectPuzzleByIdPuzzleByIdPicture(id_picture);
                  id_piece = bd.selectIdPiece(id_puzzle);
                 //удалить сначала сейвы с этой картинкой
-                //(еще надо посмотреть!!!!!)
+               
                 bd.deleteSaveByIdPuzzle(id_puzzle);
                 bd.deleteGameByIdPuzzle(id_puzzle);
-                bd.deletePuzzle(id_puzzle);
+                //bd.deletePuzzle(id_puzzle);
                 for(int i=0;i< id_piece.Count;i++)
                 bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece[i]);
 
