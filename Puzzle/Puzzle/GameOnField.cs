@@ -59,6 +59,7 @@ namespace Puzzle
 
         //для пятнашек
         private Point oldLocation;
+        private List<Point> right = new List<Point>();
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
@@ -102,11 +103,11 @@ namespace Puzzle
             verticalCountOfPieces = Convert.ToInt32(picture[0]);
             horisontalCountOfPieces = Convert.ToInt32(picture[1]);
 
-            if (bd.cutExcessSpace(picture[2]).Equals("Легкий"))
+            if (bd.cutExcessSpace(picture[2]).Equals("1"))
             {
                 complexityKoeff = 10;
             }
-            if (bd.cutExcessSpace(picture[2]).Equals("Средний"))
+            else if (bd.cutExcessSpace(picture[2]).Equals("2"))
             {
                 complexityKoeff = 50;
             }
@@ -162,7 +163,7 @@ namespace Puzzle
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
                 //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
-
+                right.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -321,7 +322,10 @@ namespace Puzzle
                 i++;
             }
             i = 0;
-            while (!((char)(((object[])pb[i].Tag)[1]) == 's')) i++;
+            while ((i < (verticalCountOfPieces * horisontalCountOfPieces)) && (!((char)(((object[])pb[i].Tag)[1]) == 's')))
+            {
+                i++;
+            }
             currentFirstElementOnStrip = i;
         }
 
@@ -592,7 +596,8 @@ namespace Puzzle
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
-                    if (!place.Equals(' '))
+                    //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО
+                    if (game_mode.Equals("На ленте"))
                     {
                         object[] o = new object[2];
                         o[0] = rightxy;
@@ -609,12 +614,15 @@ namespace Puzzle
                 int old_num = 0;
                 bool www = false;
                 //как-то не проверить себя самого
-                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces)&&!(pb[old_num].Location.Equals(oldLocation)))
-                {
+                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces) && !((char)(((object[])pb[old_num].Tag)[1])=='o')){
                     old_num++;
                 }
+                //while ((old_num < verticalCountOfPieces * horisontalCountOfPieces)&&!((pb[old_num].Location.X==oldLocation.X)) &&(pb[old_num].Location.Y==oldLocation.Y))))
+                //{
+                //    old_num++;
+                //}
 
-                while((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
+                while ((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
                 {
                     if ((r != old_num)&&(picture.Location.X > (pb[r].Location.X - 10)) && (picture.Location.X < (pb[r].Location.X + 10)) && (picture.Location.Y < pb[r].Location.Y+ 10) && (picture.Location.Y > (pb[r].Location.Y - 10))&&(pb[r].Enabled))
                     {
@@ -622,18 +630,31 @@ namespace Puzzle
                         //устанавливаю туда, куда он стал
                         picture.Location = pb[r].Location;
                         pb[r].Location = oldLocation;
+                        if (pb[r].Location.X == ((Point)((object[])pb[r].Tag)[0]).X)
+                        {
+                            if (pb[r].Location.Y == ((Point)((object[])pb[r].Tag)[0]).Y)
+                            {
+                                pb[r].Enabled = false;
+                                //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО ПОСТОЛЬКУ ПОСКОЛЬКУ
+                                //ИЗМЕНИТЬ рб эртый
+                            }
+                        }
                     }
                     r++;
                 }
                 if (!www)
                 {
                     picture.Location = oldLocation;
-                }                
+                }
+                object[] o = new object[2];
+                o[0] = (Point)(((object[])picture.Tag)[0]);
+                o[1] = ' ';
+                picture.Tag = o;
             }
 
 
             //лента
-            if (!place.Equals(' '))
+            if (game_mode.Equals("На ленте"))
             {
                 if ((currentLocationOfStripZoneTopLeft.X< picture.Location.X) &&(picture.Location.X< currentLocationOfStripZoneBottomRight.X))
                 {
@@ -659,6 +680,7 @@ namespace Puzzle
                     picture.Tag = o;
                 }
             }
+            if (need_to_update_strip) updateStrip();
 
             int i = 0;
             while ((i < pb.Count) && (pb[i].Enabled == false))
@@ -680,9 +702,9 @@ namespace Puzzle
                 {
                     points = sec / (verticalCountOfPieces * horisontalCountOfPieces);
                 }
-                if (points > betweenGreatAndNormal) points *= GREAT;
-                else if (points < betweenNormalAndBad) points *= BAD;
-                else points *= NORMAL;
+                if (points < betweenGreatAndNormal) points = GREAT / points;
+                else if (points > betweenNormalAndBad) points = BAD / points;
+                else points = NORMAL / points;
                 points *= complexityKoeff;
                 res = points.ToString();
                 MessageBox.Show("Победа! Ваш результат: " + res);
@@ -714,7 +736,15 @@ namespace Puzzle
 
         public void setOldLocation(object pic)
         {
-            oldLocation = ((PictureBox)pic).Location;
+            PictureBox p = (PictureBox)pic;
+            oldLocation = p.Location;
+            if(game_mode.Equals("На поле"))
+            {
+                object[] o = new object[2];
+                o[0] = (Point)(((object[])p.Tag)[0]);
+                o[1] = 'o';
+                p.Tag = o;
+            }
         }
 
     }
