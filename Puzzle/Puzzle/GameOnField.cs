@@ -63,6 +63,16 @@ namespace Puzzle
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
+           void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            for (int i = 0; i < serial_number.Count; i++)
+            {
+                e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), ((Point)((object[])pb[i].Tag)[0]).X, ((Point)((object[])pb[i].Tag)[0]).Y, 5, 5);
+            }
+
+         }
+
+
         public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
         {
             ConnDatabase bd = new ConnDatabase();
@@ -142,9 +152,13 @@ namespace Puzzle
 
             PictureBox p;
             object[] obj;
-
+            Graphics gr = this.CreateGraphics();
+            gr.DrawEllipse(Pens.Black, currW * (w + 1) + 5, currH * (h + 1) + 25, 10, 10);
+            /*  Bitmap b = new Bitmap(10,30);//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77
+              Color color = Color.Black;*/
             for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
+                
                 p = new PictureBox();
                 p.Size = new Size(w, h);
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -162,8 +176,12 @@ namespace Puzzle
                     obj[1] = ' ';
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+<<<<<<< HEAD
                 //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
                 right.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
+=======
+          
+>>>>>>> 6b69ca9a8eb0fee21c07017b8307d5aaace35e08
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -176,6 +194,8 @@ namespace Puzzle
                     currW = 0;
                 }
             }
+       
+            this.Paint += new PaintEventHandler(Form1_Paint);
 
             if (fromGame)
             {
@@ -263,6 +283,9 @@ namespace Puzzle
             hint.Image = Image.FromFile(path);
             this.Controls.Add(hint);
             hint.Visible = false;
+
+
+           
 
             timer1.Enabled = true;
             stopWatch.Start();
@@ -544,7 +567,7 @@ namespace Puzzle
                 for (int i = 0; i < serial_number.Count; i++)
                 {
 
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
+                    bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[0]).X.ToString(), ((Point)((object[])pb[i].Tag)[0]).Y.ToString(), id_puzzle);
                     id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
                     bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
                 }
@@ -596,8 +619,14 @@ namespace Puzzle
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
+<<<<<<< HEAD
                     //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО
                     if (game_mode.Equals("На ленте"))
+=======
+                    picture.BorderStyle = BorderStyle.Fixed3D;
+                    //??????????????????????????????????????????????????????
+                    if (!place.Equals(' '))
+>>>>>>> 6b69ca9a8eb0fee21c07017b8307d5aaace35e08
                     {
                         object[] o = new object[2];
                         o[0] = rightxy;
