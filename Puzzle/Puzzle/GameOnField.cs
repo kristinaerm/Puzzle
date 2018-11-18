@@ -50,7 +50,7 @@ namespace Puzzle
 
         private List<Bitmap> btm = new List<Bitmap>();
         private List<PictureBox> pb = new List<PictureBox>();
-        private List<int> serial_number = new List<int>();//номера
+        private List<int> serial_number = new List<int>();
 
         //для вывода на ленте
         private int currentFirstElementOnStrip = 0;
@@ -59,13 +59,12 @@ namespace Puzzle
 
         //для пятнашек
         private Point oldLocation;
-        private List<Point> right = new List<Point>();
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
            void Form1_Paint(object sender, PaintEventArgs e)
         {
-            for (int i = 0; i < serial_number.Count; i++)
+            for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
                 e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), ((Point)((object[])pb[i].Tag)[0]).X, ((Point)((object[])pb[i].Tag)[0]).Y, 5, 5);
             }
@@ -104,6 +103,12 @@ namespace Puzzle
                     ss += saved[2][5];
                     fromSave = new TimeSpan(Convert.ToInt32(hh), Convert.ToInt32(mm), Convert.ToInt32(ss));
                 }
+                //загрузить все кусочки в виде номер - координаты текущие
+                //отсортировать по номеру
+                //назначить правильное локации ивывести на экран по их локациям
+                //у кого правильное=текущая закрепить
+                //если на ленте, кто закреплен - f, остальным n
+                //и обновить ленту
             }
 
             id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
@@ -176,8 +181,6 @@ namespace Puzzle
                     obj[1] = ' ';
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
-                //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
-                right.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -208,7 +211,7 @@ namespace Puzzle
             }
             else
             {
-                //тут шафл массива пикчеров и правильных координат синхронно
+                //тут шафл массива пикчеров и номеров синхронно
                 syncShuffle<PictureBox, int>(pb, serial_number);
 
                 currH = 0;
@@ -560,7 +563,7 @@ namespace Puzzle
                 TimeSpan ts = stopWatch.Elapsed.Add(fromSave);
                 string formatts = ts.ToString(@"hh\:mm\:ss");
                 bd.insertInGame(id_puzzle, login, game_mode, record, formatts);
-                for (int i = 0; i < serial_number.Count; i++)
+                for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
                 {
 
                     bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[0]).X.ToString(), ((Point)((object[])pb[i].Tag)[0]).Y.ToString(), id_puzzle);
@@ -572,11 +575,11 @@ namespace Puzzle
             else
             {
                 bd.insertInGame(id_puzzle, login, game_mode, record, currentmoves.ToString());
-                for (int i = 0; i < serial_number.Count; i++)
+                for (int i = 0; i < verticalCountOfPieces*horisontalCountOfPieces; i++)
                 {
 
-                    bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
-                    id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
+                    bd.insertInPuzzlePiece(i.ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
+                    id_piece = bd.selectIDPiece(i.ToString(), id_puzzle);
                     bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
                 }
                 MessageBox.Show("Игра успешно сохранена!");
@@ -728,9 +731,9 @@ namespace Puzzle
                 if (game.Count != 0)
                 {
                     bd.deleteGameByIdPuzzleAndLogin(id_puzzle, login);
-                    for (int k = 0; k < serial_number.Count; i++)
+                    for (int k = 0; k < verticalCountOfPieces*horisontalCountOfPieces; i++)
                     {
-                        id_piece = bd.selectIDPiece(serial_number[k].ToString(), id_puzzle);
+                        id_piece = bd.selectIDPiece(k.ToString(), id_puzzle);
                         bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece);
                     }
                     bd.deleteSaveByIdPuzzleAndLogin(id_puzzle, login);

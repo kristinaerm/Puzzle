@@ -47,7 +47,6 @@ namespace Puzzle
 
                 listBox1.Items.Add(s);
             }
-            //добавить вывод сейвов
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -201,6 +200,7 @@ namespace Puzzle
             Application.Exit();
         }
 
+        //из сейва
         private void button1_Click(object sender, EventArgs e)
         {
             ConnDatabase bd = new ConnDatabase();
