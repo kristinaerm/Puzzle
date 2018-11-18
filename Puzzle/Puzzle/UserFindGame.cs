@@ -16,10 +16,24 @@ namespace Puzzle
         private string login = "";
         private string id_puzzle_curr = "";
 
+        public UserFindGame(string log)
+        {
+            InitializeComponent();
+            update_list();
+            this.login = log;
+        }
+
         public UserFindGame()
         {
             InitializeComponent();
             update_list();
+        }
+
+        public UserFindGame(string login)
+        {
+            InitializeComponent();
+            update_list();
+            this.login = login;
         }
 
         private void update_list()

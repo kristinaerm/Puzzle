@@ -57,6 +57,9 @@ namespace Puzzle
         private int countOfPiecesOnStrip = 0;
         private List<char> is_on_strip = new List<char>();
 
+        //для пятнашек
+        private Point oldLocation;
+
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
         public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
@@ -158,6 +161,7 @@ namespace Puzzle
                     obj[1] = ' ';
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -576,10 +580,18 @@ namespace Puzzle
             char place = (char)((object[])picture.Tag)[1];
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
-            
+<<<<<<< HEAD
+            ConnDatabase bd = new ConnDatabase();
+            string id_piece = "";
+            List<string> game = new List<string>();
+
             if ((picture.Location.X < (rightxy.X + 5)) && (picture.Location.X > (rightxy.X - 5)))
             {
                 if ((picture.Location.Y < (rightxy.Y + 5)) && (picture.Location.Y > (rightxy.Y - 5)))
+=======
+            
+            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
+>>>>>>> ebc946666d66c45cedef1a7fd754674860219c60
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
@@ -591,8 +603,37 @@ namespace Puzzle
                         picture.Tag = o;
                         if (place == 's') need_to_update_strip = true;
                     }
-                }
             }
+
+            if (game_mode.Equals("На поле"))
+            {
+                //найти ячейку на которую стал пазл
+                int r = 0;
+                int old_num = 0;
+                bool www = false;
+                //как-то не проверить себя самого
+                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces)&&!(pb[old_num].Location.Equals(oldLocation)))
+                {
+                    old_num++;
+                }
+
+                while((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
+                {
+                    if ((r != old_num)&&(picture.Location.X > (pb[r].Location.X - 10)) && (picture.Location.X < (pb[r].Location.X + 10)) && (picture.Location.Y < pb[r].Location.Y+ 10) && (picture.Location.Y > (pb[r].Location.Y - 10))&&(pb[r].Enabled))
+                    {
+                        www = true;
+                        //устанавливаю туда, куда он стал
+                        picture.Location = pb[r].Location;
+                        pb[r].Location = oldLocation;
+                    }
+                    r++;
+                }
+                if (!www)
+                {
+                    picture.Location = oldLocation;
+                }                
+            }
+
 
             //лента
             if (!place.Equals(' '))
@@ -648,11 +689,29 @@ namespace Puzzle
                 points *= complexityKoeff;
                 res = points.ToString();
                 MessageBox.Show("Победа! Ваш результат: " + res);
-                //удалить сейвы игры, если они были
-                //записать результат к сумме в его логин в базу
-                //значит в базе надо прописать сет сумма баллов у юзера с логином
-            }
-            else if(need_to_update_strip) updateStrip();
+                //проверка сохраненной игры 
+                game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
+                if (game.Count != 0)
+                {
+                    bd.deleteGameByIdPuzzleAndLogin(id_puzzle, login);
+                    for (int k = 0; k < serial_number.Count; i++)
+                    {
+                        id_piece = bd.selectIDPiece(serial_number[k].ToString(), id_puzzle);
+                        bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece);
+                    }
+                    bd.deleteSaveByIdPuzzleAndLogin(id_puzzle, login);
+              
+                }
+                string result = bd.selectResults(login);
+                points += Int32.Parse(result);
+                bd.setResults(login, points.ToString());
+
+            } 
+        }
+
+        public void setOldLocation(object pic)
+        {
+            oldLocation = ((PictureBox)pic).Location;
         }
     }
 }
