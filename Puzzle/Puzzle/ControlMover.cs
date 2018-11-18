@@ -110,6 +110,7 @@ namespace Puzzle
             if (e.Button != MouseButtons.Left)
                 return;
 
+            Owner.setOldLocation(sender);
             var ctrl = sender as Control;
 
             resizing = (e.X >= ctrl.Width - ResizingMargin) && (e.Y >= ctrl.Height - ResizingMargin) && AllowResize;

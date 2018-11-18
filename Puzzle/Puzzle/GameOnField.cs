@@ -57,6 +57,9 @@ namespace Puzzle
         private int countOfPiecesOnStrip = 0;
         private List<char> is_on_strip = new List<char>();
 
+        //для пятнашек
+        private Point oldLocation;
+
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
         public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
@@ -577,9 +580,7 @@ namespace Puzzle
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
             
-            if ((picture.Location.X < (rightxy.X + 5)) && (picture.Location.X > (rightxy.X - 5)))
-            {
-                if ((picture.Location.Y < (rightxy.Y + 5)) && (picture.Location.Y > (rightxy.Y - 5)))
+            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
@@ -591,8 +592,37 @@ namespace Puzzle
                         picture.Tag = o;
                         if (place == 's') need_to_update_strip = true;
                     }
-                }
             }
+
+            if (game_mode.Equals("На поле"))
+            {
+                //найти ячейку на которую стал пазл
+                int r = 0;
+                int old_num = 0;
+                bool www = false;
+                //как-то не проверить себя самого
+                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces)&&!(pb[old_num].Location.Equals(oldLocation)))
+                {
+                    old_num++;
+                }
+
+                while((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
+                {
+                    if ((r != old_num)&&(picture.Location.X > (pb[r].Location.X - 10)) && (picture.Location.X < (pb[r].Location.X + 10)) && (picture.Location.Y < pb[r].Location.Y+ 10) && (picture.Location.Y > (pb[r].Location.Y - 10))&&(pb[r].Enabled))
+                    {
+                        www = true;
+                        //устанавливаю туда, куда он стал
+                        picture.Location = pb[r].Location;
+                        pb[r].Location = oldLocation;
+                    }
+                    r++;
+                }
+                if (!www)
+                {
+                    picture.Location = oldLocation;
+                }                
+            }
+
 
             //лента
             if (!place.Equals(' '))
@@ -653,6 +683,11 @@ namespace Puzzle
                 //значит в базе надо прописать сет сумма баллов у юзера с логином
             }
             else if(need_to_update_strip) updateStrip();
+        }
+
+        public void setOldLocation(object pic)
+        {
+            oldLocation = ((PictureBox)pic).Location;
         }
     }
 }
