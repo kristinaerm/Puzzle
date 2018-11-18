@@ -29,12 +29,7 @@ namespace Puzzle
             update_list();
         }
 
-        public UserFindGame(string login)
-        {
-            InitializeComponent();
-            update_list();
-            this.login = login;
-        }
+   
 
         private void update_list()
         {
