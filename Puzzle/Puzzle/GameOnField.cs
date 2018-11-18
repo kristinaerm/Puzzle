@@ -176,12 +176,8 @@ namespace Puzzle
                     obj[1] = ' ';
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
-<<<<<<< HEAD
                 //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
                 right.Add(new Point(currW * (w + 1) + 5, currH * (h + 1) + 25));
-=======
-          
->>>>>>> 6b69ca9a8eb0fee21c07017b8307d5aaace35e08
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -619,14 +615,9 @@ namespace Puzzle
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
-<<<<<<< HEAD
                     //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО
-                    if (game_mode.Equals("На ленте"))
-=======
                     picture.BorderStyle = BorderStyle.Fixed3D;
-                    //??????????????????????????????????????????????????????
-                    if (!place.Equals(' '))
->>>>>>> 6b69ca9a8eb0fee21c07017b8307d5aaace35e08
+                    if (game_mode.Equals("На ленте"))
                     {
                         object[] o = new object[2];
                         o[0] = rightxy;
@@ -646,10 +637,6 @@ namespace Puzzle
                 while ((old_num < verticalCountOfPieces * horisontalCountOfPieces) && !((char)(((object[])pb[old_num].Tag)[1])=='o')){
                     old_num++;
                 }
-                //while ((old_num < verticalCountOfPieces * horisontalCountOfPieces)&&!((pb[old_num].Location.X==oldLocation.X)) &&(pb[old_num].Location.Y==oldLocation.Y))))
-                //{
-                //    old_num++;
-                //}
 
                 while ((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
                 {
@@ -664,8 +651,7 @@ namespace Puzzle
                             if (pb[r].Location.Y == ((Point)((object[])pb[r].Tag)[0]).Y)
                             {
                                 pb[r].Enabled = false;
-                                //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО ПОСТОЛЬКУ ПОСКОЛЬКУ
-                                //ИЗМЕНИТЬ рб эртый
+                                pb[r].BorderStyle = BorderStyle.Fixed3D;
                             }
                         }
                     }
