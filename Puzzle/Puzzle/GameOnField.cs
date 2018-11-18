@@ -581,6 +581,7 @@ namespace Puzzle
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
             ConnDatabase bd = new ConnDatabase();
             string id_piece = "";
             List<string> game = new List<string>();
@@ -588,6 +589,10 @@ namespace Puzzle
             if ((picture.Location.X < (rightxy.X + 5)) && (picture.Location.X > (rightxy.X - 5)))
             {
                 if ((picture.Location.Y < (rightxy.Y + 5)) && (picture.Location.Y > (rightxy.Y - 5)))
+=======
+            
+            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
+>>>>>>> ebc946666d66c45cedef1a7fd754674860219c60
 =======
             
             if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
@@ -707,6 +712,11 @@ namespace Puzzle
                 bd.setResults(login, points.ToString());
 
             } 
+        }
+
+        public void setOldLocation(object pic)
+        {
+            oldLocation = ((PictureBox)pic).Location;
         }
 
         public void setOldLocation(object pic)
