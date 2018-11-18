@@ -162,6 +162,7 @@ namespace Puzzle
                 }
                 obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
                 //нарисовать на поле точки(??????????????????????????????????????????????????????????????????????????????7)
+
                 p.Tag = obj;
                 serial_number.Add(i);
 
@@ -526,8 +527,6 @@ namespace Puzzle
 
             }
 
-            //еали на очки, со сохраняем currentmoves
-            //если на время, то TimeSpan ts = stopWatch.Elapsed.Add(fromSave); или что-то в этом роде
         }
         private void saveGame(string rec)
         {
@@ -580,23 +579,16 @@ namespace Puzzle
             char place = (char)((object[])picture.Tag)[1];
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
             ConnDatabase bd = new ConnDatabase();
             string id_piece = "";
             List<string> game = new List<string>();
+             
+            
+            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
 
-            if ((picture.Location.X < (rightxy.X + 5)) && (picture.Location.X > (rightxy.X - 5)))
-            {
-                if ((picture.Location.Y < (rightxy.Y + 5)) && (picture.Location.Y > (rightxy.Y - 5)))
-=======
             
             if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
->>>>>>> ebc946666d66c45cedef1a7fd754674860219c60
-=======
-            
-            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
->>>>>>> ebc946666d66c45cedef1a7fd754674860219c60
+
                 {
                     picture.Location = rightxy;
                     picture.Enabled = false;
@@ -708,7 +700,13 @@ namespace Puzzle
               
                 }
                 string result = bd.selectResults(login);
-                points += Int32.Parse(result);
+                try
+                {
+                    points += Int32.Parse(result);
+                }
+                catch {
+                    points += 0;
+                }
                 bd.setResults(login, points.ToString());
 
             } 
@@ -719,10 +717,6 @@ namespace Puzzle
             oldLocation = ((PictureBox)pic).Location;
         }
 
-        public void setOldLocation(object pic)
-        {
-            oldLocation = ((PictureBox)pic).Location;
-        }
     }
 }
 
