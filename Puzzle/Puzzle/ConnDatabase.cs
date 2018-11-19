@@ -666,7 +666,7 @@ namespace Puzzle
         }
 
         //не хватает селекта всех кусочков этого пазла в виде айди номер правильные координаты
-        public List<string[]> selectPuzzlePiecesByPuzzleId(string puzzle_id, string login)
+        public List<string[]> selectPuzzlePiecesByPuzzleIdAndLogin(string puzzle_id, string login)
         {
             List<string[]> list = new List<string[]>();
             try
@@ -680,9 +680,9 @@ namespace Puzzle
                 while (reader.Read())
                 {
                     ss = new string[3];
-                    ss[0] = reader.GetString(0);
-                    ss[1] = reader.GetString(1);
-                    ss[2] = reader.GetString(2);
+                    ss[0] = cutExcessSpace(reader.GetString(0));
+                    ss[1] = cutExcessSpace(reader.GetString(1));
+                    ss[2] = cutExcessSpace(reader.GetString(2));
                     list.Add(ss);                    
                 }
                 connection.Close();

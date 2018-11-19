@@ -38,7 +38,7 @@ namespace Puzzle
 
         private int currentmoves = 0;
         private TimeSpan fromSave = new TimeSpan(0);
-
+        private List<string[]> pieces;
 
         private Stopwatch stopWatch = new Stopwatch();
 
@@ -62,14 +62,14 @@ namespace Puzzle
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-           void Form1_Paint(object sender, PaintEventArgs e)
+        void Form1_Paint(object sender, PaintEventArgs e)
         {
             for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
                 e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), ((Point)((object[])pb[i].Tag)[0]).X, ((Point)((object[])pb[i].Tag)[0]).Y, 5, 5);
             }
 
-         }
+        }
 
 
         public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
@@ -83,33 +83,6 @@ namespace Puzzle
             record = rec;
             login = log;
             fromGame = fromSavedGame;
-            if (fromGame)
-            {
-                List<string> saved = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
-                if (bd.cutExcessSpace(record).Equals("На очки"))
-                {
-                    currentmoves = Convert.ToInt32(saved[2]);
-                }
-                else
-                {
-                    string hh = "";
-                    hh += saved[2][0];
-                    hh += saved[2][1];
-                    string mm = "";
-                    mm += saved[2][2];
-                    mm += saved[2][3];
-                    string ss = "";
-                    ss += saved[2][4];
-                    ss += saved[2][5];
-                    fromSave = new TimeSpan(Convert.ToInt32(hh), Convert.ToInt32(mm), Convert.ToInt32(ss));
-                }
-                //загрузить все кусочки в виде номер - координаты текущие
-                //отсортировать по номеру
-                //назначить правильное локации ивывести на экран по их локациям
-                //у кого правильное=текущая закрепить
-                //если на ленте, кто закреплен - f, остальным n
-                //и обновить ленту
-            }
 
             id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
@@ -146,24 +119,74 @@ namespace Puzzle
 
             btm = new List<Bitmap>();//нормальный список кусочков пазл
             btm = Section.RectangleSection(path, picture[1], picture[0], id_picture);//разрезаем картинку на кусочки
+            int count = btm.Count;
 
+            if (fromGame)
+            {
+                List<string> saved = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
+                if (bd.cutExcessSpace(record).Equals("На очки"))
+                {
+                    currentmoves = Convert.ToInt32(saved[2]);
+                }
+                else
+                {
+                    string hh = "";
+                    hh += saved[2][0];
+                    hh += saved[2][1];
+                    string mm = "";
+                    mm += saved[2][3];
+                    mm += saved[2][4];
+                    string ss = "";
+                    ss += saved[2][6];
+                    ss += saved[2][7];
+                    fromSave = new TimeSpan(Convert.ToInt32(hh), Convert.ToInt32(mm), Convert.ToInt32(ss));
+                }
+                //загрузить все кусочки в виде номер - координаты текущие
+                pieces = bd.selectPuzzlePiecesByPuzzleIdAndLogin(id_puzzle, login);
+                string[] buff;
+                //отсортировать по номеру
+                for (int i = 0; i < count; i++)
+                {
+                    for (int j = 0; j < count - 1; j++)
+                    {
+                        if (Convert.ToInt32(pieces[j][0]) > Convert.ToInt32(pieces[j + 1][0]))
+                        {
+                            buff = pieces[j];
+                            pieces[j] = pieces[j + 1];
+                            pieces[j + 1] = buff;
+                        }
+                    }
+                }
+                //назначить правильное локации ивывести на экран по их локациям
+                //у кого правильное=текущая закрепить
+                //если на ленте, кто закреплен - f, остальным n
+                //и обновить ленту
+            }
             h = btm[0].Height;
             w = btm[0].Width;
 
+            int newHeightOfForm = this.Size.Height + h + 30;
+
+            buttonLeft.Location = new Point(buttonLeft.Location.X, newHeightOfForm - 15 - (h / 2) - buttonLeft.Height - 38);
+            buttonRight.Location = new Point(buttonRight.Location.X, newHeightOfForm - 15 - (h / 2) - buttonRight.Height - 38);
+
+            currentLocationOfStripZoneBottomRight = new Point(this.Width - 50, newHeightOfForm - 15 - 38);
+            currentLocationOfStripZoneTopLeft = new Point(50, newHeightOfForm - h - buttonLeft.Height - 38);
+
+            
+
             int currH = 0;
             int currW = 0;
-
-            int count = btm.Count;
 
             PictureBox p;
             object[] obj;
             Graphics gr = this.CreateGraphics();
             gr.DrawEllipse(Pens.Black, currW * (w + 1) + 5, currH * (h + 1) + 25, 10, 10);
-            /*  Bitmap b = new Bitmap(10,30);//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77
-              Color color = Color.Black;*/
+            Point pp;
+
             for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
-                
+
                 p = new PictureBox();
                 p.Size = new Size(w, h);
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -172,17 +195,49 @@ namespace Puzzle
                 obj = new object[2];
                 if (game_mode == "На ленте")
                 {
-                    is_on_strip.Add('n');
-                    p.Visible = false;
-                    obj[1] = 'n';
+                    if (fromGame)
+                    {
+                        //***
+                        if (((Convert.ToInt32(pieces[i][1])==0) &&(Convert.ToInt32(pieces[i][2])==0))||(currentLocationOfStripZoneTopLeft.X < Convert.ToInt32(pieces[i][1])) && (Convert.ToInt32(pieces[i][1]) < currentLocationOfStripZoneBottomRight.X) && (currentLocationOfStripZoneTopLeft.Y < Convert.ToInt32(pieces[i][2])) && (Convert.ToInt32(pieces[i][2]) < currentLocationOfStripZoneBottomRight.Y))
+                        {
+                            //в ленте
+
+                            is_on_strip.Add('n');
+                            p.Visible = false;
+                            obj[1] = 'n';
+                        }
+                        else
+                        {
+                            is_on_strip.Add('f');
+                            p.Visible = true;
+                            obj[1] = 'f';
+                        }
+                    }
+                    else
+                    {
+                        is_on_strip.Add('n');
+                        p.Visible = false;
+                        obj[1] = 'n';
+                    }
                 }
                 else
                 {
                     obj[1] = ' ';
                 }
-                obj[0] = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                pp = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                obj[0] = pp;
                 p.Tag = obj;
                 serial_number.Add(i);
+
+                if (fromGame)
+                {
+                    p.Location = new Point(Convert.ToInt32(pieces[i][1]), Convert.ToInt32(pieces[i][2]));
+                    if((pp.X==p.Location.X) &&(pp.Y == p.Location.Y))
+                    {
+                        p.BorderStyle = BorderStyle.Fixed3D;
+                        p.Enabled = false;
+                    }
+                }
 
                 this.Controls.Add(pb[i]);
                 ControlMover.Add(pb[i]);
@@ -193,23 +248,10 @@ namespace Puzzle
                     currW = 0;
                 }
             }
-       
+
             this.Paint += new PaintEventHandler(Form1_Paint);
 
-            if (fromGame)
-            {
-                List<string[]> num_x_y = bd.selectPuzzlePiecesByPuzzleId(id, log);
-                for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
-                {
-                    int j = 0;
-                    while ((j < num_x_y.Count) && (!bd.cutExcessSpace(num_x_y[j][0]).Equals(j.ToString())))
-                    {
-                        j++;
-                    }
-                    pb[i].Location = new Point(Convert.ToInt32(num_x_y[j][1]), Convert.ToInt32(num_x_y[j][2]));
-                }
-            }
-            else
+            if (!fromGame)
             {
                 //тут шафл массива пикчеров и номеров синхронно
                 syncShuffle<PictureBox, int>(pb, serial_number);
@@ -238,9 +280,7 @@ namespace Puzzle
                         pb[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
                     }
                 }
-                else if (game_mode == "На ленте")
-                {
-                    int newHeightOfForm = this.Size.Height + h + 30;
+                else if (game_mode == "На ленте") { 
 
                     buttonLeft.Enabled = true;
                     buttonLeft.Visible = true;
@@ -249,12 +289,6 @@ namespace Puzzle
                     buttonRight.Visible = true;
 
                     this.Size = new Size(this.Width, newHeightOfForm);
-
-                    buttonLeft.Location = new Point(buttonLeft.Location.X, this.Size.Height - 15 - (h / 2) - buttonLeft.Height - 38);
-                    buttonRight.Location = new Point(buttonRight.Location.X, this.Size.Height - 15 - (h / 2) - buttonRight.Height - 38);
-
-                    currentLocationOfStripZoneBottomRight = new Point(this.Width - 50, this.Size.Height - 15 - 38);
-                    currentLocationOfStripZoneTopLeft = new Point(50, this.Size.Height - h - buttonLeft.Height - 38);
 
                     //столько кусочков уместится на ленте
                     countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
@@ -274,6 +308,24 @@ namespace Puzzle
                     currentFirstElementOnStrip = 0;
                 }
             }
+            else
+            {
+                if (game_mode == "На ленте")
+                {
+                    buttonLeft.Enabled = true;
+                    buttonLeft.Visible = true;
+
+                    buttonRight.Enabled = true;
+                    buttonRight.Visible = true;
+
+                    this.Size = new Size(this.Width, newHeightOfForm);
+
+                    //столько кусочков уместится на ленте
+                    countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
+
+                    updateStrip();
+                }
+            }
 
             hint = new PictureBox();
             hint.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -284,7 +336,7 @@ namespace Puzzle
             hint.Visible = false;
 
 
-           
+
 
             timer1.Enabled = true;
             stopWatch.Start();
@@ -565,17 +617,24 @@ namespace Puzzle
                 bd.insertInGame(id_puzzle, login, game_mode, record, formatts);
                 for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
                 {
-
                     bd.insertInPuzzlePiece(serial_number[i].ToString(), ((Point)((object[])pb[i].Tag)[0]).X.ToString(), ((Point)((object[])pb[i].Tag)[0]).Y.ToString(), id_puzzle);
                     id_piece = bd.selectIDPiece(serial_number[i].ToString(), id_puzzle);
-                    bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+                    if ((game_mode.Equals("На ленте"))&& (((char)((object[])pb[i].Tag)[1] == 'n')|| ((char)((object[])pb[i].Tag)[1] == 's')))
+                    {
+                        bd.insertInSave(id_piece, id_puzzle, login, (55).ToString(), (this.Size.Height - h - buttonLeft.Height - 38 + 5).ToString());
+                    }
+                    else
+                    {
+                        bd.insertInSave(id_piece, id_puzzle, login, pb[i].Location.X.ToString(), pb[i].Location.Y.ToString());
+                    }
+                    
                 }
                 MessageBox.Show("Игра успешно сохранена!");
             }
             else
             {
                 bd.insertInGame(id_puzzle, login, game_mode, record, currentmoves.ToString());
-                for (int i = 0; i < verticalCountOfPieces*horisontalCountOfPieces; i++)
+                for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
                 {
 
                     bd.insertInPuzzlePiece(i.ToString(), ((Point)((object[])pb[i].Tag)[1]).X.ToString(), ((Point)((object[])pb[i].Tag)[1]).Y.ToString(), id_puzzle);
@@ -608,12 +667,12 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             string id_piece = "";
             List<string> game = new List<string>();
-             
-            
-            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
 
-            
-            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10))&&(picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
+
+            if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10)) && (picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
+
+
+                if ((picture.Location.X < (rightxy.X + 10)) && (picture.Location.X > (rightxy.X - 10)) && (picture.Location.Y < (rightxy.Y + 10)) && (picture.Location.Y > (rightxy.Y - 10)))
 
                 {
                     picture.Location = rightxy;
@@ -628,7 +687,7 @@ namespace Puzzle
                         picture.Tag = o;
                         if (place == 's') need_to_update_strip = true;
                     }
-            }
+                }
 
             if (game_mode.Equals("На поле"))
             {
@@ -637,13 +696,14 @@ namespace Puzzle
                 int old_num = 0;
                 bool www = false;
                 //как-то не проверить себя самого
-                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces) && !((char)(((object[])pb[old_num].Tag)[1])=='o')){
+                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces) && !((char)(((object[])pb[old_num].Tag)[1]) == 'o'))
+                {
                     old_num++;
                 }
 
                 while ((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
                 {
-                    if ((r != old_num)&&(picture.Location.X > (pb[r].Location.X - 10)) && (picture.Location.X < (pb[r].Location.X + 10)) && (picture.Location.Y < pb[r].Location.Y+ 10) && (picture.Location.Y > (pb[r].Location.Y - 10))&&(pb[r].Enabled))
+                    if ((r != old_num) && (picture.Location.X > (pb[r].Location.X - 10)) && (picture.Location.X < (pb[r].Location.X + 10)) && (picture.Location.Y < pb[r].Location.Y + 10) && (picture.Location.Y > (pb[r].Location.Y - 10)) && (pb[r].Enabled))
                     {
                         www = true;
                         //устанавливаю туда, куда он стал
@@ -674,7 +734,7 @@ namespace Puzzle
             //лента
             if (game_mode.Equals("На ленте"))
             {
-                if ((currentLocationOfStripZoneTopLeft.X< picture.Location.X) &&(picture.Location.X< currentLocationOfStripZoneBottomRight.X))
+                if ((currentLocationOfStripZoneTopLeft.X < picture.Location.X) && (picture.Location.X < currentLocationOfStripZoneBottomRight.X))
                 {
                     if ((currentLocationOfStripZoneTopLeft.Y < picture.Location.Y) && (picture.Location.Y < currentLocationOfStripZoneBottomRight.Y))
                     {
@@ -731,32 +791,33 @@ namespace Puzzle
                 if (game.Count != 0)
                 {
                     bd.deleteGameByIdPuzzleAndLogin(id_puzzle, login);
-                    for (int k = 0; k < verticalCountOfPieces*horisontalCountOfPieces; i++)
+                    for (int k = 0; k < verticalCountOfPieces * horisontalCountOfPieces; k++)
                     {
                         id_piece = bd.selectIDPiece(k.ToString(), id_puzzle);
                         bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece);
                     }
                     bd.deleteSaveByIdPuzzleAndLogin(id_puzzle, login);
-              
+
                 }
                 string result = bd.selectResults(login);
                 try
                 {
                     points += Int32.Parse(result);
                 }
-                catch {
+                catch
+                {
                     points += 0;
                 }
                 bd.setResults(login, points.ToString());
 
-            } 
+            }
         }
 
         public void setOldLocation(object pic)
         {
             PictureBox p = (PictureBox)pic;
             oldLocation = p.Location;
-            if(game_mode.Equals("На поле"))
+            if (game_mode.Equals("На поле"))
             {
                 object[] o = new object[2];
                 o[0] = (Point)(((object[])p.Tag)[0]);
