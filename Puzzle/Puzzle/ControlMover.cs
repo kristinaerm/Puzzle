@@ -60,6 +60,7 @@ namespace Puzzle
 
         static void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
+            ((PicBox)sender).Invalidate();
             var ctrl = sender as Control;
 
             if (ChangeCursor)
@@ -112,6 +113,7 @@ namespace Puzzle
                 return;
 
             Owner.setOldLocation(sender);
+            ((PicBox)sender).BringToFront();
             var ctrl = sender as Control;
 
             resizing = (e.X >= ctrl.Width - ResizingMargin) && (e.Y >= ctrl.Height - ResizingMargin) && AllowResize;

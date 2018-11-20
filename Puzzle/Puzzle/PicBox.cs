@@ -10,6 +10,11 @@ namespace Puzzle
 {
     class PicBox: PictureBox
     {
+        public void w(PaintEventArgs e)
+        {
+            OnPaintBackground(e);
+        }
+
         protected override void OnPaintBackground(PaintEventArgs e)
         // Paint background with underlying graphics from other controls
         {

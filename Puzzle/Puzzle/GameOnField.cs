@@ -25,6 +25,7 @@ namespace Puzzle
         private string login = "";
         private bool fromGame = false;
         private string id_picture = "";
+        private string form = "";
 
         private int h = 0;
         private int w = 0;
@@ -48,10 +49,10 @@ namespace Puzzle
         private Point currentLocationOfStripZoneTopLeft;
         private Point currentLocationOfStripZoneBottomRight;
         private Hint hhh;
-        PictureBox hint;
+        PicBox hint;
 
         private List<Bitmap> btm = new List<Bitmap>();
-        private List<PictureBox> pb = new List<PictureBox>();
+        private List<PicBox> pb = new List<PicBox>();
         private List<int> serial_number = new List<int>();
 
         //для вывода на ленте
@@ -74,16 +75,20 @@ namespace Puzzle
         }
 
 
-        public GameOnField(string id, string game_m, string rec, string log, bool fromSavedGame)
+        public GameOnField(string id, string game_m, string rec, string log, string form, bool fromSavedGame)
         {
             ConnDatabase bd = new ConnDatabase();
             InitializeComponent();
             ControlMover.Owner = this;
 
             //верхние пикчербоксы
-            List<PictureBox> top_pic = new List<PictureBox>();
+            List<Bitmap> top = new List<Bitmap>();
             //нижние пикчербоксы
-            List<PictureBox> bottom_pic = new List<PictureBox>();
+            List<Bitmap> bottom = new List<Bitmap>();
+            //верхние пикчербоксы
+            List<PicBox> top_pic = new List<PicBox>();
+            //нижние пикчербоксы
+            List<PicBox> bottom_pic = new List<PicBox>();
             //верхние номера
             List<int> top_num = new List<int>();
             //нижние номера
@@ -94,6 +99,7 @@ namespace Puzzle
             record = rec;
             login = log;
             fromGame = fromSavedGame;
+            this.form = form;
 
             id_picture = bd.selectIdPictureByIdPuzzle(id_puzzle);
             string path = bd.selectPathByIdPicture(id_picture);
@@ -128,22 +134,33 @@ namespace Puzzle
                 betweenNormalAndBad = 60;
             }
 
+            int count = 0;
             List <Bitmap> btm1;
             btm1 = new List<Bitmap>();//нормальный список кусочков пазл
             btm1 = Section.RectangleSection(path, picture[1], picture[0], id_picture);//разрезаем картинку на кусочки
-            btm = new List<Bitmap>();
-            Bitmap[] mass = new Bitmap[2];
-            for(int i=0; i<horisontalCountOfPieces*verticalCountOfPieces; i++)
+            if (bd.cutExcessSpace(form).Equals("Треугольник"))
             {
-                mass = Section.TriangularSection(btm1[i], true);
-                btm.Add(mass[0]);
-                btm.Add(mass[1]);
+                btm = new List<Bitmap>();
+                Bitmap[] mass = new Bitmap[2];
+                for (int i = 0; i < horisontalCountOfPieces * verticalCountOfPieces; i++)
+                {
+                    mass = Section.TriangularSection(btm1[i], true);
+                    top.Add(mass[0]);
+                    bottom.Add(mass[1]);
+                }
+                count = btm1.Count;
             }
+            else
+            {
+                btm = btm1;
+                count = btm.Count;
+            }
+            
             
 
             //КАК-ТО СДЕЛАТЬ ВЫВОД ВСЕХ ТРЕУГОЛЬНИЧКОВ ПО ДВА НА ОДИН ЛОКЕЙШН
             //int count = btm.Count;
-            int count = btm1.Count;
+            
 
             if (fromGame)
             {
@@ -213,7 +230,7 @@ namespace Puzzle
             int currH = 0;
             int currW = 0;
 
-            PictureBox p;
+            PicBox p;
             object[] obj;
             Graphics gr = this.CreateGraphics();
             gr.DrawEllipse(Pens.Black, currW * (w + 1) + 5, currH * (h + 1) + 25, 10, 10);
@@ -222,7 +239,7 @@ namespace Puzzle
             for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
             {
 
-                p = new PictureBox();
+                p = new PicBox();
                 p.Size = new Size(w, h);
                 p.SizeMode = PictureBoxSizeMode.StretchImage;
                 p.Image = (Image)btm[i];
@@ -289,7 +306,7 @@ namespace Puzzle
             if (!fromGame)
             {
                 //тут шафл массива пикчеров и номеров синхронно
-                syncShuffle<PictureBox, int>(pb, serial_number);
+                syncShuffle<PicBox, int>(pb, serial_number);
 
                 currH = 0;
                 currW = 0;
@@ -364,7 +381,7 @@ namespace Puzzle
             }
 
             
-            hint = new PictureBox();
+            hint = new PicBox();
             hint.SizeMode = PictureBoxSizeMode.StretchImage;
             hint.Size = new Size((btm[0].Width + 1) * horisontalCountOfPieces, (btm[0].Height + 1) * verticalCountOfPieces);
             hint.Location = new Point(5, 25);
@@ -698,6 +715,7 @@ namespace Puzzle
 
         public void setPieceIfOnRightLocation(object pic)
         {
+
             if (first_move)
             {
                 timer1.Enabled = true;
@@ -705,13 +723,15 @@ namespace Puzzle
                 first_move = false;
             }
             currentmoves++;
-            PictureBox picture = (PictureBox)pic;
+            PicBox picture = (PicBox)pic;
+            
             char place = (char)((object[])picture.Tag)[1];
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
             ConnDatabase bd = new ConnDatabase();
             string id_piece = "";
             List<string> game = new List<string>();
+            picture.Invalidate();
 
 
             if ((picture.Location.X < (rightxy.X + (btm[0].Width / 2))) && (picture.Location.X > (rightxy.X - (btm[0].Width / 2))) && (picture.Location.Y < (rightxy.Y + (btm[0].Height / 2))) && (picture.Location.Y > (rightxy.Y - (btm[0].Height / 2))))
@@ -719,6 +739,7 @@ namespace Puzzle
 
             {
                 picture.Location = rightxy;
+                picture.Invalidate();
                 picture.Enabled = false;
                 //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО
                 picture.BorderStyle = BorderStyle.Fixed3D;
@@ -751,7 +772,9 @@ namespace Puzzle
                         www = true;
                         //устанавливаю туда, куда он стал
                         picture.Location = pb[r].Location;
+                        picture.Invalidate();
                         pb[r].Location = oldLocation;
+                        pb[r].Invalidate();
                         if (pb[r].Location.X == ((Point)((object[])pb[r].Tag)[0]).X)
                         {
                             if (pb[r].Location.Y == ((Point)((object[])pb[r].Tag)[0]).Y)
@@ -766,6 +789,7 @@ namespace Puzzle
                 if (!www)
                 {
                     picture.Location = oldLocation;
+                    picture.Invalidate();
                 }
                 object[] o = new object[2];
                 o[0] = (Point)(((object[])picture.Tag)[0]);
@@ -863,7 +887,7 @@ namespace Puzzle
 
         public void setOldLocation(object pic)
         {
-            PictureBox p = (PictureBox)pic;
+            PicBox p = (PicBox)pic;
             oldLocation = p.Location;
             if (game_mode.Equals("На поле"))
             {
