@@ -16,6 +16,7 @@ namespace Puzzle
         private string login = "";
         private string id_puzzle_curr = "";
         private bool exit = true;
+        private string forma = "";
 
         public UserFindGame()
         {
@@ -105,7 +106,7 @@ namespace Puzzle
                     if (radioButton7.Checked) { modeGame = "На время"; }
                     else if (radioButton8.Checked) { modeGame = "На очки"; }
 
-                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, false);
+                    GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, forma, false);
                     gameOnFieldForm.Show();
                     exit = false;
                     this.Close();
@@ -150,6 +151,7 @@ namespace Puzzle
             if (listBox1.SelectedIndex < puzz.Count)
             {
                 string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
+                forma = bd.cutExcessSpace(selected[2]);
                 textBox1.Text = "";
                 if (selected[1][0] == '1') textBox1.Text += "Лёгкий";
                 else if (selected[1][0] == '2') textBox1.Text += "Средний";
@@ -214,7 +216,7 @@ namespace Puzzle
             List<string> saved_game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle_curr);
             string bildOfPuzzle = saved_game[0];
             string modeGame = saved_game[1];
-            GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, true);
+            GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, forma, true);
             gameOnFieldForm.Show();
             exit = false;
             this.Close();

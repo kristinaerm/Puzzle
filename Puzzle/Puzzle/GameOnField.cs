@@ -84,15 +84,11 @@ namespace Puzzle
             //верхние пикчербоксы
             List<Bitmap> top = new List<Bitmap>();
             //нижние пикчербоксы
-<<<<<<< HEAD
             List<Bitmap> bottom = new List<Bitmap>();
             //верхние пикчербоксы
             List<PicBox> top_pic = new List<PicBox>();
             //нижние пикчербоксы
             List<PicBox> bottom_pic = new List<PicBox>();
-=======
-            List<PictureBox> buttom_pic = new List<PictureBox>();
->>>>>>> a837518334971eb87f631d29fc4e9637e23c27cc
             //верхние номера
             List<int> top_num = new List<int>();
             //нижние номера
@@ -310,20 +306,21 @@ namespace Puzzle
             if (!fromGame)
             {
                 //тут шафл массива пикчеров и номеров синхронно
-<<<<<<< HEAD
+
                 syncShuffle<PicBox, int>(pb, serial_number);
-=======
-                syncShuffle<PictureBox, int>(pb, serial_number);
+
+
+
+                syncShuffle<PicBox, int>(pb, serial_number);
                 //перемешивание верхних кусочков
-                syncShuffle<PictureBox, int>(top_pic, top_num);
+                syncShuffle<PicBox, int>(top_pic, top_num);
                 //нижние
-                syncShuffle<PictureBox, int>(buttom_pic, buttom_num);
+                syncShuffle<PicBox, int>(bottom_pic, buttom_num);
                 //объединение 
                 pb.Concat(top_pic);
-                pb.Concat(buttom_pic);
+                pb.Concat(bottom_pic);
                 serial_number.Concat(top_num);
                 serial_number.Concat(buttom_num);
->>>>>>> a837518334971eb87f631d29fc4e9637e23c27cc
 
                 currH = 0;
                 currW = 0;
