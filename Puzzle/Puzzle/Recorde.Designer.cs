@@ -76,6 +76,7 @@
             this.ClientSize = new System.Drawing.Size(267, 317);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
             this.Name = "Recorde";
             this.Text = "Рейтинг";
             this.Load += new System.EventHandler(this.Recorde_Load);

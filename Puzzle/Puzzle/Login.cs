@@ -117,6 +117,9 @@ namespace Puzzle
                     if (bd.insertInUsers(textBox1.Text, textBox2.Text, ""))
                     {
                         MessageBox.Show("Новая учетная запись успешно зарегистрирована! Для входа нажмите на кнопку <Вход и войдите под новой учетной записью.");
+                        textBox1.Text = "";
+                        textBox2.Text = "";
+                        textBox3.Text = "";
                     }
                     else
                     {

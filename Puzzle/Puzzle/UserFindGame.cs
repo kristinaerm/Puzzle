@@ -15,6 +15,7 @@ namespace Puzzle
         private string level = "";
         private string login = "";
         private string id_puzzle_curr = "";
+        private bool exit = true;
 
         public UserFindGame()
         {
@@ -106,6 +107,8 @@ namespace Puzzle
 
                     GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, false);
                     gameOnFieldForm.Show();
+                    exit = false;
+                    this.Close();
                 }
                 else
                 {
@@ -164,7 +167,7 @@ namespace Puzzle
                 {
                     button1.Enabled = true;
                     button1.Visible = true;
-                    textBox1.Text += " \r\n"+ bd.cutExcessSpace(saved_game[0]);
+                    textBox1.Text += " \r\n" + bd.cutExcessSpace(saved_game[0]);
                     textBox1.Text += " \r\n" + bd.cutExcessSpace(saved_game[1]);
                     textBox1.Text += " \r\nРезультат:" + bd.cutExcessSpace(saved_game[2]);
                     button2.Text = "Начать заново";
@@ -197,7 +200,11 @@ namespace Puzzle
 
         private void UserFindGame_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            if (exit)
+            {
+                Application.Exit();
+            }
+
         }
 
         //из сейва
@@ -209,6 +216,8 @@ namespace Puzzle
             string modeGame = saved_game[1];
             GameOnField gameOnFieldForm = new GameOnField(id_puzzle_curr, bildOfPuzzle, modeGame, login, true);
             gameOnFieldForm.Show();
+            exit = false;
+            this.Close();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Puzzle
         public CreateGame()
         {
             InitializeComponent();
+            radio_level1.Checked = true;
         }
 
         public void setSelectedPic(string path)
@@ -68,7 +69,7 @@ namespace Puzzle
                             MessageBox.Show("Пазл успешно создан!");
                             numeric_height.Value = 3;
                             numeric_width.Value = 3;
-                            radio_level1.Checked = false;
+                            radio_level1.Checked = true;
                             radio_level2.Checked = false;
                             radio_level3.Checked = false;
                             radio_triangle.Checked = false;

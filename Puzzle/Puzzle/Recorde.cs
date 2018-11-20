@@ -21,13 +21,23 @@ namespace Puzzle
             ConnDatabase bd = new ConnDatabase();
             List<string[]> res = new List<string[]>();
 
-           
-                res.Clear();
-                res = bd.selectResultOfUsersByGamemode();
 
-                foreach (string[] s in res)
+            res.Clear();
+            res = bd.selectResultOfUsersByGamemode();
+
+            foreach (string[] s in res)
+            {
+                if (s[1][0]!=' ')
+                {
+                    for (int i = 0; i < s.Length; i++)
+                    {
+                        s[i] = bd.cutExcessSpace(s[i]);
+                    }
                     dataGridView1.Rows.Add(s);
-            
+                }
+            }
+                
+
         }
 
 
@@ -43,7 +53,7 @@ namespace Puzzle
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

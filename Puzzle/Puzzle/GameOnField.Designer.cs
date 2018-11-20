@@ -186,9 +186,11 @@
             this.Controls.Add(this.button_end_game);
             this.Controls.Add(this.button_help);
             this.Controls.Add(this.button_pause);
+            this.MaximizeBox = false;
             this.Name = "GameOnField";
             this.Text = "Игра";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOnField_FormClosing);
+            this.Load += new System.EventHandler(this.GameOnField_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

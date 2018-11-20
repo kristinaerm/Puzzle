@@ -321,6 +321,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "UserFindGame";
             this.Text = "Поиск игры";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UserFindGame_FormClosed);

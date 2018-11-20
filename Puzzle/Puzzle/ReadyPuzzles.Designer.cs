@@ -108,6 +108,7 @@
             this.ClientSize = new System.Drawing.Size(599, 405);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
             this.Name = "ReadyPuzzles";
             this.Text = "Готовые пазлы";
             this.Load += new System.EventHandler(this.ReadyPuzzles_Load);

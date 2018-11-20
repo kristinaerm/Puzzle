@@ -33,6 +33,7 @@ namespace Puzzle
 
         private void button2_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "png files (*.png)|*.png";
             openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;//путь к файлу
             string FileName = System.IO.Path.GetFileName(path);

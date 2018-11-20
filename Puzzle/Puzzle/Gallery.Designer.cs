@@ -159,6 +159,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listView1);
+            this.MaximizeBox = false;
             this.Name = "Gallery";
             this.Text = "Gallery";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

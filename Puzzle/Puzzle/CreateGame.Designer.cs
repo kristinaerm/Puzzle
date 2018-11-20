@@ -314,6 +314,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "CreateGame";
             this.Text = "Создать новую игру";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateGame_FormClosing_1);

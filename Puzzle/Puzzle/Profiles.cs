@@ -18,7 +18,14 @@ namespace Puzzle
             InitializeComponent();
             List<string[]> res = bd.selectAllUsersAndResults();
             foreach (string[] s in res)
+            {
+                for (int i=0; i<s.Length; i++)
+                {
+                    s[i] = bd.cutExcessSpace(s[i]);
+                }
                 dataGridView1.Rows.Add(s);
+            }
+                
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

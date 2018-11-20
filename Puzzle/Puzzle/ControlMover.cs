@@ -39,6 +39,7 @@ namespace Puzzle
             ctrl.MouseDown += ctrl_MouseDown;
             ctrl.MouseUp += ctrl_MouseUp;
             ctrl.MouseMove += ctrl_MouseMove;
+
         }
 
         private static void ctrl_MouseUp(object sender, MouseEventArgs e)
@@ -119,5 +120,6 @@ namespace Puzzle
             startLocation = ctrl.Location;
             oldCursor = ctrl.Cursor;
         }
+
     }
 }
