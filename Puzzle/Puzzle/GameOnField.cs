@@ -80,6 +80,15 @@ namespace Puzzle
             InitializeComponent();
             ControlMover.Owner = this;
 
+            //верхние пикчербоксы
+            List<PictureBox> top_pic = new List<PictureBox>();
+            //нижние пикчербоксы
+            List<PictureBox> bottom_pic = new List<PictureBox>();
+            //верхние номера
+            List<int> top_num = new List<int>();
+            //нижние номера
+            List<int> buttom_num = new List<int>();
+
             id_puzzle = id;
             game_mode = game_m;
             record = rec;
