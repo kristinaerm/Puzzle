@@ -83,7 +83,7 @@ namespace Puzzle
             //верхние пикчербоксы
             List<PictureBox> top_pic = new List<PictureBox>();
             //нижние пикчербоксы
-            List<PictureBox> bottom_pic = new List<PictureBox>();
+            List<PictureBox> buttom_pic = new List<PictureBox>();
             //верхние номера
             List<int> top_num = new List<int>();
             //нижние номера
@@ -290,6 +290,15 @@ namespace Puzzle
             {
                 //тут шафл массива пикчеров и номеров синхронно
                 syncShuffle<PictureBox, int>(pb, serial_number);
+                //перемешивание верхних кусочков
+                syncShuffle<PictureBox, int>(top_pic, top_num);
+                //нижние
+                syncShuffle<PictureBox, int>(buttom_pic, buttom_num);
+                //объединение 
+                pb.Concat(top_pic);
+                pb.Concat(buttom_pic);
+                serial_number.Concat(top_num);
+                serial_number.Concat(buttom_num);
 
                 currH = 0;
                 currW = 0;

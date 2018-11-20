@@ -90,6 +90,7 @@
             this.menu_exit.Name = "menu_exit";
             this.menu_exit.Size = new System.Drawing.Size(112, 20);
             this.menu_exit.Text = "О разработчиках";
+            this.menu_exit.Click += new System.EventHandler(this.menu_exit_Click);
             // 
             // выходToolStripMenuItem
             // 

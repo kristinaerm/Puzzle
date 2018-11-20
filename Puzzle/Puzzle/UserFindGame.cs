@@ -219,6 +219,13 @@ namespace Puzzle
             exit = false;
             this.Close();
         }
+
+        private void menu_exit_Click(object sender, EventArgs e)
+        {
+
+            MessageBox.Show("Лабороторный практикум по дисциплине: Технология программирования\n Разработчики:\n студентки группы 6104-090301D\n Глотова П.А.\n Катиркина К.И.\n Самарский университет 2018");
+
+        }
     }
 }
 
