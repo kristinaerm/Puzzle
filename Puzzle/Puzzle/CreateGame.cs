@@ -108,7 +108,7 @@ namespace Puzzle
 
         private void оРазработчикахToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Лабороторный практикум по дисциплине: Технология программирования\n Разработчики:\n студентки группы 6104-090301D\n Глотова П.А.\n Катиркина К.И.\n Самарский университет 2018");
         }
 
         private void CreateGame_FormClosing_1(object sender, FormClosingEventArgs e)
