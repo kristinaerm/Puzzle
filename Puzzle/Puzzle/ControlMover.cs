@@ -59,8 +59,7 @@ namespace Puzzle
         }
 
         static void ctrl_MouseMove(object sender, MouseEventArgs e)
-        {
-            ((PicBox)sender).Invalidate();
+        {            
             var ctrl = sender as Control;
 
             if (ChangeCursor)
@@ -104,6 +103,10 @@ namespace Puzzle
                         if (BringToFront) ctrl.BringToFront();
                     }
                 }
+                if (GameOnField.triangle)
+                {
+                    ((PicBox)sender).Invalidate();
+                }                
             }
         }
 

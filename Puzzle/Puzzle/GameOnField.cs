@@ -26,6 +26,7 @@ namespace Puzzle
         private bool fromGame = false;
         private string id_picture = "";
         private string form = "";
+        private bool close_without_ask = false;
 
         private int h = 0;
         private int w = 0;
@@ -63,7 +64,7 @@ namespace Puzzle
         //для пятнашек
         private Point oldLocation;
 
-        private bool triangle = false;
+        public static bool triangle = false;
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
@@ -268,9 +269,6 @@ namespace Puzzle
                 {
                     if (fromGame)
                     {
-                        //ПОКА НЕ ЯСНО Ч ТО С ТРЕУГОЛЬНИКАМИ
-                        //не парно, а для каждого проверить положение
-
                         if (triangle)
                         {
                             if (((Convert.ToInt32(pieces[i * 2][1]) == 0) && (Convert.ToInt32(pieces[i * 2][2]) == 0)) || (currentLocationOfStripZoneTopLeft.X < Convert.ToInt32(pieces[i * 2][1])) && (Convert.ToInt32(pieces[i * 2][1]) < currentLocationOfStripZoneBottomRight.X) && (currentLocationOfStripZoneTopLeft.Y < Convert.ToInt32(pieces[i * 2][2])) && (Convert.ToInt32(pieces[i * 2][2]) < currentLocationOfStripZoneBottomRight.Y))
@@ -338,9 +336,6 @@ namespace Puzzle
                 {
                     p.Tag = obj;
                     p1.Tag = obj1;
-                    ////номера преобразовать
-                    //top_num.Add(i);
-                    //bottom_num.Add(i);
                 }
                 else
                 {
@@ -348,7 +343,6 @@ namespace Puzzle
                     serial_number.Add(i);
                 }
 
-                //потом посмотреть как тут быть
                 if (fromGame)
                 {
                     if (triangle)
@@ -518,7 +512,7 @@ namespace Puzzle
                             bottom_num.Add(i + 1);
                         }
                     }
-                        pb.AddRange(top_pic);
+                    pb.AddRange(top_pic);
                     pb.AddRange(bottom_pic);
                     serial_number.AddRange(top_num);
                     serial_number.AddRange(bottom_num);
@@ -571,7 +565,6 @@ namespace Puzzle
 
         public void updateStrip()
         {
-            //те шо были убрать в n
             int i = 0;
             int j = 0;
             int kolichestvo = 0;
@@ -639,7 +632,6 @@ namespace Puzzle
 
             while ((curr_last_strip > -1) && !((char)(((object[])pb[curr_last_strip].Tag)[1]) == 's')) curr_last_strip--;
 
-            //i = currentFirstElementOnStrip;
             while (i < (kolichestvo))
             {
                 if ((char)(((object[])pb[i].Tag)[1]) == 's')
@@ -762,30 +754,37 @@ namespace Puzzle
 
         private void button_help_Click(object sender, EventArgs e)
         {
-            PicBox pr = new PicBox();
-            pr.Size = new Size(w, h);
-            pr.SizeMode = PictureBoxSizeMode.StretchImage;
-            pr.Image = (Image)btm1[0];
-            pr.Location = new Point(55, 66);
-            this.Controls.Add(pr);
-            pr.BringToFront();
-            ControlMover.Add(pr);
-
+            //PicBox pr = new PicBox();
+            //pr.Size = new Size(w, h);
+            //pr.SizeMode = PictureBoxSizeMode.StretchImage;
+            //pr.Image = (Image)btm1[0];
+            //pr.Location = new Point(55, 66);
+            //this.Controls.Add(pr);
+            //pr.BringToFront();
+            //ControlMover.Add(pr);
             hhh = new Hint(hint);
             hhh.Show();
         }
 
         private void GameOnField_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("Точно хотите выйти? Для сохранения игры нажмите Отмена и Сохранить", "Уведомление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (result == DialogResult.Cancel)
-            {
-                e.Cancel = true;
-            }
-            else
+            if (close_without_ask)
             {
                 UserFindGame u = new UserFindGame(login);
                 u.Show();
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show("Точно хотите выйти? Для сохранения игры нажмите Отмена и Сохранить", "Уведомление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                    UserFindGame u = new UserFindGame(login);
+                    u.Show();
+                }
             }
         }
 
@@ -928,7 +927,6 @@ namespace Puzzle
                 picture.Location = rightxy;
                 picture.Invalidate();
                 picture.Enabled = false;
-                //ВОТ ТУТ ИЗМЕНЕНИЕ ВНЕШНЕГО ВИДА ЗАКРЕПЛЕННОГО
                 picture.BorderStyle = BorderStyle.Fixed3D;
                 if (game_mode.Equals("На ленте"))
                 {
@@ -1067,8 +1065,9 @@ namespace Puzzle
                 {
                     stopWatch.Stop();
                     timer1.Enabled = false;
-                    this.Close();
+                    close_without_ask = true;
                     hhh.Close();
+                    this.Close();
                 }
             }
         }
@@ -1085,18 +1084,6 @@ namespace Puzzle
                 p.Tag = o;
             }
         }
-
-        private void GameOnField_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
-
-
-
     }
 }
 
