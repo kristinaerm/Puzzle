@@ -70,9 +70,14 @@ namespace Puzzle
 
         void Form1_Paint(object sender, PaintEventArgs e)
         {
-            for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
+            Pen p = new Pen(Brushes.Gray, 1);
+            for (int i = 1; i < verticalCountOfPieces; i++)
             {
-                e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), ((Point)((object[])pb[i].Tag)[0]).X, ((Point)((object[])pb[i].Tag)[0]).Y, 5, 5);
+                e.Graphics.DrawLine(p, 5, (i * (h + 1) + 25), (5 + (w + 1) * horisontalCountOfPieces), (i * (h + 1) + 25));
+            }
+            for (int i = 1; i < horisontalCountOfPieces; i++)
+            {
+                e.Graphics.DrawLine(p, i*(w+1), 25, i * (w + 1), 25+(h+1)*verticalCountOfPieces);
             }
 
         }
@@ -458,24 +463,54 @@ namespace Puzzle
                 }
                 else if (game_mode == "В куче")
                 {
-                    Random r = new Random();
-                    for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
+
+
+                    if (triangle)
                     {
-                        if (triangle)
+
+                        for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
                         {
-                            top_pic[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
-                            bottom_pic[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+
+                            top_pic[i].Location = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+                            bottom_pic[i].Location = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
+
+
+                            currW++;
+                            if (currW == horisontalCountOfPieces)
+                            {
+                                currH++;
+                                currW = 0;
+                            }
                         }
-                        else
-                        {
-                            pb[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
-                        }
+                        pb.AddRange(top_pic);
+                        pb.AddRange(bottom_pic);
+                        serial_number.AddRange(top_num);
+                        serial_number.AddRange(bottom_num);
 
                     }
-                    pb.AddRange(top_pic);
-                    pb.AddRange(bottom_pic);
-                    serial_number.AddRange(top_num);
-                    serial_number.AddRange(bottom_num);
+                    else
+                    {
+                        Random r = new Random();
+                        for (int i = 0; i < verticalCountOfPieces * horisontalCountOfPieces; i++)
+                        {
+                            if (triangle)
+                            {
+                                top_pic[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+                                bottom_pic[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+                            }
+                            else
+                            {
+                                pb[i].Location = new Point(r.Next(50, 300), r.Next(50, 300));
+                            }
+
+                        }
+                        pb.AddRange(top_pic);
+                        pb.AddRange(bottom_pic);
+                        serial_number.AddRange(top_num);
+                        serial_number.AddRange(bottom_num);
+                    }
+
+
                 }
                 else if (game_mode == "На ленте")
                 {
@@ -543,7 +578,7 @@ namespace Puzzle
             }
 
             //ЗАПУТАЛАСЬ С РАЗМЕТКОЙ ШО ДЕЛАТЬ
-            //this.Paint += new PaintEventHandler(Form1_Paint);
+            this.Paint += new PaintEventHandler(Form1_Paint);
             hint = new PicBox();
             hint.SizeMode = PictureBoxSizeMode.StretchImage;
             hint.Size = new Size((btm1[0].Width + 1) * horisontalCountOfPieces, (btm1[0].Height + 1) * verticalCountOfPieces);
@@ -763,14 +798,6 @@ namespace Puzzle
 
         private void button_help_Click(object sender, EventArgs e)
         {
-            //PicBox pr = new PicBox();
-            //pr.Size = new Size(w, h);
-            //pr.SizeMode = PictureBoxSizeMode.StretchImage;
-            //pr.Image = (Image)btm1[0];
-            //pr.Location = new Point(55, 66);
-            //this.Controls.Add(pr);
-            //pr.BringToFront();
-            //ControlMover.Add(pr);
             hhh = new Hint(hint);
             hhh.Show();
         }
@@ -968,7 +995,7 @@ namespace Puzzle
                     old_num++;
                 }
 
-                
+
 
                 while ((r < l) && (!www))
                 {
@@ -1077,7 +1104,7 @@ namespace Puzzle
                 else if (points > betweenNormalAndBad) points = BAD / points;
                 else points = NORMAL / points;
                 points *= complexityKoeff;
-                res = points.ToString();
+                res = ((int)points).ToString();
 
                 //проверка сохраненной игры 
                 game = bd.selectAllAboutGameByLoginAndIdPuzzle(login, id_puzzle);
