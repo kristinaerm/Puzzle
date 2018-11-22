@@ -148,7 +148,7 @@ namespace Puzzle
 
             ConnDatabase bd = new ConnDatabase();
             List<string[]> puzz = bd.selectPuzzlesByComplexity(level);
-            if ((listBox1.SelectedIndex < puzz.Count)&& (listBox1.SelectedIndex > 0))
+            if ((listBox1.SelectedIndex < puzz.Count)&& (listBox1.SelectedIndex > -1))
             {
                 string[] selected = puzz.ElementAt(listBox1.SelectedIndex);
                 forma = bd.cutExcessSpace(selected[2]);

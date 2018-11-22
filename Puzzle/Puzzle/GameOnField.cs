@@ -153,7 +153,7 @@ namespace Puzzle
                 Bitmap[] mass = new Bitmap[2];
                 for (int i = 0; i < horisontalCountOfPieces * verticalCountOfPieces; i++)
                 {
-                    mass = Section.TriangularSection(btm1[i], true);
+                    mass = Section.TriangularSection(btm1[i], false);
                     top.Add(mass[0]);
                     bottom.Add(mass[1]);
                 }
@@ -327,7 +327,16 @@ namespace Puzzle
                 }
                 else
                 {
-                    obj[1] = ' ';
+                    if (triangle)
+                    {
+                        obj[1] = ' ';
+                        obj1[1] = ' ';
+                    }
+                    else
+                    {
+                        obj[1] = ' ';
+                    }
+
                 }
                 pp = new Point(currW * (w + 1) + 5, currH * (h + 1) + 25);
                 obj[0] = pp;
@@ -901,7 +910,6 @@ namespace Puzzle
 
         public void setPieceIfOnRightLocation(object pic)
         {
-            //для треугольников другая установка
             if (first_move)
             {
                 timer1.Enabled = true;
@@ -911,6 +919,8 @@ namespace Puzzle
             currentmoves++;
             PicBox picture = (PicBox)pic;
 
+            bool is_moved_top_piece = true;
+            bool is_this_top_piece = true;
             char place = (char)((object[])picture.Tag)[1];
             Point rightxy = (Point)((object[])picture.Tag)[0];
             bool need_to_update_strip = false;
@@ -919,10 +929,13 @@ namespace Puzzle
             List<string> game = new List<string>();
             picture.Invalidate();
 
+            if (triangle)
+            {
+                Color iii = ((Bitmap)picture.Image).GetPixel(5, 5);
+                is_moved_top_piece = !(iii.ToArgb() == Color.Transparent.ToArgb());
+            }
 
             if ((picture.Location.X < (rightxy.X + (btm1[0].Width / 2))) && (picture.Location.X > (rightxy.X - (btm1[0].Width / 2))) && (picture.Location.Y < (rightxy.Y + (btm1[0].Height / 2))) && (picture.Location.Y > (rightxy.Y - (btm1[0].Height / 2))))
-
-
             {
                 picture.Location = rightxy;
                 picture.Invalidate();
@@ -944,31 +957,54 @@ namespace Puzzle
                 int r = 0;
                 int old_num = 0;
                 bool www = false;
+
+                int l = verticalCountOfPieces * horisontalCountOfPieces;
+                if (triangle) l *= 2;
+
+
                 //как-то не проверить себя самого
-                while ((old_num < verticalCountOfPieces * horisontalCountOfPieces) && !((char)(((object[])pb[old_num].Tag)[1]) == 'o'))
+                while ((old_num < l) && !((char)(((object[])pb[old_num].Tag)[1]) == 'o'))
                 {
                     old_num++;
                 }
 
-                while ((r < verticalCountOfPieces * horisontalCountOfPieces) && (!www))
+                
+
+                while ((r < l) && (!www))
                 {
-                    if ((r != old_num) && (picture.Location.X > (pb[r].Location.X - (btm1[0].Width / 2))) && (picture.Location.X < (pb[r].Location.X + (btm1[0].Width / 2))) && (picture.Location.Y < pb[r].Location.Y + (btm1[0].Height / 2)) && (picture.Location.Y > (pb[r].Location.Y - (btm1[0].Height / 2))) && (pb[r].Enabled))
+                    Color iii = ((Bitmap)pb[r].Image).GetPixel(5, 5);
+                    is_this_top_piece = !(iii.ToArgb() == Color.Transparent.ToArgb());
+
+                    if (r != old_num)
                     {
-                        www = true;
-                        //устанавливаю туда, куда он стал
-                        picture.Location = pb[r].Location;
-                        picture.Invalidate();
-                        pb[r].Location = oldLocation;
-                        pb[r].Invalidate();
-                        if (pb[r].Location.X == ((Point)((object[])pb[r].Tag)[0]).X)
+                        if ((picture.Location.X > (pb[r].Location.X - (btm1[0].Width / 2))) && (picture.Location.X < (pb[r].Location.X + (btm1[0].Width / 2))) && (picture.Location.Y < pb[r].Location.Y + (btm1[0].Height / 2)) && (picture.Location.Y > (pb[r].Location.Y - (btm1[0].Height / 2))))
                         {
-                            if (pb[r].Location.Y == ((Point)((object[])pb[r].Tag)[0]).Y)
+                            if (pb[r].Enabled)
                             {
-                                pb[r].Enabled = false;
-                                pb[r].BorderStyle = BorderStyle.Fixed3D;
+                                if (is_this_top_piece == is_moved_top_piece)
+                                {
+                                    www = true;
+                                    //устанавливаю туда, куда он стал
+                                    picture.Location = pb[r].Location;
+                                    picture.BringToFront();
+                                    picture.Invalidate();
+                                    pb[r].Location = oldLocation;
+                                    pb[r].BringToFront();
+                                    pb[r].Invalidate();
+                                    if (pb[r].Location.X == ((Point)((object[])pb[r].Tag)[0]).X)
+                                    {
+                                        if (pb[r].Location.Y == ((Point)((object[])pb[r].Tag)[0]).Y)
+                                        {
+                                            pb[r].Enabled = false;
+                                            pb[r].BorderStyle = BorderStyle.Fixed3D;
+                                        }
+                                    }
+                                }
                             }
+
                         }
                     }
+
                     r++;
                 }
                 if (!www)
@@ -1021,16 +1057,21 @@ namespace Puzzle
             {
                 string res = "";
                 double points = 0;
+                int l = verticalCountOfPieces * horisontalCountOfPieces;
+                if (triangle)
+                {
+                    l *= 2;
+                }
                 TimeSpan ts = stopWatch.Elapsed;
                 ts.Add(fromSave);
                 int sec = ts.Hours * 60 * 60 + ts.Minutes * 60 + ts.Seconds;
                 if (record.Equals("На очки"))
                 {
-                    points = currentmoves / (verticalCountOfPieces * horisontalCountOfPieces);
+                    points = currentmoves / (l);
                 }
                 else
                 {
-                    points = sec / (verticalCountOfPieces * horisontalCountOfPieces);
+                    points = sec / (l);
                 }
                 if (points < betweenGreatAndNormal) points = GREAT / points;
                 else if (points > betweenNormalAndBad) points = BAD / points;
@@ -1043,7 +1084,7 @@ namespace Puzzle
                 if (game.Count != 0)
                 {
                     bd.deleteGameByIdPuzzleAndLogin(id_puzzle, login);
-                    for (int k = 0; k < verticalCountOfPieces * horisontalCountOfPieces; k++)
+                    for (int k = 0; k < l; k++)
                     {
                         id_piece = bd.selectIDPiece(k.ToString(), id_puzzle);
                         bd.deletePiecePuzzleByIdPuzzleAndOrIdPuzzle(id_puzzle, id_piece);
@@ -1060,7 +1101,7 @@ namespace Puzzle
                 {
                     points += 0;
                 }
-                bd.setResults(login, points.ToString());
+                bd.setResults(login, ((int)points).ToString());
                 if (MessageBox.Show("Победа!Ваш результат: " + res) == DialogResult.OK)
                 {
                     stopWatch.Stop();
